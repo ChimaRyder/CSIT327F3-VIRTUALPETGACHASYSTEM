@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'lootbox',
     'base_template',
-    'lootbox_market'
+    'lootbox_market',
+    'inventory'
 ]
 
 MIDDLEWARE = [
