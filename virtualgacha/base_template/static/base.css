@@ -1,8 +1,58 @@
-html {
-    height:  100%;
-}
-
-body {
-    min-height: 100%;
+html, body {
+    height: 100%;
     margin: 0;
-}
+  }
+  
+  .main-content {
+    height: calc(100vh - 56px); /* Adjust 56px if your navbar height is different */
+  }
+  
+  .sidebar {
+    width: 280px;
+    height: 100%;
+    overflow-y: auto;
+  }
+  
+  .chat-sidebar {
+    width: 300px;
+    height: 100%;
+    overflow-y: auto;
+  }
+  
+  .chat-box {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .chat-messages {
+    flex-grow: 1;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: #fff;
+  }
+  
+  .message {
+    margin-bottom: 10px;
+  }
+  
+  .chat-input {
+    border-top: 1px solid #ccc;
+    padding-top: 10px;
+  }
+  
+  /* Custom class for navbar links */
+  .custom-navbar .nav-link {
+    color: #fdfdfd !important;
+  }
+  
+  /* Main content scrollable area */
+  .main-content-scrollable {
+    width: 600px; /* Set a fixed width */
+    overflow-x: auto; /* Make it scrollable */
+  }
+  
+  .bg-body-tertiary{
+    background-color: #010222 !important;
+  }
