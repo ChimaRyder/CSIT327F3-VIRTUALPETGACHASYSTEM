@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'lootbox',
     'base_template',
     'lootbox_market',
+    'login_register',
     'inventory'
 ]
 
