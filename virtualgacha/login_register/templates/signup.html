@@ -1,0 +1,55 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title> Sign Up </title>
+        <link rel="stylesheet" href="{% static 'signup.css' %}"/>
+    </head>
+
+    <body>
+        <div class="lr-container">
+            <div class="l-container">
+                <h1 class="page-title"> Sign Up </h1>
+
+                <div class="auth-form">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div>
+                            <label>{{ form.username.label }}</label><br>
+                            {{ form.username }}
+                        </div>
+                        <div>
+                            <label>{{ form.email.label }}</label><br>
+                            {{ form.email }}
+                        </div>
+                        <div>
+                            <label>{{ form.password1.label }}</label><br>
+                            {{ form.password1 }}
+                        </div>
+                        <div>
+                            <label>{{ form.password2.label }}</label><br>
+                            {{ form.password2 }}
+                        </div>
+
+                        {% if form.non_field_errors %}
+                            <div class="error-messages">
+                                {{ form.non_field_errors }}
+                            </div>
+                        {% endif %}
+
+                        <button type="submit" class="auth-btn">Sign Up</button>
+                    </form>
+                </div>
+                
+                Already have an account? <a href="{% url 'login' %}">Log In</a>       
+            </div>
+
+            <div class="r-container">
+
+            </div>
+        </div> 
+    </body>
+</html>
+

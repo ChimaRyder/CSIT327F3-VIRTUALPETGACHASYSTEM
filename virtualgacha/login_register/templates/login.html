@@ -1,0 +1,45 @@
+{% load static %}
+
+<html>
+    <head>
+        <title> Log in </title>
+        <link rel="stylesheet" href="{% static 'login.css' %}"/>
+    </head>
+
+    <body>
+        <div class="lr-container">
+            <div class="l-container">
+                <h1 class="page-title"> Log In </h1>
+
+                <div class="auth-form">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div>
+                            <label>{{ form.username.label }}</label><br>
+                            {{ form.username }}
+                        </div>
+                        <div>
+                            <label>{{ form.password.label }}</label><br>
+                            {{ form.password }}
+                        </div>
+
+                        {% if form.non_field_errors %}
+                            <div class="error-messages">
+                                {{ form.non_field_errors }}
+                            </div>
+                        {% endif %}
+
+                        <button type="submit" class="auth-btn">Log In</button>
+                    </form>
+                </div>
+
+                Don't have an account? <a href="{% url 'signup' %}">Register</a>
+            </div>
+
+            <div class="r-container">
+    
+            </div>
+        </div>
+    </body>
+</html>
+
