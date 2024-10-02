@@ -122,8 +122,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 # STATICFILES_DIRS = [
-#     BASE_DIR / "static",
-#     "/base_template/templates/static/",
+#     BASE_DIR / "lootbox_market/templates/static/",
 # ]
 
 # Default primary key field type
