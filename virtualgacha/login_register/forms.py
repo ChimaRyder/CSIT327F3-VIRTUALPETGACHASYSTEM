@@ -1,8 +1,22 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from .models import Profile
 
 class SignupForm(UserCreationForm):
+    first_name = forms.CharField(max_length=30, required=True, widget=forms.TextInput(attrs={
+        'class': 'auth-input'
+    }))
+    
+    last_name = forms.CharField(max_length=30, required=True, widget=forms.TextInput(attrs={
+        'class': 'auth-input'
+    }))
+
+    birthdate = forms.DateField(required=True, widget=forms.DateInput(attrs={
+        'class': 'auth-input',
+        'type': 'date'
+    }))
+    
     email = forms.EmailField(required=True, widget=forms.EmailInput(attrs={
         'class': 'auth-input'
     }))
@@ -22,7 +36,7 @@ class SignupForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'password1', 'password2']
+        fields = ['first_name', 'last_name', 'birthdate', 'username', 'email', 'password1', 'password2']
 
     def save(self, commit=True):
         user = super().save(commit=False)
@@ -31,6 +45,11 @@ class SignupForm(UserCreationForm):
 
         if commit:
             user.save()
+            profile, created = Profile.objects.get_or_create(user=user)
+            profile.first_name = self.cleaned_data['first_name']
+            profile.last_name = self.cleaned_data['last_name']
+            profile.birthdate = self.cleaned_data['birthdate']
+            profile.save()
 
         return user
     
