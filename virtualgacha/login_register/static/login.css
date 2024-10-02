@@ -86,3 +86,20 @@ color palette:
 .error-messages {
     color: red;
 }
+
+
+/* --------------------------------- landing page -------------------------------- */
+
+.logo-petco {
+    height: 100px;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100px;
+    width: 100%;
+}
