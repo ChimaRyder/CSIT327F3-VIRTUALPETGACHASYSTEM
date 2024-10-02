@@ -17,6 +17,18 @@
                     <form method="POST">
                         {% csrf_token %}
                         <div>
+                            <label>{{ form.first_name.label }}</label><br>
+                            {{ form.first_name }}
+                        </div>
+                        <div>
+                            <label>{{ form.last_name.label }}</label><br>
+                            {{ form.last_name }}
+                        </div>
+                        <div>
+                            <label>{{ form.birthdate.label }}</label><br>
+                            {{ form.birthdate }}
+                        </div>
+                        <div>
                             <label>{{ form.username.label }}</label><br>
                             {{ form.username }}
                         </div>

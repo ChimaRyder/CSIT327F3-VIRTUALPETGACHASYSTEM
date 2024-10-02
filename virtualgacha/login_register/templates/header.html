@@ -1,0 +1,54 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Header Example</title>
+    <link rel="stylesheet" href="{% static 'login.css' %}">
+</head>
+<body>
+
+<header class="header">
+    <div class="header-left">
+        <a href="/" class="logo">
+            <img src="{% static 'images/logo.png' %}" alt="PetCo Logo">
+            <span class="website-name">PetCo.</span>
+        </a>
+
+        <div class="language-dropdown">
+            <select name="language" id="language-select">
+                <option value="en" selected>EN</option>
+                <option value="fr">KR</option>
+                <option value="es">JPN</option>
+            </select>
+        </div>
+
+        <nav class="main-nav">
+            <a href="/news">News</a>
+            <a href="/support">Support</a>
+            <a href="/terms">Terms of Services</a>
+        </nav>
+    </div>
+
+    <div class="header-right {% if user.is_authenticated %}visible{% else %}hidden{% endif %}">
+        {% if user.is_authenticated %}
+            <div class="user-info">
+                <span class="username">{{ user.username }}</span>
+                <span class="balance">5000.00</span>
+            </div>
+
+            <a href="/notifications" class="notifications">
+                <img src="{% static 'images/bell-icon.png' %}" alt="Notifications" class="icon">
+            </a>
+
+            <a href="/menu" class="menu">
+                <img src="{% static 'images/menu-icon.png' %}" alt="Menu" class="icon">
+            </a>
+        {% endif %}
+    </div>
+</header>
+
+</body>
+</html>
