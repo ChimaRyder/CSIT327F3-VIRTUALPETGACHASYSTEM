@@ -19,7 +19,8 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('base/', include('base_template.urls')),
+    path('home/', include('base_template.urls')),
     path('', include('login_register.urls')),
-    path('my_pets/', include('inventory.urls'))
+    path('my_pets/', include('inventory.urls')),
+    path('lootbox/', include('lootbox_market.urls')),
 ]

@@ -19,7 +19,7 @@
                 {% if pets %}
                     <div class="grid">
                         {% for pet in pets %}
-                            <div class="g-col-6">{{ pet }}</div>
+                            <div class="g-col-6">{{ pet.pet_species }}</div>
                         {% endfor %}
                     </div>
                 {% else %}
