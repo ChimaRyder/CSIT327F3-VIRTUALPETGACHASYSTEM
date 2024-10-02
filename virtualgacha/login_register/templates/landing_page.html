@@ -1,12 +1,32 @@
+{% load static %}
+
 <!DOCTYPE html>
 
 <html>
     <head>
         <title> PetCo. </title>
+        <link rel="stylesheet" href="{% static 'login.css' %}"/>
     </head>
 
     <body>
-        <a href="{% url 'login' %}"><button> Log In </button></a>
-        <a href="{% url 'signup' %}"><button> Sign Up </button></a>
+
+        <div class="lr-container">
+            <div class="l-container">
+                <div class="logo-title">
+                    <img src="{% static 'logo-petco.png' %}" class="logo-petco">
+                    <h1 class="page-title"> PetCo. </h1>
+                </div>
+
+                <div>
+                    <a href="{% url 'login' %}"><button class="auth-btn"> Log In </button></a>
+                    <a href="{% url 'signup' %}"><button class="auth-btn"> Sign Up </button></a>
+                </div>
+            </div>
+
+            <div class="r-container">
+
+            </div>
+        </div>
+        
     </body>
 </html>
