@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'base_template',
     'lootbox_market',
     'login_register',
+    'inventory'
 ]
 
 MIDDLEWARE = [
