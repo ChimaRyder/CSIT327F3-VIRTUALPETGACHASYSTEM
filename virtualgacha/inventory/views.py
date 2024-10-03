@@ -1,3 +1,5 @@
+from contextlib import nullcontext
+
 from django.shortcuts import render
 
 from inventory.models import Inventory, Pet
@@ -7,12 +9,16 @@ from inventory.models import Inventory, Pet
 def inventory_list(request):
     user = request.user
 
-    inventory = Inventory.objects.get(owner_id=user.id)
+    context = {}
+    if Inventory.objects.filter(owner_id = user.id).exists():
+        inventory = Inventory.objects.get(owner_id=user.id)
 
-    #find pets associated with inventory
-    pets = Pet.objects.filter(id=inventory.pet_id.id)
+        #find pets associated with inventory
+        pets = Pet.objects.filter(id=inventory.pet_id.id)
 
-    return render(request, "inventory/inventory_list.html", {'inventory': inventory, 'pets': pets})
+        return render(request, "inventory/inventory_list.html", {'inventory': inventory, 'pets': pets})
+
+    return render(request, "inventory/inventory_list.html", context)
 
 
 # pet view in inventory
