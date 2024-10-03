@@ -28,7 +28,7 @@ def login_view(request):
 
         if form.is_valid():
             login(request, form.get_user())
-            return redirect('base')
+            return redirect('lootboxes')
         #else:
             #print("Form invalid")
             #print(form.errors.as_json())
