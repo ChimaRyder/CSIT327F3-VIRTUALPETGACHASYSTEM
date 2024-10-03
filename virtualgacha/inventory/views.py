@@ -9,16 +9,16 @@ from inventory.models import Inventory, Pet
 def inventory_list(request):
     user = request.user
 
-    context = {}
-    if Inventory.objects.filter(owner_id = user.id).exists():
-        inventory = Inventory.objects.get(owner_id=user.id)
+    if Inventory.objects.filter(owner_id = user.id):
+        inventory = Inventory.objects.filter(owner_id=user.id)
 
         #find pets associated with inventory
-        pets = Pet.objects.filter(id=inventory.pet_id.id)
+        pet_ids = inventory.values_list('pet_id', flat=True)
+        pets = Pet.objects.filter(id__in=pet_ids)
 
         return render(request, "inventory/inventory_list.html", {'inventory': inventory, 'pets': pets})
 
-    return render(request, "inventory/inventory_list.html", context)
+    return render(request, "inventory/inventory_list.html", {})
 
 
 # pet view in inventory
