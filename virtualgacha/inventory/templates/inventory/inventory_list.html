@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}My Pets{% endblock %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'inventory.css' %}">
+{% endblock %}
+
+{% block inventorylist_active %}
+    active
+{% endblock %}
+
+{% block content %}
+    <div class="d-flex flex-column h-100">
+        <h1 class="h1 text-white fw-bold">My Pets</h1>
+
+        <div class="d-flex mx-3 my-4 p-3 inventory_container flex-fill rounded text-white justify-content-center">
+
+                {% if pets %}
+                    <div class="grid">
+                        {% for pet in pets %}
+                            <div class="g-col-6">{{ pet.pet_species }}</div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="d-flex justify-content-center align-self-center fst-italic fs-3 fw-bold">You don't have any pets at the moment...</div>
+                {% endif %}
+
+
+        </div>
+    </div>
+
+{% endblock %}

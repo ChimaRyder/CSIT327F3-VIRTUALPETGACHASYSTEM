@@ -22,4 +22,5 @@ urlpatterns = [
     path('base/', include('base_template.urls')),
     path('', include('login_register.urls')),
     path('lootbox/', include('lootbox_market.urls')),
+    path('my_pets/', include('inventory.urls')),
 ]
