@@ -13,8 +13,7 @@ def inventory_list(request):
         inventory = Inventory.objects.filter(owner_id=user.id)
 
         #find pets associated with inventory
-        pet_ids = inventory.values_list('pet_id', flat=True)
-        pets = Pet.objects.filter(id__in=pet_ids)
+        pets = [inventory.pet_id for inventory in inventory]
 
         return render(request, "inventory/inventory_list.html", {'inventory': inventory, 'pets': pets})
 
