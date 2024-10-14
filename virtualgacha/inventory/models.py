@@ -1,3 +1,4 @@
+from enum import Enum
 from django.db import models
 from django.contrib.auth.models import User # Can be changed later if a custom User model is made, only foreign key is required
 
@@ -14,6 +15,7 @@ class Pet(models.Model):
     pet_species = models.CharField(max_length=50)
     rarity = models.IntegerField(choices=Rarity.choices)
     is_busy = models.BooleanField(default=False)
+    pet_image = models.ImageField(upload_to='pets/', null=True, blank=True)
 
 class Inventory(models.Model):
     pet_id = models.ForeignKey(Pet, on_delete=models.CASCADE, default=None, null=True, blank=True)

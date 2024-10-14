@@ -1,4 +1,13 @@
 .inventory_container {
     background-color: #07092e !important;
-    min-width: 75%;
+    max-width: 100%;
+}
+
+.inventory_grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 1rem;
+    row-gap: 1.5rem;
+    align-items: center;
+    justify-items: center;
 }

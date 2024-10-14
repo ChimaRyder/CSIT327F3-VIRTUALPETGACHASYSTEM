@@ -14,12 +14,46 @@
     <div class="d-flex flex-column h-100">
         <h1 class="h1 text-white fw-bold">My Pets</h1>
 
-        <div class="d-flex mx-3 my-4 p-3 inventory_container flex-fill rounded text-white justify-content-center">
-
+        <div class="mx-3 my-4 p-5 inventory_container flex-fill rounded text-white d-flex flex-column">
                 {% if pets %}
-                    <div class="grid">
+                    <div class="inventory_grid">
                         {% for pet in pets %}
-                            <div class="g-col-6">{{ pet.pet_species }}</div>
+                            <div class="card-transparent border border-light p-4 rounded-4" style="width: 13rem; height:fit-content;">
+                                <div class="card-header d-flex justify-content-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width='23px'
+                                         fill = "
+                                            {% if pet.rarity == 0 %}
+                                                #CDCDCD
+                                            {% elif pet.rarity == 1 %}
+                                                #00DD0F
+                                            {% elif pet.rarity == 2 %}
+                                                #1699D2
+                                            {% elif pet.rarity == 3 %}
+                                                #FFD60A
+                                            {% elif pet.rarity == 4 %}
+                                                #ED0685
+                                            {% endif %}
+                                            "
+                                         viewBox="0 0 576 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"/></svg>
+                                </div>
+                                <img src="{{ pet.pet_image.url }}" class="card-img-top" alt="{{ pet.pet_species }}">
+                                <div class="card-body d-flex flex-column align-items-center">
+                                    <h6 class="card-subtitle mb-2 text-white">
+                                        {% if pet.rarity == 0 %}
+                                            Common
+                                        {% elif pet.rarity == 1 %}
+                                            Uncommon
+                                        {% elif pet.rarity == 2 %}
+                                            Rare
+                                        {% elif pet.rarity == 3 %}
+                                            Mythical
+                                        {% elif pet.rarity == 4 %}
+                                            Legendary
+                                        {% endif %}
+                                    </h6>
+                                    <h4 class="card-title fw-bold">{{ pet.pet_species }}</h4>
+                                </div>
+                            </div>
                         {% endfor %}
                     </div>
                 {% else %}
