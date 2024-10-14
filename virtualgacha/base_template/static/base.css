@@ -56,3 +56,13 @@ html, body {
   .bg-body-tertiary{
     background-color: #010222 !important;
   }
+
+  .sidebar-link {
+    background-color: #1A1D45;
+    padding: 15px;
+    border-radius: 15px !important;
+  }
+
+  .sidebar-list > .nav-item > .active {
+    background-color: #303577;
+  }
