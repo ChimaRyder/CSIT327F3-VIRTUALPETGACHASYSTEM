@@ -11,6 +11,7 @@
     <body>
         <div class="lr-container">
             <div class="l-container">
+                <a class="back-landing" href="{% url 'landingpage' %}"> &lt; </a>
                 <h1 class="page-title"> Sign Up </h1>
 
                 <div class="auth-form">
@@ -51,8 +52,27 @@
                             </div>
                         {% endif %}
 
+                        {% if form.errors %}
+                            <div class="error-messages">
+                                <ul>
+                                    {% for field in form %}
+                                        {% for error in field.errors %}
+                                            <li>{{ error }}</li>
+                                        {% endfor %}
+                                    {% endfor %}
+                                    {% if form.non_field_errors %}
+                                        {% for error in form.non_field_errors %}
+                                            <li>{{ error }}</li>
+                                        {% endfor %}
+                                    {% endif %}
+                                </ul>
+                            </div>
+                        {% endif %}
+                        
                         <button type="submit" class="auth-btn">Sign Up</button>
                     </form>
+                    
+                    
                 </div>
                 
                 Already have an account? <a href="{% url 'login' %}">Log In</a>       
@@ -64,4 +84,3 @@
         </div> 
     </body>
 </html>
-
