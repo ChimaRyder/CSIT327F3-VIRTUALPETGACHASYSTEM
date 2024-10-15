@@ -8,6 +8,39 @@
     grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 1rem;
     row-gap: 1.5rem;
-    align-items: center;
     justify-items: center;
+    min-height: 90%;
+}
+
+.common:hover {
+    background-color: #CDCDCD;
+    border-color: #07092e !important;
+}
+
+.uncommon:hover {
+    background-color: #00DD0F;
+    border-color: #07092e !important;
+}
+
+.rare:hover {
+    background-color: #1699D2;
+    border-color: #07092e !important;
+}
+
+.mythical:hover {
+    background-color: #FFD60A;
+    border-color: #07092e !important;
+}
+
+.legendary:hover {
+    background-color: #ED0685;
+    border-color: #07092e !important;
+}
+
+.common,.uncommon,.rare,.mythical,.legendary {
+    transition: 0.15s ease-in-out;
+}
+
+.inventory_grid > a {
+    text-decoration: none;
 }

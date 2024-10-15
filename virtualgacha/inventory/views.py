@@ -1,5 +1,4 @@
-from contextlib import nullcontext
-
+from django.core.paginator import Paginator
 from django.shortcuts import render
 
 from inventory.models import Inventory, Pet
@@ -7,6 +6,7 @@ from inventory.models import Inventory, Pet
 
 # inventory list backend
 def inventory_list(request):
+    items_per_page = 10
     user = request.user
 
     if Inventory.objects.filter(owner_id = user.id):
@@ -14,6 +14,13 @@ def inventory_list(request):
 
         #find pets associated with inventory
         pets = [inventory.pet_id for inventory in inventory]
+        pets.sort(key=lambda p: p.rarity)
+
+        paginator = Paginator(pets, items_per_page)
+
+        page = request.GET.get('page', 1)
+
+        pets = paginator.get_page(page)
 
         return render(request, "inventory/inventory_list.html", {'inventory': inventory, 'pets': pets})
 
