@@ -1,0 +1,112 @@
+.lootbox-content-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    gap: 1em;
+}
+
+.lootbox-upper-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    height: 40dvh;
+    gap: 0.5em;
+}
+
+.lootbox-info-container{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    background-color: blue;
+    border-radius: 10px;
+    color: #FDFDFDFD;
+    padding: 1em;
+}
+
+.lootbox-image-container{
+    width: 30em;
+    height: 100%;
+    background-color: green;
+    border-radius: 10px;
+}
+
+.lootbox-featured-container{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    background-color: red;
+    color: #FDFDFDFD;
+}
+
+.lootbox-interactions-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    height: 10dvh;
+    gap: 0.5em;
+    background-color: black;
+}
+
+.modal-content{
+    background-color: black;
+}
+
+.pull-btn-group{
+    margin-left: auto;
+}
+
+.lootbox-lower-container{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 60dvh;
+    gap: 0.5em;
+    
+}
+
+.lootbox-global-info{
+    padding: 0.3em;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    height: 6dvh;
+    background-color: aquamarine;
+    border-radius: 10px;
+}
+
+.lootbox-moreinfo-item{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+}
+
+.lootbox-moreinfo{
+    justify-content: center;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 8dvw;
+    height: 100%;
+    gap: 0.5em;
+    background-color: blue;
+    border-radius: 10px;
+    margin-right: 1em;
+}
+
+.lootbox-moreinfo-title{
+    margin-right: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-left: 1em;
+    gap: 0.5em;
+}

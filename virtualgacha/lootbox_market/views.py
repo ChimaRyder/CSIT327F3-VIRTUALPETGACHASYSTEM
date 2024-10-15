@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .models import Lootbox
 
 # Create your views here
@@ -23,3 +23,12 @@ def lootboxes(request):
     print(featured_items)
 
     return render(request, "market_lootbox_content.html", context)
+
+def lootbox_detail(request, lootbox_id):
+    lootbox = get_object_or_404(Lootbox, pk=lootbox_id)
+
+    context = {
+        'lootbox': lootbox,
+    }
+
+    return render(request, "lootbox_ui.html", context)

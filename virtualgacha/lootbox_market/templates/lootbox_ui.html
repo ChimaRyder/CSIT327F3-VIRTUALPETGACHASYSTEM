@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'lootbox_content.css' %}"/>
+{% endblock %}
+
+{% block title %}
+    {{ lootbox.name }}
+{% endblock %}
+
+{% block content %}
+
+    <div class="lootbox-content-container">
+        {% comment %} <button class = "btn btn-primary" style="align-self: end; width: 10em; height:3em">Go Back</button> {% endcomment %}
+
+        <div class="lootbox-upper-container">
+            <div class="lootbox-image-container">
+                {% comment %} <img src="{{ lootbox.image.url }}" alt="lootbox image" class="lootbox-image"> {% endcomment %}
+            </div>
+
+            <div class="lootbox-info-container">
+                <h2> Featured Pets: </h2>
+                <div class="lootbox-featured-container">
+                   
+                </div>
+
+                <div class = "lootbox-interactions-container">
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        View List
+                    </button>
+
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        View Pull History
+                    </button>
+
+                    <div class="pull-btn-group" role="group" aria-label="Basic radio toggle button group">
+                        <input type="radio" class="btn-check" name="options" id="option1" autocomplete="off" checked data-credit="1">
+                        <label class="btn btn-secondary" for="option1">x1</label>
+            
+                        <input type="radio" class="btn-check" name="options" id="option2" autocomplete="off" data-credit="10">
+                        <label class="btn btn-secondary" for="option2">x10</label>
+            
+                        <button type="submit" id="credit-value" class="btn btn-primary">Pull</button>
+                    </div>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                            ...
+                            </div>
+                            <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="lootbox-lower-container">
+            <div class="lootbox-global-info">
+                <div class = "lootbox-moreinfo-title">
+
+                <i class="bi bi-globe" style="font-size: 2rem;"></i>
+                Global History
+                </div>
+
+                <div class = "lootbox-moreinfo">
+                    <i class="bi bi-cash" style="font-size: 2rem;"></i>
+                    <div class = "lootbox-moreinfo-item">
+                        <span>Total Spent </span> <br>
+                        <span> 1000 </span>
+                    </div>
+                </div>
+
+                <div class = "lootbox-moreinfo">
+                    <i class="bi bi-cash" style="font-size: 2rem;"></i>
+                    <div class = "lootbox-moreinfo-item">
+                        <span>Total Spent </span> <br>
+                        <span> 1000 </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const creditValueElement = document.getElementById('credit-value');
+            const radioButtons = document.querySelectorAll('.btn-check');
+        
+            radioButtons.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    const credit = this.getAttribute('data-credit');
+                    creditValueElement.textContent = `Credit: ${credit}`;
+                });
+            });
+        });
+    </script>
+
+
+{% endblock %}
