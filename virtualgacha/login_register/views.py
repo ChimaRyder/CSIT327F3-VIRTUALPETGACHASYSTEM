@@ -6,6 +6,8 @@ from django.contrib.auth.forms import AuthenticationForm
 
 # Create your views here.
 def landingpage_view(request):
+    if request.user.is_authenticated:
+        return redirect('lootboxes')
     return render(request, 'landing_page.html')
 
 def signup_view(request):
