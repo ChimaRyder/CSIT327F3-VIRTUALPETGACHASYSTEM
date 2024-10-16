@@ -22,8 +22,24 @@
             <div class="lootbox-info-container">
                 <h2> Featured Pets: </h2>
                 <div class="lootbox-featured-container">
-                   
+                        
+
+                        <div class="lootbox-featured-item">
+                            <div class="pet-info">
+                                <span style="font-size:0.7em;font-weight:light;">Legendary</span>
+                                <span style="font-weight:bold;font-size:1em;">Rococo</span>
+                            </div>
+                            <div class="legendary">★</div>
+                            <img src="path/to/pet-photo.jpg" alt="Pet Photo" class="pet-photo">
+                        </div>
+
                 </div>
+
+                   
+                   
+
+
+                    
 
                 <div class = "lootbox-interactions-container">
                     <!-- Button trigger modal -->
@@ -36,13 +52,13 @@
                     </button>
 
                     <div class="pull-btn-group" role="group" aria-label="Basic radio toggle button group">
-                        <input type="radio" class="btn-check" name="options" id="option1" autocomplete="off" checked data-credit="1">
+                        <input type="radio" class="btn-check" name="options" id="option1" autocomplete="off" checked data-credit="$50.00">
                         <label class="btn btn-secondary" for="option1">x1</label>
             
-                        <input type="radio" class="btn-check" name="options" id="option2" autocomplete="off" data-credit="10">
+                        <input type="radio" class="btn-check" name="options" id="option2" autocomplete="off" data-credit="$500.00">
                         <label class="btn btn-secondary" for="option2">x10</label>
             
-                        <button type="submit" id="credit-value" class="btn btn-primary">Pull</button>
+                        <button type="submit" id="credit-value" class="btn btn-danger" style="width: 10em;">Start $50.00</button>
                     </div>
 
                     <!-- Modal -->
@@ -78,18 +94,62 @@
                 <div class = "lootbox-moreinfo">
                     <i class="bi bi-cash" style="font-size: 2rem;"></i>
                     <div class = "lootbox-moreinfo-item">
-                        <span>Total Spent </span> <br>
-                        <span> 1000 </span>
+                        <span style="font-size:0.7em">Total Spent </span>
+                        <span style="font-weight: bold;"> $1000+ </span>
                     </div>
                 </div>
 
                 <div class = "lootbox-moreinfo">
-                    <i class="bi bi-cash" style="font-size: 2rem;"></i>
+                    <i class="bi bi-people-fill" style="font-size: 2rem;"></i>
                     <div class = "lootbox-moreinfo-item">
-                        <span>Total Spent </span> <br>
-                        <span> 1000 </span>
+                        <span style="font-size:0.7em">Total Users </span>
+                        <span style="font-weight: bold;"> 100k+ </span>
                     </div>
                 </div>
+            </div>
+
+            <nav aria-label="Page navigation example" style="align-self: center;justify-content: center;">
+                <ul class="pagination" style="background-color:#07092E;">
+                  <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                  <li class="page-item"><a class="page-link" href="#">1</a></li>
+                  <li class="page-item"><a class="page-link" href="#">2</a></li>
+                  <li class="page-item"><a class="page-link" href="#">3</a></li>
+                  <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                </ul>
+            </nav>
+
+            <div class="lootbox-history-container">
+                <div class = "lootbox-history-item">
+                    <div class = "lootbox-history-profile-image">
+                    </div>
+
+                    <div class = "lootbox-history-profile-name">
+                        Pokemau
+                    </div>
+
+                    <div class = "lootbox-history-profile-roll">
+                        x10
+                    </div>
+
+                    <div class = "lootbox-history-profile-spent">
+                        $500.00
+                    </div>
+
+                    <div class = "lootbox-history-profile-obtained">
+                        <div class = "lootbox-history-profile-obtained-item">
+                        </div>
+
+                        <div class = "lootbox-history-profile-obtained-item">
+                        </div>
+
+                        <div class = "lootbox-history-profile-obtained-item">
+                        </div>
+
+                        <div class = "lootbox-history-profile-obtained-item">
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
@@ -102,7 +162,7 @@
             radioButtons.forEach(radio => {
                 radio.addEventListener('change', function() {
                     const credit = this.getAttribute('data-credit');
-                    creditValueElement.textContent = `Credit: ${credit}`;
+                    creditValueElement.textContent = `Start ${credit}`;
                 });
             });
         });

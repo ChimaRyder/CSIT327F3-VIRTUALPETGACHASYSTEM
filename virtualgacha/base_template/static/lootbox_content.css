@@ -21,26 +21,70 @@
     flex-direction: column;
     width: 100%;
     height: 100%;
-    background-color: blue;
+    background-color: #07092E;
     border-radius: 10px;
     color: #FDFDFDFD;
     padding: 1em;
+    justify-content: space-between;
 }
 
 .lootbox-image-container{
     width: 30em;
     height: 100%;
-    background-color: green;
+    background-color: #CCCCCC;
     border-radius: 10px;
 }
 
 .lootbox-featured-container{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     width: 100%;
     height: 100%;
-    background-color: red;
     color: #FDFDFDFD;
+    justify-content: space-evenly;
+
+}
+
+.lootbox-featured-item {
+    display: grid;
+    grid-template-areas:
+        "pet-info star"
+        "pet-photo pet-photo";
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto 1fr;
+    width: 10em; /* Adjust as needed */
+    height: 100%; /* Adjust as needed */
+    border: 0.1rem solid #ccc;
+    border-radius: 1em;
+    padding: 1em;
+    overflow: hidden;
+    
+    
+}
+
+.lootbox-featured-item .pet-info {
+    grid-area: pet-info;
+    align-self: start;
+    flex-direction: column;
+    display: flex;
+    color: #FDFDFDFD;
+
+}
+
+/* .lootbox-featured-item .star-icon {
+    grid-area: star;
+    font-size: 20px;
+    color: gold;
+    justify-self: end;
+    align-self: start;
+} */
+
+
+.lootbox-featured-item .pet-photo {
+    grid-area: pet-photo;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
 }
 
 .lootbox-interactions-container{
@@ -50,11 +94,10 @@
     width: 100%;
     height: 10dvh;
     gap: 0.5em;
-    background-color: black;
 }
 
 .modal-content{
-    background-color: black;
+    background-color: #07092E;
 }
 
 .pull-btn-group{
@@ -66,7 +109,7 @@
     flex-direction: column;
     width: 100%;
     height: 60dvh;
-    gap: 0.5em;
+    gap: 1em;
     
 }
 
@@ -77,8 +120,9 @@
     align-items: center;
     width: 100%;
     height: 6dvh;
-    background-color: aquamarine;
+    background-color: #07092E;
     border-radius: 10px;
+    color: #fdfdfd;
 }
 
 .lootbox-moreinfo-item{
@@ -89,16 +133,17 @@
 }
 
 .lootbox-moreinfo{
-    justify-content: center;
+    justify-content: space-evenly;
     display: flex;
     flex-direction: row;
     align-items: center;
     width: 8dvw;
     height: 100%;
     gap: 0.5em;
-    background-color: blue;
+    background-color: #1A1D45;
     border-radius: 10px;
     margin-right: 1em;
+    
 }
 
 .lootbox-moreinfo-title{
@@ -109,4 +154,75 @@
     align-items: center;
     margin-left: 1em;
     gap: 0.5em;
+}
+
+.lootbox-history-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    /* background-color: blue; */
+    border-radius: 10px;
+    color: #FDFDFDFD;
+    padding: 1em;
+    overflow-y: auto; /* Enable vertical scrolling */
+}
+
+.lootbox-history-item{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    height: 6dvh;
+    border-radius: 10px;
+    border-style: solid;
+    border-width: 0.1rem;
+    margin-bottom: 0.5em;
+    border-color: #FDFDFDFD;
+    padding: 0.5rem;
+    gap: 5em;
+}
+
+.lootbox-history-profile-image{
+    width: 4dvh;
+    height: 4dvh;
+    border-radius: 50%;
+    background-color: #FDFDFDFD;
+}
+
+.lootbox-history-profile-obtained{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: fit-content;
+    height: 100%;
+    /* background-color: #FDFD1FDFD; */
+    border-radius: 10px;
+    margin-left: auto;
+    gap: 0.5em;
+}
+
+.lootbox-history-profile-obtained-item{
+    width: 4dvh;
+    height: 4dvh;
+    background-color: blue;
+}
+
+.mythical{
+    
+    color: #1896C8;
+}
+
+.legendary{
+    color: #E20B80;
+}
+
+.rare{
+    color: #F6D00C;
+}
+
+.pagination > .page-item > .page-link {
+    background-color: #1A1D45;
+    color: #FDFDFDFD;
+    border: 1px solid #1a1a1a;
 }
