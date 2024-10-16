@@ -54,6 +54,9 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+SESSION_COOKIE_AGE = 60*60*24*30
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+
 ROOT_URLCONF = 'virtualgacha.urls'
 
 TEMPLATES = [
@@ -134,3 +137,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# Auth
+LOGOUT_REDIRECT_URL = 'landingpage'

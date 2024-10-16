@@ -5,7 +5,8 @@ from .models import Profile
 
 class SignupForm(UserCreationForm):
     first_name = forms.CharField(max_length=30, required=True, widget=forms.TextInput(attrs={
-        'class': 'auth-input'
+        'class': 'auth-input',
+        'autofucos': 'autofocus',
     }))
     
     last_name = forms.CharField(max_length=30, required=True, widget=forms.TextInput(attrs={

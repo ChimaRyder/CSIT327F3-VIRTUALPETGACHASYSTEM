@@ -18,12 +18,14 @@ from inspect import stack
 
 from django.conf.urls.static import static
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
 from django.urls import path, include
 
 from virtualgacha import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('logout/', auth_views.LogoutView.as_view(next_page='landingpage'), name='logout'),
     path('base/', include('base_template.urls')),
     path('', include('login_register.urls')),
     path('lootbox/', include('lootbox_market.urls')),
