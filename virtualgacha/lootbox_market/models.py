@@ -32,10 +32,6 @@ class LootboxDropTable(models.Model):
     lootbox_drop_table_id = models.AutoField(primary_key=True)
     lootbox_id = models.ForeignKey(Lootbox, on_delete=models.CASCADE)
     pet_id = models.ForeignKey(Pet, on_delete=models.CASCADE)
-    drop_rate = models.IntegerField()
-
-    def __str__(self):
-        return f'{self.lootbox_id} - {self.pet_id}'
 
     
 class LootboxHistory(models.Model):
@@ -48,3 +44,22 @@ class LootboxHistory(models.Model):
 
     def __str__(self):
         return f'{self.lootbox_id} - {self.date_opened}'
+
+
+class Pull(models.Model):
+    pull_id = models.AutoField(primary_key=True)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    roll_info = models.IntegerField()
+    lootbox_id = models.ForeignKey(Lootbox, on_delete=models.CASCADE)
+    date_created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'Pull {self.pull_id} by {self.user_id}'
+
+class PullPet(models.Model):
+    pull_pet_id = models.AutoField(primary_key=True)
+    pull_id = models.ForeignKey(Pull, on_delete=models.CASCADE)
+    pet_id = models.ForeignKey(Pet, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'Pull {self.pull_id} - Pet {self.pet_id}'

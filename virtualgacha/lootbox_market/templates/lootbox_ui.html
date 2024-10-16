@@ -24,21 +24,21 @@
             <div class="lootbox-info-container">
                 <h2> Featured Pets: </h2>
                 <div class="lootbox-featured-container">
-                    {% for pet in lootbox_drop_table %}
+                    {% for pet in lootbox_drop_table|slice:":4" %}
                         <div class="lootbox-featured-item">
                             <div class="pet-info">
-                                <span style="font-size:0.7em;font-weight:light;">{{ pet.rarity }}</span>
-                                <span style="font-weight:bold;font-size:1em;">{{ pet.name }}</span>
+                                <span style="font-size:0.7em;font-weight:light;">{{ pet.get_rarity_display }}</span>
+                                <span style="font-weight:bold;font-size:1em;">{{ pet.pet_species }}</span>
                             </div>
-                            <div class="{{ pet.rarity|lower }}">★</div>
-                            <img src="{{ pet.image.url }}" alt="Pet Photo" class="pet-photo">
+                            <div class="{{ pet.get_rarity_display|lower }}">★</div>
+                            <img src="{{ pet.pet_image.url }}" alt="Pet Photo" class="pet-photo">
                         </div>
                     {% endfor %}
                 </div>
 
                 <div class="lootbox-interactions-container">
                     <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#dropTableModal">
                         View List
                     </button>
 
@@ -56,7 +56,44 @@
                         <button type="button" id="credit-value" class="btn btn-danger" style="width: 10em;">Start $50.00</button>
                     </div>
 
-                    <!-- Modal -->
+                    <!-- List Modal -->
+                    <div class="modal fade" id="dropTableModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Drop Table</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Pet Picture</th>
+                                                    <th scope="col">Pet Name</th>
+                                                    <th scope="col">Rarity</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for item in lootbox_drop_table %}
+                                                <tr>
+                                                    <td><img src="{{ item.pet_image.url }}" alt="Pet Photo" class="img-thumbnail" style="width: 50px; height: 50px;"></td>
+                                                    <td>{{ item.pet_species }}</td>
+                                                    <td>{{ item.get_rarity_display }}</td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Results Modal -->
                     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                         <div class="modal-content">
@@ -75,6 +112,85 @@
                 </div>
             </div>
         </div>
+
+        <!-- List Modal -->
+        <div class="modal fade" id="dropTableModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Drop Table</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Pet Picture</th>
+                                        <th scope="col">Pet Name</th>
+                                        <th scope="col">Rarity</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for item in lootbox_drop_table %}
+                                    <tr>
+                                        <td><img src="{{ item.pet_image.url }}" alt="Pet Photo" class="img-thumbnail" style="width: 50px; height: 50px;"></td>
+                                        <td>{{ item.pet_species }}</td>
+                                        <td>{{ item.get_rarity_display }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pull History Modal -->
+        <div class="modal fade" id="pullHistoryModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Pull History</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" style="background-color: #07092E;">
+                        <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Pet Picture</th>
+                                        <th scope="col">Pet Name</th>
+                                        <th scope="col">Rarity</th>
+                                        <th scope="col">Date Rolled</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for pull in lootbox_history %}
+                                        {% for pull_pet in pull.pullpet_set.all %}
+                                            <tr>
+                                                <td><img src="{{ pull_pet.pet_id.pet_image.url }}" alt="Pet Photo" class="img-thumbnail" style="width: 50px; height: 50px;"></td>
+                                                <td>{{ pull_pet.pet_id.pet_species }}</td>
+                                                <td>{{ pull_pet.pet_id.get_rarity_display }}</td>
+                                                <td>{{ pull.date_created }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
         <div class="lootbox-lower-container">
             <div class="lootbox-global-info">
