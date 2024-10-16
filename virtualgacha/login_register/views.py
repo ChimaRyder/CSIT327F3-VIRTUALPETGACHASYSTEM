@@ -11,6 +11,9 @@ def landingpage_view(request):
     return render(request, 'landing_page.html')
 
 def signup_view(request):
+    if request.user.is_authenticated:
+        return redirect('lootboxes')
+    
     if request.method == 'POST':
         form = SignupForm(request.POST)
 
@@ -25,15 +28,15 @@ def signup_view(request):
     return render(request, 'signup.html', {'form': form})
 
 def login_view(request):
+    if request.user.is_authenticated:
+        return redirect('lootboxes')
+
     if request.method == 'POST':
         form = LoginForm(request, data=request.POST)
 
         if form.is_valid():
             login(request, form.get_user())
             return redirect('lootboxes')
-        #else:
-            #print("Form invalid")
-            #print(form.errors.as_json())
     else:
         form = LoginForm()
     
