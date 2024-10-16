@@ -6,11 +6,11 @@ from django.contrib.auth.models import User # Can be changed later if a custom U
 
 class Pet(models.Model):
     class Rarity(models.IntegerChoices):
-        COMMON = 0
-        UNCOMMON = 1
-        RARE = 2
-        MYTHICAL = 3
-        LEGENDARY = 4
+        COMMON = 0, 'Common'
+        UNCOMMON = 1, 'Uncommon'
+        RARE = 2, 'Rare'
+        MYTHICAL = 3, 'Mythical'
+        LEGENDARY = 4, 'Legendary'
 
     pet_species = models.CharField(max_length=50)
     rarity = models.IntegerField(choices=Rarity.choices)

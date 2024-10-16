@@ -226,3 +226,17 @@
     color: #FDFDFDFD;
     border: 1px solid #1a1a1a;
 }
+
+.lootbox-history-profile-date{
+    color: #CCCCCC
+}
+
+.roll-results-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+    gap: 1em;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}

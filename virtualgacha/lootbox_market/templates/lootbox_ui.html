@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block title %}
-    {{ lootbox.name }}
+    {{ lootbox.lootbox_name }}
 {% endblock %}
 
 {% block content %}
@@ -16,32 +16,27 @@
 
         <div class="lootbox-upper-container">
             <div class="lootbox-image-container">
-                {% comment %} <img src="{{ lootbox.image.url }}" alt="lootbox image" class="lootbox-image"> {% endcomment %}
+                {% if lootbox.image %}
+                    <img src="{{ lootbox.image.url }}" alt="lootbox image" class="lootbox-image">
+                {% endif %}
             </div>
 
             <div class="lootbox-info-container">
                 <h2> Featured Pets: </h2>
                 <div class="lootbox-featured-container">
-                        
-
+                    {% for pet in lootbox_drop_table %}
                         <div class="lootbox-featured-item">
                             <div class="pet-info">
-                                <span style="font-size:0.7em;font-weight:light;">Legendary</span>
-                                <span style="font-weight:bold;font-size:1em;">Rococo</span>
+                                <span style="font-size:0.7em;font-weight:light;">{{ pet.rarity }}</span>
+                                <span style="font-weight:bold;font-size:1em;">{{ pet.name }}</span>
                             </div>
-                            <div class="legendary">★</div>
-                            <img src="path/to/pet-photo.jpg" alt="Pet Photo" class="pet-photo">
+                            <div class="{{ pet.rarity|lower }}">★</div>
+                            <img src="{{ pet.image.url }}" alt="Pet Photo" class="pet-photo">
                         </div>
-
+                    {% endfor %}
                 </div>
 
-                   
-                   
-
-
-                    
-
-                <div class = "lootbox-interactions-container">
+                <div class="lootbox-interactions-container">
                     <!-- Button trigger modal -->
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                         View List
@@ -52,13 +47,13 @@
                     </button>
 
                     <div class="pull-btn-group" role="group" aria-label="Basic radio toggle button group">
-                        <input type="radio" class="btn-check" name="options" id="option1" autocomplete="off" checked data-credit="$50.00">
+                        <input type="radio" class="btn-check" name="options" id="option1" autocomplete="off" checked data-credit="$50.00" data-rolls="1">
                         <label class="btn btn-secondary" for="option1">x1</label>
             
-                        <input type="radio" class="btn-check" name="options" id="option2" autocomplete="off" data-credit="$500.00">
+                        <input type="radio" class="btn-check" name="options" id="option2" autocomplete="off" data-credit="$500.00" data-rolls="10">
                         <label class="btn btn-secondary" for="option2">x10</label>
             
-                        <button type="submit" id="credit-value" class="btn btn-danger" style="width: 10em;">Start $50.00</button>
+                        <button type="button" id="credit-value" class="btn btn-danger" style="width: 10em;">Start $50.00</button>
                     </div>
 
                     <!-- Modal -->
@@ -66,15 +61,13 @@
                         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                         <div class="modal-content">
                             <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Roll Results</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-                            <div class="modal-body">
-                            ...
+                            <div class="modal-body roll-results-container">
                             </div>
                             <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
                             </div>
                         </div>
                         </div>
@@ -85,23 +78,22 @@
 
         <div class="lootbox-lower-container">
             <div class="lootbox-global-info">
-                <div class = "lootbox-moreinfo-title">
-
-                <i class="bi bi-globe" style="font-size: 2rem;"></i>
-                Global History
+                <div class="lootbox-moreinfo-title">
+                    <i class="bi bi-globe" style="font-size: 2rem;"></i>
+                    Global History
                 </div>
 
-                <div class = "lootbox-moreinfo">
+                <div class="lootbox-moreinfo">
                     <i class="bi bi-cash" style="font-size: 2rem;"></i>
-                    <div class = "lootbox-moreinfo-item">
+                    <div class="lootbox-moreinfo-item">
                         <span style="font-size:0.7em">Total Spent </span>
                         <span style="font-weight: bold;"> $1000+ </span>
                     </div>
                 </div>
 
-                <div class = "lootbox-moreinfo">
+                <div class="lootbox-moreinfo">
                     <i class="bi bi-people-fill" style="font-size: 2rem;"></i>
-                    <div class = "lootbox-moreinfo-item">
+                    <div class="lootbox-moreinfo-item">
                         <span style="font-size:0.7em">Total Users </span>
                         <span style="font-weight: bold;"> 100k+ </span>
                     </div>
@@ -119,54 +111,105 @@
             </nav>
 
             <div class="lootbox-history-container">
-                <div class = "lootbox-history-item">
-                    <div class = "lootbox-history-profile-image">
+                {% for history in lootbox_history %}
+                <div class="lootbox-history-item">
+                    <div class="lootbox-history-profile-image">
+                        <!-- Add profile image if available -->
                     </div>
 
-                    <div class = "lootbox-history-profile-name">
-                        Pokemau
+                    <div class="lootbox-history-profile-name">
+                        {{ history.user.username }}
                     </div>
 
-                    <div class = "lootbox-history-profile-roll">
-                        x10
+                    <div class="lootbox-history-profile-roll">
+                        x{{ history.roll_count }}
                     </div>
 
-                    <div class = "lootbox-history-profile-spent">
-                        $500.00
+                    <div class="lootbox-history-profile-spent">
+                        ${{ history.amount_spent }}
                     </div>
 
-                    <div class = "lootbox-history-profile-obtained">
-                        <div class = "lootbox-history-profile-obtained-item">
-                        </div>
+                    <div class="lootbox-history-profile-date">
+                        {{ history.date }}
+                    </div>
 
-                        <div class = "lootbox-history-profile-obtained-item">
+                    <div class="lootbox-history-profile-obtained">
+                        {% for item in history.obtained_items.all %}
+                        <div class="lootbox-history-profile-obtained-item">
+                            <img src="{{ item.image.url }}" alt="{{ item.name }}">
                         </div>
-
-                        <div class = "lootbox-history-profile-obtained-item">
-                        </div>
-
-                        <div class = "lootbox-history-profile-obtained-item">
-                        </div>
+                        {% endfor %}
                     </div>
                 </div>
-
+                {% endfor %}
             </div>
         </div>
     </div>
+
+    <form method="post" style="display: none;">
+        {% csrf_token %}
+    </form>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const creditValueElement = document.getElementById('credit-value');
             const radioButtons = document.querySelectorAll('.btn-check');
-        
+            const rollResultsContainer = document.querySelector('.roll-results-container');
+    
+            // Update button text based on selected radio button
             radioButtons.forEach(radio => {
                 radio.addEventListener('change', function() {
                     const credit = this.getAttribute('data-credit');
                     creditValueElement.textContent = `Start ${credit}`;
                 });
             });
+    
+            // Handle the click event on the "Start" button
+            creditValueElement.addEventListener('click', function() {
+                const selectedRadio = document.querySelector('.btn-check:checked');
+                const rolls = parseInt(selectedRadio.getAttribute('data-rolls'), 10);
+                const lootboxId = {{ lootbox.lootbox_id }};
+                const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    
+                fetch(`{% url 'roll_lootbox' lootbox.lootbox_id %}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-CSRFToken': csrfToken
+                    },
+                    body: new URLSearchParams({
+                        'rolls': rolls
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Clear previous results
+                    rollResultsContainer.innerHTML = '';
+    
+                    // Append new results
+                    data.results.forEach(result => {
+                        const resultItem = document.createElement('div');
+                        resultItem.classList.add('lootbox-featured-item');
+                        resultItem.innerHTML = `
+                            <div class="pet-info">
+                                <span style="font-size:0.7em;font-weight:light;">${result.rarity}</span>
+                                <span style="font-weight:bold;font-size:1em;">${result.name}</span>
+                            </div>
+                            <div class="${result.rarity.toLowerCase()}">★</div>
+                            <img src="${result.image_url}" alt="Pet Photo" class="pet-photo">
+                        `;
+                        rollResultsContainer.appendChild(resultItem);
+                    });
+    
+                    // Show the modal with results
+                    const modal = new bootstrap.Modal(document.getElementById('exampleModal'));
+                    modal.show();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            });
         });
     </script>
-
 
 {% endblock %}

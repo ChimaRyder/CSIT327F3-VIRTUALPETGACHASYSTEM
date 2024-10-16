@@ -1,5 +1,9 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Lootbox
+from .models import Lootbox, LootboxHistory, LootboxDropTable
+from django.views.decorators.http import require_POST
+from inventory.models import Pet
+from django.http import JsonResponse
+import random
 
 # Create your views here
 def lootboxes(request):
@@ -26,9 +30,31 @@ def lootboxes(request):
 
 def lootbox_detail(request, lootbox_id):
     lootbox = get_object_or_404(Lootbox, pk=lootbox_id)
+    lootbox_history = LootboxHistory.objects.filter(lootbox_id=lootbox_id)
+    lootbox_drop_table = LootboxDropTable.objects.filter(lootbox_id=lootbox_id)
 
     context = {
         'lootbox': lootbox,
+        'lootbox_history': lootbox_history,
+        'lootbox_drop_table' : lootbox_drop_table,
     }
 
     return render(request, "lootbox_ui.html", context)
+
+
+
+@require_POST
+def roll_lootbox(request, lootbox_id):
+    lootbox = get_object_or_404(Lootbox, pk=lootbox_id)
+    rolls = int(request.POST.get('rolls', 1))
+    
+    results = []
+    for _ in range(rolls):
+        pet = random.choice(lootbox.drop_table.all())
+        results.append({
+            'name': pet.name,
+            'rarity': pet.rarity,
+            'image_url': pet.image.url,
+        })
+    
+    return JsonResponse({'results': results})
