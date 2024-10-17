@@ -14,7 +14,22 @@ def inventory_list(request):
 
         #find pets associated with inventory
         pets = [inventory.pet_id for inventory in inventory]
-        pets.sort(key=lambda p: p.rarity)
+
+        rarity_filter = []
+        if request.GET:
+            if request.GET.get('q'):
+                pets = [p for p in pets if p.pet_species.lower().startswith(request.GET.get('q').lower())]
+            if request.GET.get('sort'):
+                if request.GET.get('sort') == 'acquisition':
+                    pass
+                if request.GET.get('sort') == 'rarity':
+                    pets.sort(key=lambda p: p.rarity)
+            if request.GET.get('rarity'):
+                rarity_filter = request.GET.getlist('rarity')
+                rarity_enum = ['Common', 'Uncommon', 'Rare', 'Mythical', 'Legendary']
+                rarity_filter = [rarity_enum.index(r) for r in rarity_filter]
+                pets = [p for p in pets if p.rarity in rarity_filter]
+
 
         paginator = Paginator(pets, items_per_page)
 
@@ -22,7 +37,7 @@ def inventory_list(request):
 
         pets = paginator.get_page(page)
 
-        return render(request, "inventory/inventory_list.html", {'inventory': inventory, 'pets': pets})
+        return render(request, "inventory/inventory_list.html", {'inventory': inventory, 'pets': pets, 'rarity_selected' : rarity_filter})
 
     return render(request, "inventory/inventory_list.html", {})
 
