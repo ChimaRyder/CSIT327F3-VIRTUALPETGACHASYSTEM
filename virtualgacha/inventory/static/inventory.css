@@ -7,9 +7,8 @@
     display: grid;
     grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 1rem;
-    row-gap: 1.5rem;
     justify-items: center;
-    min-height: 90%;
+    min-height: 80%;
 }
 
 .common:hover {
@@ -43,4 +42,47 @@
 
 .inventory_grid > a {
     text-decoration: none;
+}
+
+#query {
+    background-color: #1A1D45;
+    border: 0;
+    color: #ffffff;
+    height: 50px;
+    padding: 1.5rem;
+}
+
+#query::placeholder {
+    color: #ffffff;
+    opacity: 50%;
+}
+
+.btn {
+    background-color: #272ffe;
+    border: 0;
+    font-weight: bold;
+}
+
+.modal-content {
+    background-color: #1A1D45 !important;
+}
+
+.modal-footer {
+    border: 0;
+}
+
+.form-check label {
+    font-size: 19px;
+    margin-left: 10px;
+}
+
+.form-check {
+    display: flex;
+    align-items: center;
+}
+
+.search-button {
+    top: 9px;
+    right: 13px;
+    width: 70px;
 }
