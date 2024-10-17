@@ -7,6 +7,7 @@ class Profile(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     birthdate = models.DateField(null=True, blank=True)
+    total_credits = models.IntegerField(default=500)
 
     def __str__(self):
         return self.user.username

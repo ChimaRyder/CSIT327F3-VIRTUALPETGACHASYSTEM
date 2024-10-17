@@ -5,7 +5,8 @@ from .models import Profile
 
 class SignupForm(UserCreationForm):
     first_name = forms.CharField(max_length=30, required=True, widget=forms.TextInput(attrs={
-        'class': 'auth-input'
+        'class': 'auth-input',
+        'autofocus': 'autofocus',
     }))
     
     last_name = forms.CharField(max_length=30, required=True, widget=forms.TextInput(attrs={
@@ -49,6 +50,7 @@ class SignupForm(UserCreationForm):
             profile.first_name = self.cleaned_data['first_name']
             profile.last_name = self.cleaned_data['last_name']
             profile.birthdate = self.cleaned_data['birthdate']
+            profile.total_credits = 500
             profile.save()
 
         return user
