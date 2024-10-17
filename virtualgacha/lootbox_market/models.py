@@ -33,18 +33,6 @@ class LootboxDropTable(models.Model):
     lootbox_id = models.ForeignKey(Lootbox, on_delete=models.CASCADE)
     pet_id = models.ForeignKey(Pet, on_delete=models.CASCADE)
 
-    
-class LootboxHistory(models.Model):
-    lootbox_history_id = models.AutoField(primary_key=True)
-    lootbox_id = models.ForeignKey(Lootbox, on_delete=models.CASCADE)
-    date_opened = models.DateField(auto_now_add=True)
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    total_roll = models.IntegerField(default=1)
-    obtained_pets = models.ManyToManyField(Pet, related_name='obtained_pets')
-
-    def __str__(self):
-        return f'{self.lootbox_id} - {self.date_opened}'
-
 
 class Pull(models.Model):
     pull_id = models.AutoField(primary_key=True)
@@ -52,6 +40,12 @@ class Pull(models.Model):
     roll_info = models.IntegerField()
     lootbox_id = models.ForeignKey(Lootbox, on_delete=models.CASCADE)
     date_created = models.DateTimeField(auto_now_add=True)
+
+    def get_pulled_pets(self):
+        return PullPet.objects.filter(pull_id=self.pull_id)
+
+    def get_total_spent(self):
+        return self.roll_info * self.lootbox_id.rate_cost
 
     def __str__(self):
         return f'Pull {self.pull_id} by {self.user_id}'
