@@ -31,7 +31,9 @@
                                 <span style="font-weight:bold;font-size:1em;">{{ pet.pet_species }}</span>
                             </div>
                             <div class="{{ pet.get_rarity_display|lower }}">★</div>
-                            <img src="{{ pet.pet_image.url }}" alt="Pet Photo" class="pet-photo">
+                            <div class = "pet-photo">
+                                <img src="{{ pet.pet_image.url }}" alt="Pet Photo">
+                            </div>
                         </div>
                     {% endfor %}
                 </div>
@@ -47,13 +49,13 @@
                     </button>
 
                     <div class="pull-btn-group" role="group" aria-label="Basic radio toggle button group">
-                        <input type="radio" class="btn-check" name="options" id="option1" autocomplete="off" checked data-credit="$50.00" data-rolls="1">
+                        <input type="radio" class="btn-check" name="options" id="option1" autocomplete="off" checked data-credit="${{ lootbox.rate_cost }}" data-rolls="1">
                         <label class="btn btn-secondary" for="option1">x1</label>
-            
-                        <input type="radio" class="btn-check" name="options" id="option2" autocomplete="off" data-credit="$500.00" data-rolls="10">
+
+                        <input type="radio" class="btn-check" name="options" id="option2" autocomplete="off" data-credit="${{ lootbox.get_10_cost }}" data-rolls="10">
                         <label class="btn btn-secondary" for="option2">x10</label>
             
-                        <button type="button" id="credit-value" class="btn btn-danger" style="width: 10em;">Start $50.00</button>
+                        <button type="button" id="credit-value" class="btn btn-danger" style="width: 10em;">Start ${{ lootbox.rate_cost }}</button>
                     </div>
 
                     <!-- List Modal -->
@@ -322,6 +324,24 @@
         {% csrf_token %}
     </form>
 
+    <!-- Insufficient Credit Modal -->
+    <div class="modal fade" id="insufficientCreditModal" tabindex="-1" aria-labelledby="insufficientCreditModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="insufficientCreditModalLabel">Insufficient Credit</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    You do not have enough credit to perform this action. Please add more credit to continue.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const creditValueElement = document.getElementById('credit-value');
@@ -355,27 +375,35 @@
                 })
                 .then(response => response.json())
                 .then(data => {
-                    // Clear previous results
-                    rollResultsContainer.innerHTML = '';
+                    if (data.error) {
+                        // Show insufficient credit modal
+                        const insufficientCreditModal = new bootstrap.Modal(document.getElementById('insufficientCreditModal'));
+                        insufficientCreditModal.show();
+                    } else {
+                        // Clear previous results
+                        rollResultsContainer.innerHTML = '';
     
-                    // Append new results
-                    data.results.forEach(result => {
-                        const resultItem = document.createElement('div');
-                        resultItem.classList.add('lootbox-featured-item');
-                        resultItem.innerHTML = `
-                            <div class="pet-info">
-                                <span style="font-size:0.7em;font-weight:light;">${result.rarity}</span>
-                                <span style="font-weight:bold;font-size:1em;">${result.name}</span>
-                            </div>
-                            <div class="${result.rarity.toLowerCase()}">★</div>
-                            <img src="${result.image_url}" alt="Pet Photo" class="pet-photo">
-                        `;
-                        rollResultsContainer.appendChild(resultItem);
-                    });
+                        // Append new results
+                        data.results.forEach(result => {
+                            const resultItem = document.createElement('div');
+                            resultItem.classList.add('lootbox-featured-item');
+                            resultItem.innerHTML = `
+                                <div class="pet-info">
+                                    <span style="font-size:0.7em;font-weight:light;">${result.get_rarity_display}</span>
+                                    <span style="font-weight:bold;font-size:1em;">${result.pet_species}</span>
+                                </div>
+                                <div class="${result.get_rarity_display|lower}">★</div>
+                                <div class = "pet-photo">
+                                    <img src="${result.pet_image.url}" alt="Pet Photo">
+                                </div>
+                            `;
+                            rollResultsContainer.appendChild(resultItem);
+                        });
     
-                    // Show the modal with results
-                    const modal = new bootstrap.Modal(document.getElementById('exampleModal'));
-                    modal.show();
+                        // Show the modal with results
+                        const modal = new bootstrap.Modal(document.getElementById('exampleModal'));
+                        modal.show();
+                    }
                 })
                 .catch(error => {
                     console.error('Error:', error);
