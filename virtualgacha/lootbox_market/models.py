@@ -24,6 +24,9 @@ class Lootbox(models.Model):
         choices=TaggedRelevance.choices,
         default=TaggedRelevance.RECENT,
     )
+    
+    def get_10_cost(self):
+        return self.rate_cost * 10
 
     def __str__(self):
         return self.lootbox_name
