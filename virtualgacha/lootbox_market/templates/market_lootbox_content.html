@@ -16,46 +16,66 @@
 {% block content %}
 
     <div class="searchbar">
-        <input class="search_input" type="text" name="" placeholder="Search...">
-        <a href="#" class="search_icon"><i class="fas fa-search"></i></a>
-    </div>
-        
-
-
-    <div class="featured-container">
-        {% for item in featured_items %}
-            <div class="featured-item">
-                <h2>{{ item.lootbox_id }}</h2>
-                <p>{{ item.lootbox_name }}</p>
-            </div>
-        {% endfor %}
+        <form method="GET" action="{% url 'lootboxes' %}">
+            <input class="search_input" type="text" name="q" placeholder="Search..." value="{{ request.GET.q }}">
+            {% comment %} <button type="submit" class="search_icon"><i class="fa fa-search"></i></button> {% endcomment %}
+        </form>
     </div>
 
-    <div class = "headings-content-lootbox-content">
-        <h3>Popular</h3>
-    </div>
-
-    <div class="popular-container">
-        {% for item in popular_items %}
-        <a href="{% url 'lootbox_detail' item.lootbox_id %}" class="lootbox-market-item-link">
-            <div class="lootbox-market-item">
-                <h2>{{ item.lootbox_id }}</h2>
-                <p>{{ item.lootbox_name }}</p>
-            </div>
+    {% if query %}
+        <div class="search-results-container">
+            {% if search_results %}
+                {% for item in search_results %}
+                    <div class="search-market-item">
+                        <h2>{{ item.lootbox_id }}</h2>
+                        <p>{{ item.lootbox_name }}</p>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <h3 style="color:#FDFDFD">No results found.</h3>
+            {% endif %}
+        </div>
+    {% else %}
+        <div class="featured-container">
+            {% for item in featured_items %}
+            <a href="{% url 'lootbox_detail' item.lootbox_id %}" class="lootbox-market-item-link">
+                <div class="featured-item">
+                    <h2>{{ item.lootbox_id }}</h2>
+                    <p>{{ item.lootbox_name }}</p>
+                </div>
             </a>
-        {% endfor %}
-    </div>
+            {% endfor %}
+        </div>
 
-    <div class = "headings-content-lootbox-content">
-        <h3>Recent</h3>
-    </div>
+        <div class="headings-content-lootbox-content">
+            <h3>Popular</h3>
+        </div>
 
-    <div class="recent-container">
-        {% for item in recent_items %}
-            <div class="lootbox-market-item">
-                <h2>{{ item.lootbox_id }}</h2>
-                <p>{{ item.lootbox_name }}</p>
-            </div>
-        {% endfor %}
-    </div>
+        <div class="popular-container">
+            {% for item in popular_items %}
+                <a href="{% url 'lootbox_detail' item.lootbox_id %}" class="lootbox-market-item-link">
+                    <div class="lootbox-market-item">
+                        <h2>{{ item.lootbox_id }}</h2>
+                        <p>{{ item.lootbox_name }}</p>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+
+        <div class="headings-content-lootbox-content">
+            <h3>Recent</h3>
+        </div>
+
+        <div class="recent-container">
+            {% for item in recent_items %}
+            <a href="{% url 'lootbox_detail' item.lootbox_id %}" class="lootbox-market-item-link">
+                <div class="lootbox-market-item">
+                    <h2>{{ item.lootbox_id }}</h2>
+                    <p>{{ item.lootbox_name }}</p>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    {% endif %}
+
 {% endblock %}

@@ -75,3 +75,20 @@
     border-radius: 10px; /* Add rounded corners */
 }
 
+.search-results-container{
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+    margin-top: 2em;
+    flex-wrap: wrap;
+    width: 100%;
+    height: 100%;
+}
+
+.search-market-item {
+    background-color: #CCCCCC;
+    min-width: 20em; /* Ensure items have enough width to cause overflow */
+    height: 30em;
+    flex-shrink: 0; /* Prevent items from shrinking */
+    border-radius: 10px; /* Add rounded corners */
+}
