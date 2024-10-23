@@ -1,0 +1,244 @@
+.adventure-content {
+    display: flex;
+    height: 40dvh;
+    justify-content: center;
+    align-items: center;
+    gap: 3em;
+}
+
+.adventure-visual {
+    width: 35dvh;
+    height: 35dvh;
+    background-image: url("/static/adventure_platform.png");
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.adventure-visual  > img{
+    width: 15dvh;
+    height: 15dvh;
+}
+
+.adventure-info {
+    background-color: #07092E;
+    width: 40%;
+    height: 35dvh;
+    border-radius: 20px;
+    display: grid;
+
+    grid-template-areas: 
+        "pet pet"
+        "rate earned"
+        "a-start a-end"
+        "a-button a-button";
+
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 0.5fr 1fr 1fr 0.5fr;
+
+    gap: 0.5em;
+
+    padding: 1em;
+}
+
+.adventure-pet {
+    grid-area: pet;
+    display: flex;
+    align-items: center;
+    gap: 1em;
+}   
+
+.adventure-rate {
+    grid-area: rate;
+    display: flex;
+    flex-direction: column;
+
+    justify-content: end;
+
+    background-color: #1A1D45;
+    border-radius: 20px;
+    padding: 1em;
+}
+
+.adventure-earned {
+    grid-area: earned;
+    display: flex;
+    flex-direction: column;
+
+    justify-content: end;
+
+    background-color: #1A1D45;
+    border-radius: 20px;
+    padding: 1em;
+}
+
+.adventure-start {
+    grid-area: a-start;
+    display: flex;
+    flex-direction: column;
+
+    justify-content: end;
+
+    background-color: #1A1D45;
+    border-radius: 20px;
+    padding: 1em;
+}
+
+.adventure-end {
+    grid-area: a-end;
+    display: flex;
+    flex-direction: column;
+
+    justify-content: end;
+
+    background-color: #1A1D45;
+
+    border-radius: 20px;
+    padding: 1em;
+}
+
+.adventure-interact {
+    grid-area: a-button;
+    width: 100%;
+
+    border-radius: 20px;
+}
+
+
+.adventure-lower-container{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 60dvh;
+    gap: 1em;
+    
+}
+
+.adventure-global-info{
+    padding: 0.3em;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    height: 6dvh;
+    background-color: #07092E;
+    border-radius: 10px;
+    color: #fdfdfd;
+}
+
+.adventure-moreinfo-item{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+}
+
+.adventure-moreinfo{
+    justify-content: space-evenly;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 8dvw;
+    height: 100%;
+    gap: 0.5em;
+    background-color: #1A1D45;
+    border-radius: 10px;
+    margin-right: 1em;
+    
+}
+
+.adventure-moreinfo-title{
+    margin-right: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-left: 1em;
+    gap: 0.5em;
+}
+
+.adventure-history-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    /* background-color: blue; */
+    border-radius: 10px;
+    color: #FDFDFDFD;
+    padding: 1em;
+    overflow-y: auto; /* Enable vertical scrolling */
+}
+
+.adventure-history-item{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    height: 8dvh;
+    border-radius: 10px;
+    border-style: solid;
+    border-width: 0.1rem;
+    margin-bottom: 0.5em;
+    border-color: #FDFDFDFD;
+    padding: 1.5rem;
+    gap: 5em;
+}
+
+.adventure-history-pet-name{
+    color: #FDFDFDFD;
+}
+
+.adventure-history-pet-item{
+    width: 4.5dvh;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+
+}
+
+.adventure-history-pet-item > img{
+    height: 4.5dvh;
+    width: 4.5dvh;
+
+
+}
+
+
+.mythical{
+    
+    color: #1896C8;
+}
+
+.legendary{
+    color: #E20B80;
+}
+
+.rare{
+    color: #F6D00C;
+}
+
+.pagination > .page-item > .page-link {
+    background-color: #1A1D45;
+    color: #FDFDFDFD;
+    border: 1px solid #1a1a1a;
+}
+
+.adventure-history-pet-date{
+    width: 100%;
+    color: #CCCCCC;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.adventure-history-pet-rate{
+    width: 10dvw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
