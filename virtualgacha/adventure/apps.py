@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class LootboxConfig(AppConfig):
+class AdventureConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'lootbox'
+    name = 'adventure'

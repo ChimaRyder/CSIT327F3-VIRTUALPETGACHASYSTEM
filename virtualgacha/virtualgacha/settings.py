@@ -37,11 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'lootbox',
     'base_template',
     'lootbox_market',
     'login_register',
-    'inventory'
+    'inventory',
+    'adventure'
 ]
 
 MIDDLEWARE = [
