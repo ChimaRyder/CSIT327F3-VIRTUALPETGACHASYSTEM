@@ -315,7 +315,7 @@
                         {% endfor %}
                     </div>
                 </div>
-                    {% endfor %}
+                {% endfor %}
             </div>
         </div>
     </div>
@@ -389,12 +389,12 @@
                             resultItem.classList.add('lootbox-featured-item');
                             resultItem.innerHTML = `
                                 <div class="pet-info">
-                                    <span style="font-size:0.7em;font-weight:light;">${result.get_rarity_display}</span>
-                                    <span style="font-weight:bold;font-size:1em;">${result.pet_species}</span>
+                                    <span style="font-size:0.7em;font-weight:light;">${result.rarity}</span>
+                                    <span style="font-weight:bold;font-size:1em;">${result.name}</span>
                                 </div>
-                                <div class="${result.get_rarity_display|lower}">★</div>
+                                <div class="${result.rarity.toLowerCase()}">★</div>
                                 <div class = "pet-photo">
-                                    <img src="${result.pet_image.url}" alt="Pet Photo">
+                                    <img src="${result.image_url}" alt="Pet Photo">
                                 </div>
                             `;
                             rollResultsContainer.appendChild(resultItem);

@@ -106,7 +106,7 @@ def roll_lootbox(request, lootbox_id):
     cost_per_roll = lootbox.rate_cost  # Example cost per roll
     total_cost = rolls * cost_per_roll
 
-    print(f"totla credoits: {user_credit.total_credits}")
+    print(f"total credits: {user_credit.total_credits}")
 
     if user_credit.total_credits < total_cost:
         return JsonResponse({'error': 'Insufficient credit'}, status=400)
