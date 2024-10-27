@@ -221,18 +221,8 @@
     border-radius: 50%;
 }
 
-.mythical{
-    
-    color: #1896C8;
-}
 
-.legendary{
-    color: #E20B80;
-}
 
-.rare{
-    color: #F6D00C;
-}
 
 .pagination > .page-item > .page-link {
     background-color: #1A1D45;
@@ -252,4 +242,18 @@
     gap: 1em;
     flex-wrap: wrap;
     justify-content: space-evenly;
+}
+
+.table {
+    background-color: #07092E;
+}
+
+.table > thead > tr > th {
+    color: #FDFDFDFD;
+    background-color: #07092E;
+}
+
+.table > tbody > tr > td {
+    color: #FDFDFDFD;
+    background-color: #07092E;
 }

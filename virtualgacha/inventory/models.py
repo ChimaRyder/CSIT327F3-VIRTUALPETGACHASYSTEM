@@ -12,11 +12,18 @@ class Pet(models.Model):
         MYTHICAL = 3, 'Mythical'
         LEGENDARY = 4, 'Legendary'
 
+    pet_rate = models.FloatField(null=True, blank=True)
     pet_species = models.CharField(max_length=50)
     rarity = models.IntegerField(choices=Rarity.choices)
-    is_busy = models.BooleanField(default=False)
     pet_image = models.ImageField(upload_to='pets/', null=True, blank=True)
+    
 
 class Inventory(models.Model):
+    class BusyValue(models.IntegerChoices):
+        NOT_BUSY = 0, 'Not Busy'
+        BUSY = 1, 'Busy'
+        ON_MARKET = 2, 'On Market'
+
     pet_id = models.ForeignKey(Pet, on_delete=models.CASCADE, default=None, null=True, blank=True)
     owner_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    is_busy = models.IntegerField(choices=BusyValue.choices)

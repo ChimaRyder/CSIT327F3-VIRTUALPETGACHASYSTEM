@@ -72,3 +72,25 @@ html, body {
   .sidebar-list > .nav-item > .active {
     background-color: #303577;
   }
+
+/* RARITY COLORS */
+
+.mythical{
+  color: #1896C8;
+}
+
+.legendary{
+  color: #E20B80;
+}
+
+.rare{
+  color: #F6D00C;
+}
+
+.common{
+  color: white;
+}
+
+.uncommon{
+  color: brown;
+}

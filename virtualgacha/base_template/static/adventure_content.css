@@ -1,3 +1,7 @@
+.modal-body {
+    color: #1A1A1A
+}
+
 .adventure-content {
     display: flex;
     height: 40dvh;
@@ -241,4 +245,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.modal-content{
+    background-color: #1A1D45;
+
+}
+
+.form-select{
+    background-color: #1A1D45;
+    color: #FDFDFDFD;
 }
