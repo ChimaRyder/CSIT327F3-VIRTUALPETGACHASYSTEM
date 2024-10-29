@@ -94,9 +94,9 @@ def start_adventure(request):
 
         print(inventory_id)
 
-        match = re.search(r'\((\d+)\)', inventory_id)
+        # match = re.search(r'\((\d+)\)', inventory_id)
 
-        inventory_item = Inventory.objects.get(id=match.group(1))
+        inventory_item = Inventory.objects.get(id=inventory_id)
 
 
         pet = inventory_item.pet_id

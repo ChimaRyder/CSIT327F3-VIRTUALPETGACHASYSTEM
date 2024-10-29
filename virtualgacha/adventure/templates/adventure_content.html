@@ -178,7 +178,7 @@
                                 <select class="form-select" id="inventory_id" name="inventory_id" required>
                                     <option value="" disabled selected>Select a pet</option>
                                     {% for inventory in user_inventory %}
-                                    <option value="{{ inventory }}" data-pet-id="{{inventory.pet_id}}" data-rate="{{ inventory.pet_id.pet_rate }}" data-image-url="{{ inventory.pet_id.pet_image.url }}">
+                                    <option value="{{ inventory.id }}" data-pet-id="{{inventory.pet_id}}" data-rate="{{ inventory.pet_id.pet_rate }}" data-image-url="{{ inventory.pet_id.pet_image.url }}">
                                         {{ inventory.pet_id.pet_species }}
                                     </option>
                                     {% endfor %}
