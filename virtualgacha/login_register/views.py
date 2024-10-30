@@ -2,10 +2,12 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from .forms import SignupForm, LoginForm
-
+from chat.models import ChatRoom
 
 # Create your views here.
 def landingpage_view(request):
+    ChatRoom.objects.get_or_create(type='global', name='Global Chat')
+
     if request.user.is_authenticated:
         return redirect('lootboxes')
     return render(request, 'landing_page.html')

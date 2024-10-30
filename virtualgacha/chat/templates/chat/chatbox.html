@@ -1,0 +1,123 @@
+{% load static %}
+
+<html>
+  <head>
+    <title> Chatbox </title>
+  </head>
+
+  <body>
+    <div class="d-flex flex-column flex-shrink-0 chat-sidebar">
+      <!-- Chatbox Header -->
+      <div id="chatbox-header">
+        <div class="chat-logo">
+          <svg fill="#FFFFFF" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 48 48" width="30px" height="30px"><path d="M 24 4 C 12.972066 4 4 12.972074 4 24 C 4 35.027926 12.972066 44 24 44 C 35.027934 44 44 35.027926 44 24 C 44 12.972074 35.027934 4 24 4 z M 24 7 C 24.732512 7 25.47638 7.3049138 26.292969 8.0566406 C 27.109557 8.8083674 27.937809 10.00251 28.646484 11.544922 C 29.21649 12.785523 29.636897 14.376262 30.021484 16 L 17.978516 16 C 18.363103 14.376262 18.78351 12.785523 19.353516 11.544922 C 20.062191 10.00251 20.890443 8.8083674 21.707031 8.0566406 C 22.52362 7.3049138 23.267488 7 24 7 z M 17.777344 8.1875 C 17.36377 8.8373605 16.976184 9.5328778 16.626953 10.292969 C 15.865942 11.949289 15.294931 13.909818 14.851562 16 L 8.9960938 16 C 10.887432 12.451925 14.000349 9.6704643 17.777344 8.1875 z M 30.222656 8.1875 C 33.999651 9.6704643 37.112568 12.451925 39.003906 16 L 33.148438 16 C 32.705069 13.909818 32.134058 11.949289 31.373047 10.292969 C 31.023816 9.5328778 30.63623 8.8373605 30.222656 8.1875 z M 7.7480469 19 L 14.460938 19 C 14.25543 20.632226 14 22.231849 14 24 C 14 25.768151 14.255429 27.367774 14.460938 29 L 7.7480469 29 C 7.2643289 27.419675 7 25.741249 7 24 C 7 22.258751 7.2643289 20.580325 7.7480469 19 z M 17.466797 19 L 30.533203 19 C 30.75622 20.613412 31 22.220624 31 24 C 31 25.779376 30.75622 27.386588 30.533203 29 L 17.466797 29 C 17.24378 27.386588 17 25.779376 17 24 C 17 22.220624 17.24378 20.613412 17.466797 19 z M 33.539062 19 L 40.251953 19 C 40.735671 20.580325 41 22.258751 41 24 C 41 25.741249 40.735671 27.419675 40.251953 29 L 33.539062 29 C 33.744571 27.367774 34 25.768151 34 24 C 34 22.231849 33.744571 20.632226 33.539062 19 z M 8.9960938 32 L 14.851562 32 C 15.294932 34.090182 15.865942 36.050711 16.626953 37.707031 C 16.976184 38.467122 17.36377 39.16264 17.777344 39.8125 C 14.000349 38.329536 10.887432 35.548075 8.9960938 32 z M 17.978516 32 L 30.021484 32 C 29.636897 33.623738 29.21649 35.214477 28.646484 36.455078 C 27.937809 37.99749 27.109557 39.191633 26.292969 39.943359 C 25.47638 40.695086 24.732512 41 24 41 C 23.267488 41 22.52362 40.695086 21.707031 39.943359 C 20.890443 39.191633 20.062191 37.99749 19.353516 36.455078 C 18.78351 35.214477 18.363103 33.623738 17.978516 32 z M 33.148438 32 L 39.003906 32 C 37.112568 35.548075 33.999651 38.329536 30.222656 39.8125 C 30.63623 39.16264 31.023816 38.467122 31.373047 37.707031 C 32.134058 36.050711 32.705069 34.090182 33.148438 32 z"/></svg>
+        </div>
+
+        <div class="chat-name"> Global Chat </div>
+
+        <div class="chat-options">
+          <svg fill="#FFFFFF" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 30 30" width="23px" height="23px">    <path d="M 4 11 C 1.791 11 0 12.791 0 15 C 0 17.209 1.791 19 4 19 C 6.209 19 8 17.209 8 15 C 8 12.791 6.209 11 4 11 z M 15 11 C 12.791 11 11 12.791 11 15 C 11 17.209 12.791 19 15 19 C 17.209 19 19 17.209 19 15 C 19 12.791 17.209 11 15 11 z M 26 11 C 23.791 11 22 12.791 22 15 C 22 17.209 23.791 19 26 19 C 28.209 19 30 17.209 30 15 C 30 12.791 28.209 11 26 11 z"/></svg>
+        </div>
+      </div>
+
+      <!-- Chat messages container -->
+      <div class="chat-box" id="chat-box">
+        <div class="chat-messages" id="messages">
+          
+        </div>
+      </div>
+      
+      <!-- Chatbox Input Part -->
+      <div class="chat-input mt-1">
+        <form id="form">
+          <input type="text" name="message" class="form-control" id="msgInput" placeholder="Enter your message">
+          <button> SEND </button>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      let url = `ws://${window.location.host}/ws/socket-server/`;
+      const chatSocket = new WebSocket(url);
+  
+      document.addEventListener('DOMContentLoaded', function() {
+        fetch('/chat/api/messages/global/')
+        .then(response => response.json())
+        .then(data => {
+            const messages = document.getElementById('messages');
+            data.forEach(message => {
+              let initial = message.sender.charAt(0).toUpperCase();
+              messages.insertAdjacentHTML('beforeend',
+                `<div class="chatmsg">
+                  <div class="sender-profile">
+                    ${initial}
+                  </div>
+
+                  <div class="sender-message">
+                    <div class="message-sender">
+                      ${message.sender} | ${message.timestamp}
+                    </div>
+
+                    <div class="message-content">
+                      ${message.content}
+                    </div>
+                  </div>
+                </div>`);
+            });
+
+            function scrollToBottom() {
+              document.getElementById('chat-box').scrollTop = document.getElementById('chat-box').scrollHeight;
+            }
+            scrollToBottom();
+        })
+        .catch(error => {
+          console.error('Error fetching messages:', error);
+        });
+      });
+
+      chatSocket.onmessage = function(e) {
+        let data = JSON.parse(e.data);
+        let initial = data.sender.charAt(0).toUpperCase();
+        let formattedTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+        let messages = document.getElementById('messages');
+        messages.insertAdjacentHTML('beforeend',
+            `<div class="chatmsg">
+                <div class="sender-profile">
+                    ${initial}
+                </div>
+
+                <div class="sender-message">
+                    <div class="message-sender">
+                        ${data.sender} | ${formattedTime}
+                    </div>
+
+                    <div class="message-content">
+                        ${data.message}
+                    </div>
+                </div>
+            </div>`);
+
+        function scrollToBottom() {
+            document.getElementById('chat-box').scrollTop = document.getElementById('chat-box').scrollHeight;
+        }
+        scrollToBottom();
+      };
+  
+      let form = document.getElementById('form');
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        let message = e.target.message.value;
+        if (message.trim()) {
+          chatSocket.send(JSON.stringify({
+            'message': message,
+            'sender': '{{ user.username }}',  // Include the sender's username
+            'timestamp': new Date().toISOString()
+          }));
+          form.reset();
+        }
+      });
+    </script>
+
+  </body>
+</html>

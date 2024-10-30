@@ -118,25 +118,10 @@
         <!-- Main content goes here -->
           {% block content %}
           {% endblock %}
-      </div>
+      </div>                
 
       <!-- Right sidebar for chat box -->
-      <div class="d-flex flex-column flex-shrink-0 p-3 chat-sidebar">
-        <div class="chat-box">
-          <!-- Chat messages container -->
-          <div class="chat-messages" id="chatMessages">
-            <!-- Chat messages will go here -->
-            <div class="message">Hello!</div>
-            <div class="message">Hi, how are you?</div>
-            <div class="message">I'm good, thanks!</div>
-            <!-- Add more messages as needed -->
-          </div>
-          <!-- Chat input field -->
-          <div class="chat-input mt-3">
-            <input type="text" class="form-control" placeholder="Type a message...">
-          </div>
-        </div>
-      </div>
+      {% include "chat/chatbox.html" %}
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>

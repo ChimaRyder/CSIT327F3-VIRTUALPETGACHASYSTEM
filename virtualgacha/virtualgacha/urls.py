@@ -31,6 +31,7 @@ urlpatterns = [
     path('lootbox/', include('lootbox_market.urls')),
     path('my_pets/', include('inventory.urls')),
     path('adventure/', include('adventure.urls')),
+    path('chat/', include('chat.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

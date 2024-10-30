@@ -41,8 +41,18 @@ INSTALLED_APPS = [
     'lootbox_market',
     'login_register',
     'inventory',
-    'adventure'
+    'adventure',
+    'channels',
+    'chat',
 ]
+
+ASGI_APPLICATION = 'virtualgacha.asgi.application'
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer'
+    }
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
