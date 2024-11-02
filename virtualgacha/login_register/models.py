@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from inventory.models import Inventory
 
 # Create your models here.
 class Profile(models.Model):
@@ -11,6 +12,7 @@ class Profile(models.Model):
     avatar = models.CharField(max_length=100, default='avatar1.png')
     following = models.PositiveIntegerField(default=0)
     followers = models.PositiveIntegerField(default=0)
+    showcased_pets = models.ForeignKey(Inventory, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         return self.user.username

@@ -1,0 +1,5 @@
+<div class="showcased-pet">
+    <img src="{{ pet.pet_image.url }}" alt="{{ pet.pet_species }}" class="pet-image">
+    <h4>{{ pet.pet_species }}</h4>
+    <p>Rarity: {{ pet.get_rarity_display }}</p>
+</div>

@@ -1,9 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from login_register.models import Profile
 from inventory.models import Inventory, Pet
 from django.contrib import messages
-from django.http import HttpResponseForbidden
+from django.http import HttpResponseForbidden, JsonResponse
 
 # Create your views here.
 @login_required
@@ -56,3 +56,22 @@ def edit_profile(request):
         return redirect('profile')
 
     return HttpResponseForbidden("Invalid request")
+
+def delete_account(request):
+    user = request.user
+    user.delete()
+    return redirect('landingpage')
+
+def showcase_pet(request):
+    return redirect('profile')
+
+def update_showcase(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        inventory_id = data.get('inventory_id')
+        inventory_item = get_object_or_404(Inventory, id=inventory_id, owner_id=request.user)
+        profile = request.user.profile
+        profile.showcased_pet = inventory_item
+        profile.save()
+        showcase_html = render_to_string('templates/showcased_pet.html', {'pet': inventory_item.pet_id})
+        return JsonResponse({'success': True, 'showcase_html': showcase_html})
