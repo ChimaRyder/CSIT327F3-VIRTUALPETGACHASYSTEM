@@ -2,11 +2,14 @@ from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Reward, UserReward
+from login_register.models import Profile
+from inventory.models import Pet, Inventory
 from datetime import date, timedelta
 import calendar
 
 @login_required
 def daily_rewards(request):
+    profile = Profile.objects.filter(user=request.user).first()
     today = date.today()
     rewards = Reward.objects.filter(date__year=today.year, date__month=today.month)
     user_rewards = UserReward.objects.filter(user=request.user, reward__in=rewards)
@@ -51,6 +54,7 @@ def daily_rewards(request):
         'total_claims': total_claims,
         'claimed_today': claimed_today,
         'claim_status': claim_status,
+        'profile' : profile
     }
     return render(request, 'daily_rewards_content.html', context)
 
@@ -73,7 +77,10 @@ def claim_reward(request):
         streak += 1  # Include today's claim
 
         earned_credits = reward.credit_reward + streak  # Example: base reward credits + streak bonus
-        request.session['earned_credits'] = earned_credits
+        profile = Profile.objects.get(user=request.user)
+        profile.total_credits += earned_credits
+        profile.save()
+
         response_data = {'earned_credits': earned_credits}
         if reward.pet_reward:
             response_data['pet_reward'] = {
@@ -81,6 +88,9 @@ def claim_reward(request):
                 'rarity': reward.pet_reward.get_rarity_display(),
                 'image_url': reward.pet_reward.pet_image.url
             }
+            # Add the pet to the user's inventory
+            Inventory.objects.create(owner_id=request.user, pet_id=reward.pet_reward, is_busy=Inventory.BusyValue.NOT_BUSY)
+
         return JsonResponse(response_data)
     else:
         return JsonResponse({'error': 'Reward already claimed'}, status=400)

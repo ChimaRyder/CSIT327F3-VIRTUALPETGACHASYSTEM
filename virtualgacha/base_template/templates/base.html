@@ -78,7 +78,10 @@
     <div class="d-flex main-content">
       <!-- Left sidebar -->
       <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-body-tertiary sidebar">
-        <div style="width: 100%; height: 15vw; background-color: red"></div>
+        <a class="rewards-link" href={% url 'daily_rewards' %}>
+          <i class="bi bi-gift-fill"></i>
+          <span class="rewards-text">DAILY REWARDS</span>
+        </a>
         <hr>
         <ul class="nav nav-pills flex-column mb-auto sidebar-list">
           <li class="nav-item">
