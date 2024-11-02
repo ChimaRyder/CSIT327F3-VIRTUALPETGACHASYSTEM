@@ -8,6 +8,9 @@ class Profile(models.Model):
     last_name = models.CharField(max_length=50)
     birthdate = models.DateField(null=True, blank=True)
     total_credits = models.IntegerField(default=500)
+    avatar = models.CharField(max_length=100, default='avatar1.png')
+    following = models.PositiveIntegerField(default=0)
+    followers = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return self.user.username

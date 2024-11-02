@@ -13,6 +13,15 @@ html, body {
   height: calc(100vh - 56px); /* Adjust 56px if your navbar height is different */
 }
 
+.nav-bar {
+  background-color: white;
+}
+
+.navbar .nav-item {
+  align-self: center;
+  margin: 0px 10px;
+}
+
 .sidebar {
   width: 280px;
   height: 100%;

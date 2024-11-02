@@ -1,0 +1,134 @@
+.profile-header {
+    display: flex;
+    align-items: center;
+    background-color: #07092E;
+    border-radius: 15px;
+    padding: 30px;
+}
+
+.profile-img img {
+    width: 120px;
+    margin-right: 20px;
+}
+
+.profile-username {
+    font-size: 32px;
+    font-weight: bold;
+    margin: 0px;
+}
+
+.profile-rank {
+    padding: 5px 0px;
+}
+
+.profile-ff {
+    padding: 5px 0px;
+}
+
+.profile-btn {
+    background-color: #1A1D45;
+    border-radius: 15px;
+    padding: 10px 15px;
+    margin: 20px;
+    justify-content: flex-end;
+    max-height: 60px;
+}
+
+.profile-header .profile-btn:not(:last-child) {
+    margin-left: auto;
+}
+
+.profile-btn form {
+    margin: 0px;
+}
+
+.profile-btn form button {
+    background-color: transparent;
+    border-style: none;
+    align-self: center;
+}
+
+#editprofile {
+    color: black;
+}
+
+.edit-profile-modal {
+    background-color: #07092E;
+    max-height: 500px;
+}
+
+/*
+    TOTAL PETS
+*/
+
+.total-pets {
+    margin: 20px 0px;
+    font-weight: bold;
+}
+
+.total-pets-header {
+    max-height: 30px;
+    margin: 5px;
+}
+
+.total-pets div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pets-rarity {
+    display: flex;
+    margin-left: auto;
+}
+
+.pets-rarity div svg {
+    margin: 0px 10px;
+}
+
+.pets-ctr {
+    font-size: 32px;
+}
+
+.pets-bar {
+    display: flex;
+    background-color: #1c1c34;
+    height: 15px;
+    border-radius: 20px;
+    overflow: hidden;
+    margin: 10px 0px;
+}
+
+.pets-bar div {
+    margin: 0px;
+    height: 20px;
+}
+
+/*
+    PET SHOWCASE
+*/
+
+.pet-showcase {
+    margin: 30px 0px;
+}
+
+.pet-showcase-header {
+    display: flex;
+    align-items: center;
+    padding: 15px 10px;
+    border-radius: 15px;
+    background-color: #07092E;
+}
+
+.pet-showcase-header .psh:not(:last-child) {
+    margin: 0px 10px;
+}
+
+.pet-showcase-header .psh:last-child {
+    margin-left: auto;
+}
+
+.modal-content{
+    background-color: #1A1D45;
+
+}

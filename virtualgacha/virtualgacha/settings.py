@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'adventure',
     'channels',
     'chat',
+    'user_profile'
 ]
 
 ASGI_APPLICATION = 'virtualgacha.asgi.application'
@@ -139,7 +140,7 @@ STATIC_URL = 'static/'
 #     BASE_DIR / "lootbox_market/templates/static/",
 # ]
 
-MEDIA_URL = 'media/'
+MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 

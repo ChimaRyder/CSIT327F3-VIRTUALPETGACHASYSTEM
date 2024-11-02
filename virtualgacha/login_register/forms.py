@@ -2,6 +2,14 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .models import Profile
+import random
+
+AVATAR_CHOICES = [
+    'avatar1.png',
+    'avatar2.png',
+    'avatar3.png',
+    'avatar4.png',
+]
 
 class SignupForm(UserCreationForm):
     first_name = forms.CharField(max_length=30, required=True, widget=forms.TextInput(attrs={
@@ -51,6 +59,7 @@ class SignupForm(UserCreationForm):
             profile.last_name = self.cleaned_data['last_name']
             profile.birthdate = self.cleaned_data['birthdate']
             profile.total_credits = 500
+            profile.avatar = random.choice(AVATAR_CHOICES)
             profile.save()
 
         return user
