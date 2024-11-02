@@ -32,6 +32,7 @@ urlpatterns = [
     path('my_pets/', include('inventory.urls')),
     path('adventure/', include('adventure.urls')),
     path('chat/', include('chat.urls')),
+    path('profile/', include('user_profile.urls')),
     path('daily/', include('daily_rewards.urls')),
 ]
 

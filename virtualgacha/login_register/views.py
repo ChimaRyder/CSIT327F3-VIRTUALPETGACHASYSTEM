@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
+from .models import Profile
 from django.contrib.auth import authenticate, login
 from .forms import SignupForm, LoginForm
 from chat.models import ChatRoom
@@ -21,7 +22,6 @@ def signup_view(request):
 
         if form.is_valid():
             user = form.save()
-            #Profile.objects.get_or_create(user=user)
             return redirect('login')
         else:
             print(form.errors)
