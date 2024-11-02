@@ -32,6 +32,7 @@ urlpatterns = [
     path('my_pets/', include('inventory.urls')),
     path('adventure/', include('adventure.urls')),
     path('chat/', include('chat.urls')),
+    path('daily/', include('daily_rewards.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

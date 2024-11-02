@@ -1,0 +1,262 @@
+.modal-body {
+    color: #1A1A1A
+}
+
+.daily-content {
+    display: flex;
+    height: 40dvh;
+    justify-content: center;
+    align-items: center;
+    gap: 3em;
+}
+
+.daily-visual {
+    width: 35dvh;
+    height: 35dvh;
+    background-size: cover;
+    background-position: center;
+    display: grid;
+
+    grid-template-areas: 
+        "date date date"
+        "day featured featured"
+        "empty featured featured";
+
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 0.5fr 1fr 1fr;
+
+    justify-content: center;
+    align-items: center;
+    /* background-color: #1896C8; */
+}
+
+.daily-date{
+    grid-area: date;
+}
+
+.daily-day{
+    grid-area: day;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+}
+
+.daily-featured{
+    grid-area: featured;
+
+    background-position: center;
+    background-size:cover;
+    width: 20dvh;
+    height: 20dvh;
+}
+
+.daily-info {
+    background-color: #07092E;
+    width: 40%;
+    height: 25dvh;
+    border-radius: 20px;
+    display: grid;
+
+    grid-template-areas: 
+        "title title"
+        "total-claims claim-streak"
+        "a-button a-button";
+
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 0.5fr 1fr 0.5fr;
+
+    gap: 0.5em;
+
+    padding: 1em;
+}
+
+.daily-title {
+    grid-area: title;
+    display: flex;
+    align-items: center;
+    gap: 1em;
+}   
+
+.daily-total-claims {
+    grid-area: total-claims;
+    display: flex;
+    flex-direction: column;
+
+    justify-content: end;
+
+    background-color: #1A1D45;
+    border-radius: 20px;
+    padding: 1em;
+}
+
+.daily-claim-streak {
+    grid-area: claim-streak;
+    display: flex;
+    flex-direction: column;
+
+    justify-content: end;
+
+    background-color: #1A1D45;
+    border-radius: 20px;
+    padding: 1em;
+}
+
+
+.daily-interact {
+    grid-area: a-button;
+    width: 100%;
+
+    border-radius: 20px;
+}
+
+
+.daily-lower-container{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 60dvh;
+    gap: 1em;
+    
+}
+
+.daily-global-info{
+    padding: 0.3em;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    height: 6dvh;
+    background-color: #07092E;
+    border-radius: 10px;
+    color: #fdfdfd;
+}
+
+.daily-moreinfo-title{
+    margin-right: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-left: 1em;
+    gap: 0.5em;
+}
+
+.daily-additional-details{
+    /* background-color: #fdfdfd; */
+    width: 100%;
+    height: 3dvh;
+
+    display: flex;
+    gap: 1em;
+}
+
+.daily-claim-history{
+    width: 100%;
+    height: auto;
+    color: #fdfdfd;
+    padding: 1em;
+    
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5em;
+
+}
+
+.daily-claim-item{
+    width: 8dvh;
+    height: 8dvh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 15px;
+    font-size: larger;
+}
+
+.daily-details-info{
+    display: flex;
+    gap: 0.5em;
+}
+
+.daily-details-text{
+    font-weight: bolder;
+}
+
+.claimed{
+    background-color: #33E33F;
+    color: #1A1A1A;
+    font-weight: bolder;
+}
+
+.missed{
+    background-color: #BE5456;
+    color: #1A1A1A;
+    font-weight: bolder;
+}
+
+.future{
+    background-color: #A9A9A9;
+    color: #1A1A1A;
+    font-weight: bolder;
+}
+
+.modal-content{
+    background-color: #1A1D45;
+}
+
+.form-select{
+    background-color: #1A1D45;
+    color: #FDFDFDFD;
+}
+
+#earnedCredits{
+    font-weight: bolder;
+}
+
+.credit-rewards-container{
+    display: flex;
+    gap: 1em;
+
+    justify-content: center;
+    align-items: center;
+}
+
+.credit-rewards-item{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    padding: 1em;
+    justify-content: center;
+    align-items: center;
+
+    height: 15em;
+    width: 10em;
+
+    border-radius: 15px;
+
+    border-color: #fdfdfd;
+    border-style: solid;
+    border-width: 1px;
+}
+
+.credit-rewards-text{
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+    align-items: center;
+}
+
+.credit-rewards-icon{
+    width: 5em;
+    height: 5em;  
+
+    font-size: xx-large;
+    font-weight: bolder;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

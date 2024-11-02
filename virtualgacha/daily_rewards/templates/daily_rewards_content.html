@@ -1,0 +1,186 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'daily_rewards_content.css' %}"/>
+{% endblock %}
+
+{% block title %}
+    Daily Rewards
+{% endblock %}
+
+{% block content %}  
+    <div class="daily-container">
+        <div class="daily-content">
+            <div class="daily-visual">
+                <div class="daily-date">
+                    <span style="font-size: 3em; font-weight: bold;">{{ today|date:"F Y" }}</span>
+                </div>
+                <div class="daily-day">
+                    <span style="font-size: 6em; font-weight: bold;">{{ today|date:"d" }}</span>
+                </div>
+                <div class="daily-featured" style="background-image: url('/media/pets/AEVITUU.png');">
+                </div>
+            </div>
+        
+            <div class="daily-info">
+                <div class="daily-title">
+                    <span style="font-size: 2em; font-weight: bold;">Daily Reward</span>
+                    <div class="unknown" style="font-size: 2em">★</div>
+                </div>
+                <div class="daily-total-claims">
+                    <span style="font-size: 1.5em; font-weight: bold;">{{ total_claims }}</span>
+                    <span style="font-size: 0.8em">total claims</span>
+                </div>
+                <div class="daily-claim-streak">
+                    <span style="font-size: 1.5em; font-weight: bold;">{{ streak }}</span>
+                    <span style="font-size: 0.8em">claim streak</span>
+                </div>
+                {% if claimed_today %}
+                    <button type="button" class="btn btn-danger daily-interact" disabled>
+                        Claimed
+                    </button>
+                {% else %}
+                    <button type="button" id="claim-reward-button" class="btn btn-primary daily-interact">
+                        Claim Daily Reward
+                    </button>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="daily-lower-container">
+            <div class="daily-global-info">
+                <div class="daily-moreinfo-title">
+                    <i class="bi bi-calendar-fill" style="font-size: 2rem;font-weight:bold;"></i>
+                    Claim Calendar
+                </div>
+            </div>
+            
+            <div class="daily-additional-details">
+                <div class="daily-details-info">
+                    <div class="daily-details-color" style="background-color: #33E33F;width: 2dvh;height:2dvh;border-radius:100%"></div>
+                    <div class="daily-details-text">Claimed</div>
+                </div>
+
+                <div class="daily-details-info">
+                    <div class="daily-details-color" style="background-color: #BE5456;width: 2dvh;height:2dvh;border-radius:100%"></div>
+                    <div class="daily-details-text">Missed</div>
+                </div>
+            </div>
+
+            <div class="daily-claim-history">
+                {% for day, status in claim_status %}
+                    <div class="daily-claim-item {{ status }}">
+                        {{ day }}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    {% comment %} Modals {% endcomment %}
+
+    <div class="modal fade" id="rewardModal" tabindex="-1" aria-labelledby="rewardModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="rewardModalLabel">Daily Reward</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body credit-rewards-container" style="color:#fdfdfd;">
+                    <div id="creditReward" class="credit-rewards-item" style="display: none;">
+                        <div class="credit-rewards-rarity">
+                            <div class="unknown" style="font-size: 2em;">★</div>
+                        </div>
+                        <div class="credit-rewards-icon">
+                            <i class="bi bi-coin"></i>
+                        </div>
+                        <div class="credit-rewards-text">
+                            <span style="font-size: 1.5em; font-weight: bold;" id="earnedCredits"></span>
+                            <span style="font-size: 0.8em;">credits</span>
+                        </div>
+                    </div>
+
+                    <div id="petReward" class="credit-rewards-item" style="display: none;">
+                        <div class="credit-rewards-rarity">
+                            <div id="petRarity" style="font-size: 2em;">★</div>
+                        </div>
+                        <div class="credit-rewards-icon">
+                            <img id="petImage" src="" alt="Pet Image">
+                        </div>
+                        <div class="credit-rewards-text">
+                            <span style="font-size: 1.5em; font-weight: bold;" id="petName"></span>
+                            <span style="font-size: 0.8em;" id="petRarityText"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="closeModalButton">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    {% comment %} End of Modals {% endcomment %}
+
+    <form method="post" style="display: none;">
+        {% csrf_token %}
+    </form>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const claimRewardButton = document.getElementById('claim-reward-button');
+            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    
+            claimRewardButton.addEventListener('click', function() {
+                fetch("{% url 'claim_reward' %}", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-CSRFToken': csrfToken
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        // Handle error if needed
+                    } else {
+                        // Clear previous results
+                        document.getElementById('creditReward').style.display = 'none';
+                        document.getElementById('petReward').style.display = 'none';
+    
+                        if (data.earned_credits) {
+                            document.getElementById('earnedCredits').textContent = data.earned_credits;
+                            document.getElementById('creditReward').style.display = 'flex';
+                        }
+                        if (data.pet_reward) {
+                            document.getElementById('petName').textContent = data.pet_reward.name;
+                            document.getElementById('petRarityText').textContent = data.pet_reward.rarity.toLowerCase();
+                            document.getElementById('petImage').src = data.pet_reward.image_url;
+    
+                            // Add the class name based on the pet's rarity
+                            const petRarityElement = document.getElementById('petRarity');
+                            petRarityElement.className = data.pet_reward.rarity.toLowerCase();
+
+                            // Add the class name based on the pet's rarity
+                            const petRarityTextElement = document.getElementById('petRarityText');
+                            petRarityTextElement.className = data.pet_reward.rarity.toLowerCase();
+    
+                            document.getElementById('petReward').style.display = 'flex';
+                        }
+                        const rewardModal = new bootstrap.Modal(document.getElementById('rewardModal'));
+                        rewardModal.show();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            });
+    
+            // Refresh the page when the modal is closed
+            document.getElementById('closeModalButton').addEventListener('click', function() {
+                location.reload();
+            });
+        });
+    </script>
+{% endblock %}
