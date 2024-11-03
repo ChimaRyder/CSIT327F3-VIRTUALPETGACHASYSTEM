@@ -26,10 +26,12 @@
         <div class="search-results-container">
             {% if search_results %}
                 {% for item in search_results %}
+                <a href="{% url 'lootbox_detail' item.lootbox_id %}" class="lootbox-market-item-link">
                     <div class="search-market-item">
                         <h2>{{ item.lootbox_id }}</h2>
                         <p>{{ item.lootbox_name }}</p>
                     </div>
+                </a>
                 {% endfor %}
             {% else %}
                 <h3 style="color:#FDFDFD">No results found.</h3>
