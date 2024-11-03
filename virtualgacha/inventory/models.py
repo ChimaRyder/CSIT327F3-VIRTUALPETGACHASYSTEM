@@ -30,7 +30,7 @@ class Inventory(models.Model):
 
     pet_id = models.ForeignKey(Pet, on_delete=models.CASCADE, default=None, null=True, blank=True)
     owner_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    is_busy = models.IntegerField(choices=BusyValue.choices)
+    is_busy = models.IntegerField(choices=BusyValue.choices, default=BusyValue.NOT_BUSY)
     date_acquired = models.DateTimeField(default=timezone.now)
 
     # def __str__(self):
