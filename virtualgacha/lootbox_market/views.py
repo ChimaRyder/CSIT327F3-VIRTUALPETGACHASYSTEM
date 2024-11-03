@@ -52,7 +52,7 @@ def lootboxes(request):
 def lootbox_detail(request, lootbox_id):
     profile = Profile.objects.filter(user=request.user).first()
     lootbox = get_object_or_404(Lootbox, pk=lootbox_id)
-    lootbox_history = Pull.objects.filter(lootbox_id=lootbox_id)
+    lootbox_history = Pull.objects.filter(lootbox_id=lootbox_id).order_by('-date_created')
     lootbox_drop_table = LootboxDropTable.objects.filter(lootbox_id=lootbox_id)
 
     drop_table = []
