@@ -1,14 +1,60 @@
-.inventory_container {
-    background-color: #07092e !important;
-    max-width: 100%;
-}
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap');
 
-.inventory_grid {
+.sold-items {
     display: grid;
     grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 1rem;
     justify-items: center;
-    min-height: 80%;
+    min-height: 80%;}
+
+.header {
+    min-height: inherit;
+}
+
+#query {
+    background-color: #1A1D45;
+    border: 0;
+    color: #ffffff;
+    height: 50px;
+    padding: 1.5rem;
+}
+
+#query::placeholder {
+    color: #ffffff;
+    opacity: 50%;
+}
+
+.btn {
+    border: 0;
+    font-weight: bold;
+}
+
+.btn-primary {
+    background-color: #272ffe;
+}
+
+.modal-content {
+    background-color: #1A1D45 !important;
+}
+
+.modal-footer {
+    border: 0;
+}
+
+.form-check label {
+    font-size: 19px;
+    margin-left: 10px;
+}
+
+.form-check {
+    display: flex;
+    align-items: center;
+}
+
+.search-button {
+    top: 9px;
+    right: 13px;
+    width: 70px;
 }
 
 .common:hover {
@@ -60,58 +106,21 @@
     transition: 0.15s ease-in-out;
 }
 
-.inventory_grid > a {
+.sold-items > a {
     text-decoration: none;
-}
-
-#query {
-    background-color: #1A1D45;
-    border: 0;
-    color: #ffffff;
-    height: 50px;
-    padding: 1.5rem;
-}
-
-#query::placeholder {
-    color: #ffffff;
-    opacity: 50%;
-}
-
-.btn {
-    border: 0;
-    font-weight: bold;
-}
-
-.btn-primary {
-    background-color: #272ffe;
-}
-
-.modal-content {
-    background-color: #1A1D45 !important;
-}
-
-.modal-footer {
-    border: 0;
-}
-
-.form-check label {
-    font-size: 19px;
-    margin-left: 10px;
-}
-
-.form-check {
-    display: flex;
-    align-items: center;
-}
-
-.search-button {
-    top: 9px;
-    right: 13px;
-    width: 70px;
 }
 
 .card-transparent:hover .card-img-top {
     filter: drop-shadow(4px 4px 10px rgba(26, 26, 26, 0.5));
+}
+
+.price {
+    font-family: "Fredoka", sans-serif;
+    color: #FFC300;
+}
+
+.card-subtitle {
+    color: var(--color) !important;
 }
 
 .pet-display {
@@ -139,10 +148,6 @@
     filter: drop-shadow(4px 4px 23px var(--color));
 }
 
-.pet-display-image img, .pet-image {
-    image-rendering: pixelated;
-}
-
 .pet-display-text {
     background-color: #1A1D45;
     border-radius: 15px;
@@ -158,7 +163,7 @@
 .pet-display-text-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(5, 1fr);
+    grid-template-rows: repeat(4, 1fr);
     width: 100%;
 }
 
@@ -184,45 +189,16 @@
     letter-spacing: 3px;
 }
 
-.grid-btn {
-    grid-column: span 2;
+.pet-display-image img, .pet-image {
+    image-rendering: pixelated;
 }
 
-.btn-sell {
+.btn-tertiary {
     background-color: #E20B80;
     color: white;
 }
 
-.btn-sell-sellpage {
-    height: 50px;
-}
-
-.btn-sell:hover {
+.btn-tertiary:hover {
     background-color: #f80e8d;
     color: white;
-}
-
-.sell-grid {
-    padding: 50px 100px ;
-    max-width: 65%;
-    border: 1px solid white;
-    border-radius: 15px;
-}
-
-.price-input {
-    background-color: transparent;
-    border: 0;
-    text-align: right;
-    color: white;
-}
-
-.price-input:focus {
-    background-color: transparent;
-    border: 0;
-    outline: 0;
-    color: white;
-}
-
-.return-btn, .edit-btn {
-    height: 50px;
 }

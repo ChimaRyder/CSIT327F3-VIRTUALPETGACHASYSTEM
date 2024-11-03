@@ -31,6 +31,7 @@ urlpatterns = [
     path('lootbox/', include('lootbox_market.urls')),
     path('my_pets/', include('inventory.urls')),
     path('adventure/', include('adventure.urls')),
+    path('market/', include('marketplace.urls')),
     path('chat/', include('chat.urls')),
     path('profile/', include('user_profile.urls')),
     path('daily/', include('daily_rewards.urls')),

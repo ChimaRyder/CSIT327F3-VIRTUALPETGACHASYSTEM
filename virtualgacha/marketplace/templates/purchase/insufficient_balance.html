@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}Insufficient Balance!{% endblock %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'market.css' %}">
+{% endblock %}
+
+{% block market_active %}
+    active
+{% endblock %}
+
+{% block content %}
+    <div class="d-flex flex-column justify-self-center align-items-center">
+        <img class="pet-image" src="{% static 'Regional_Dugtrio_Front.png' %}" height="250" alt="Dugtrio">
+        <h1 class="fw-bold mb-5">Uh-Oh!</h1>
+
+        <p class="fs-5 text-center">Sorry, your balance is insufficient to make <br/>this purchase. You can get more by taking your pets on<br/> adventures.</p>
+
+        <div class="d-flex flex-column w-25 gap-3 mt-4">
+            <a href="/adventure2/" class="btn btn-tertiary p-3">Go on an Adventure</a>
+            <a href="{% url 'marketplace' %}" class="btn btn-primary p-3">Return to Market</a>
+        </div>
+    </div>
+{% endblock %}

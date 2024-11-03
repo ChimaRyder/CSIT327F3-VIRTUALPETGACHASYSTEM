@@ -12,7 +12,7 @@
 
 {% block content %}
     <div class="d-flex flex-column h-100">
-        <h1 class="h1 text-white fw-bold">My Pets</h1>
+{#        <h1 class="h1 text-white fw-bold text-center">My Pets</h1>#}
 
         <div class="mx-3 my-2 p-2 inventory_container flex-fill rounded text-white d-flex flex-column align-items-center">
             <form class="my-4 d-flex w-100 px-5" method="GET">
@@ -35,13 +35,20 @@
                                 <div class="form-check ms-3">
                                     <input class="form-check-input" type="radio" name="sort" value="acquisition" id="filter_acquisition" {% if request.GET.sort == "acquisition" %} checked {% endif %}>
                                     <label class="form-check-label" for="filter_acquisition">
-                                        Acquisition
+                                        Pulled On
                                     </label>
                                 </div>
                                 <div class="form-check ms-3">
-                                    <input class="form-check-input" type="radio" name="sort" value="rarity" id="filter_rarity" {% if request.GET.sort == "rarity" %} checked {% endif %}>
-                                    <label class="form-check-label" for="filter_rarity">
-                                        Rarity
+                                    <input class="form-check-input" type="radio" name="sort" value="rarity_ascending" id="filter_rarity_ascending" {% if request.GET.sort == "rarity_ascending" %} checked {% endif %}>
+                                    <label class="form-check-label" for="filter_rarity_ascending">
+                                        <svg xmlns="http://www.w3.org/2000/svg" height="20px" fill="white" viewBox="0 0 576 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M151.6 469.6C145.5 476.2 137 480 128 480s-17.5-3.8-23.6-10.4l-88-96c-11.9-13-11.1-33.3 2-45.2s33.3-11.1 45.2 2L96 365.7 96 64c0-17.7 14.3-32 32-32s32 14.3 32 32l0 301.7 32.4-35.4c11.9-13 32.2-13.9 45.2-2s13.9 32.2 2 45.2l-88 96zM320 32l32 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-32 0c-17.7 0-32-14.3-32-32s14.3-32 32-32zm0 128l96 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-96 0c-17.7 0-32-14.3-32-32s14.3-32 32-32zm0 128l160 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-160 0c-17.7 0-32-14.3-32-32s14.3-32 32-32zm0 128l224 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-224 0c-17.7 0-32-14.3-32-32s14.3-32 32-32z"/></svg> Rarity
+                                    </label>
+                                </div>
+
+                                <div class="form-check ms-3">
+                                    <input class="form-check-input" type="radio" name="sort" value="rarity_descending" id="filter_rarity_descending" {% if request.GET.sort == "rarity_descending" %} checked {% endif %}>
+                                    <label class="form-check-label" for="filter_rarity_descending">
+                                        <svg xmlns="http://www.w3.org/2000/svg" height="20px" fill="white" viewBox="0 0 576 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M151.6 469.6C145.5 476.2 137 480 128 480s-17.5-3.8-23.6-10.4l-88-96c-11.9-13-11.1-33.3 2-45.2s33.3-11.1 45.2 2L96 365.7 96 64c0-17.7 14.3-32 32-32s32 14.3 32 32l0 301.7 32.4-35.4c11.9-13 32.2-13.9 45.2-2s13.9 32.2 2 45.2l-88 96zM320 480c-17.7 0-32-14.3-32-32s14.3-32 32-32l32 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-32 0zm0-128c-17.7 0-32-14.3-32-32s14.3-32 32-32l96 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-96 0zm0-128c-17.7 0-32-14.3-32-32s14.3-32 32-32l160 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-160 0zm0-128c-17.7 0-32-14.3-32-32s14.3-32 32-32l224 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L320 96z"/></svg> Rarity
                                     </label>
                                 </div>
 
@@ -84,66 +91,126 @@
                     </div>
                 </div>
             </form>
-                {% if pets %}
+                {% if inventory %}
                     <div class="inventory_grid">
-                        {% for pet in pets %}
-                            <a class="text-white" href="#">
+                        {% for i in inventory %}
+                            <a class="text-white" role="button" href="#pet-view-{{ i.id }}" data-bs-toggle="modal" data-bs-target="#pet-view-{{ i.id }}">
                                 <div class="card-transparent border border-light p-4 rounded-4
-                                    {% if pet.rarity == 0 %}
+                                    {% if i.pet_id.rarity == 0 %}
                                         common
-                                    {% elif pet.rarity == 1 %}
+                                    {% elif i.pet_id.rarity == 1 %}
                                         uncommon
-                                    {% elif pet.rarity == 2 %}
+                                    {% elif i.pet_id.rarity == 2 %}
                                         rare
-                                    {% elif pet.rarity == 3 %}
+                                    {% elif i.pet_id.rarity == 3 %}
                                         mythical
-                                    {% elif pet.rarity == 4 %}
+                                    {% elif i.pet_id.rarity == 4 %}
                                         legendary
                                     {% endif %}
                                 " style="width: 13rem; height:fit-content;">
                                     <div class="card-header d-flex justify-content-center">
+                                    {% if i.is_busy == 2 %}
+                                        <span class="badge bg-danger">On Market</span>
+                                    {% else %}
                                         <svg xmlns="http://www.w3.org/2000/svg" width='23px'
                                              fill = "
-                                                {% if pet.rarity == 0 %}
+                                                {% if i.pet_id.rarity == 0 %}
                                                     #CDCDCD
-                                                {% elif pet.rarity == 1 %}
+                                                {% elif i.pet_id.rarity == 1 %}
                                                     #00DD0F
-                                                {% elif pet.rarity == 2 %}
+                                                {% elif i.pet_id.rarity == 2 %}
                                                     #1699D2
-                                                {% elif pet.rarity == 3 %}
+                                                {% elif i.pet_id.rarity == 3 %}
                                                     #FFD60A
-                                                {% elif pet.rarity == 4 %}
+                                                {% elif i.pet_id.rarity == 4 %}
                                                     #ED0685
                                                 {% endif %}
                                                 "
                                              viewBox="0 0 576 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"/></svg>
+                                    {% endif %}
                                     </div>
-                                    <img src="{{ pet.pet_image.url }}" class="card-img-top" alt="{{ pet.pet_species }}">
+                                    <img src="{{ i.pet_id.pet_image.url }}" class="card-img-top pet-image" height="150" alt="{{ i.pet_id.pet_species }}">
                                     <div class="card-body d-flex flex-column align-items-center">
                                         <h6 class="card-subtitle mb-2 text-white">
-                                            {% if pet.rarity == 0 %}
+                                            {% if i.pet_id.rarity == 0 %}
                                                 Common
-                                            {% elif pet.rarity == 1 %}
+                                            {% elif i.pet_id.rarity == 1 %}
                                                 Uncommon
-                                            {% elif pet.rarity == 2 %}
+                                            {% elif i.pet_id.rarity == 2 %}
                                                 Rare
-                                            {% elif pet.rarity == 3 %}
+                                            {% elif i.pet_id.rarity == 3 %}
                                                 Mythical
-                                            {% elif pet.rarity == 4 %}
+                                            {% elif i.pet_id.rarity == 4 %}
                                                 Legendary
                                             {% endif %}
                                         </h6>
-                                        <h4 class="card-title fw-bold">{{ pet.pet_species }}</h4>
+                                        <h4 class="card-title fw-bold">{{ i.pet_id.pet_species }}</h4>
                                     </div>
                                 </div>
                             </a>
+                            <div class="modal fade" id="pet-view-{{ i.id }}" tabindex="-1" aria-labelledby="pet-view" aria-hidden="true">
+                                <div class="modal-dialog modal-lg modal-dialog-centered">
+                                    <div class="modal-content pet-display py-3">
+                                        <div class="modal-body p-4">
+                                            <div class="pet-display-grid">
+                                                <div class="pet-display-image">
+                                                    <img class="pb-5
+                                                    {% if i.pet_id.rarity == 0 %}
+                                                        rarity_common
+                                                    {% elif i.pet_id.rarity == 1 %}
+                                                        rarity_uncommon
+                                                    {% elif i.pet_id.rarity == 2 %}
+                                                        rarity_rare
+                                                    {% elif i.pet_id.rarity == 3 %}
+                                                        rarity_mythical
+                                                    {% elif i.pet_id.rarity == 4 %}
+                                                        rarity_legendary
+                                                    {% endif %}
+                                                    " src="{{ i.pet_id.pet_image.url }}" alt="{{ i.pet_id.pet_species }}">
+                                                </div>
+                                                <div class="pet-display-text">
+                                                    <div class="vr h-100 bg-white opacity-100"></div>
+                                                    <div class="pet-display-text-grid">
+                                                        <div>{{ i.pet_id.pet_species }}</div>
+                                                        <div>Rarity:</div>
+                                                        <div>
+                                                            {% if i.pet_id.rarity == 0 %}
+                                                                Common
+                                                            {% elif i.pet_id.rarity == 1 %}
+                                                                Uncommon
+                                                            {% elif i.pet_id.rarity == 2 %}
+                                                                Rare
+                                                            {% elif i.pet_id.rarity == 3 %}
+                                                                Mythical
+                                                            {% elif i.pet_id.rarity == 4 %}
+                                                                Legendary
+                                                            {% endif %}
+                                                        </div>
+                                                        <div>Rate:</div>
+                                                        <div>{{ i.pet_id.pet_rate|floatformat:0 }}/hour</div>
+                                                        <div>Pulled On:</div>
+                                                        <div>{{ i.date_acquired }}</div>
+                                                        <form action="/my_pets/sell_pet" method="GET" class="grid-btn m-0 py-2 d-flex">
+                                                            {% if i.is_busy == 0 %}
+                                                                <button type="submit" name="sale_confirm" value="{{ i.id }}" class="btn btn-sell flex-fill">Sell Pet</button>
+                                                            {% else %}
+                                                                <button type="submit" name="edit_details" value="{{ i.id }}" class="btn btn-warning flex-fill">Edit Sale Details</button>
+                                                            {% endif %}
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         {% endfor %}
                     </div>
                     <div class="mb-4">
                         <ul class="nav flex-row justify-content-between">
                             <li class="nav-item">
-                                {% if pets.has_previous %}
-                                    <a href="?page={{ pets.previous_page_number }}" class="nav-link text-white fw-bold">
+                                {% if inventory.has_previous %}
+                                    <a href="?page={{ inventory.previous_page_number }}" class="nav-link text-white fw-bold">
                                         <svg class="pe-2" xmlns="http://www.w3.org/2000/svg" height="25px" fill="#ffffff" viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M512 256A256 256 0 1 0 0 256a256 256 0 1 0 512 0zM271 135c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-87 87 87 87c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0L167 273c-9.4-9.4-9.4-24.6 0-33.9L271 135z"/></svg>
                                         Previous
                                     </a>
@@ -155,8 +222,8 @@
                                 {% endif %}
                             </li>
                             <li class="nav-item">
-                                {% if pets.has_next %}
-                                    <a href="?page={{ pets.next_page_number }}" class="nav-link text-white fw-bold">
+                                {% if inventory.has_next %}
+                                    <a href="?page={{ inventory.next_page_number }}" class="nav-link text-white fw-bold">
                                         Next
                                         <svg class="ps-2" xmlns="http://www.w3.org/2000/svg" height="25px" fill="#ffffff" viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM241 377c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l87-87-87-87c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0L345 239c9.4 9.4 9.4 24.6 0 33.9L241 377z"/></svg>
                                     </a>
@@ -170,7 +237,9 @@
                         </ul>
                     </div>
                 {% else %}
-                    <div class="d-flex justify-content-center align-self-center fst-italic fs-3 fw-bold">No pets found...</div>
+                    <div class="h-100 d-flex justify-content-center align-items-center">
+                        <h1 class="fst-italic fw-bold">No pets found...</h1>
+                    </div>
                 {% endif %}
 
 

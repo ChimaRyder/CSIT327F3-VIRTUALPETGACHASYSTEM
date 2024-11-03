@@ -1,0 +1,221 @@
+{% extends 'base.html' %}
+{% block title %}Marketplace{% endblock %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'market.css' %}">
+{% endblock %}
+
+{% block market_active %}
+    active
+{% endblock %}
+
+{% block content %}
+   <div class="d-flex flex-column h-100">
+       <hr>
+       <div class="d-flex header justify-content-between align-items-center">
+           <form class="my-2 d-flex w-75 px-5 ps-0" method="GET">
+               <div class="w-100 me-3 position-relative">
+                   <input class="form-control" type="text" name="q" id="query" placeholder="Search for a pet..." value="{{ request.GET.q }}"/>
+                   <button type="submit" class="btn btn-primary position-absolute search-button">
+                       <svg xmlns="http://www.w3.org/2000/svg" height="20px" fill="#ffffff" viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"/></svg>
+                   </button>
+               </div>
+               <button type="button" class="btn btn-primary w-25" data-bs-toggle="modal" data-bs-target="#filters">Filters</button>
+
+               <div class="modal fade" id="filters" tabindex="-1" aria-labelledby="filters" aria-hidden="true">
+                   <div class="modal-dialog modal-sm modal-dialog-centered">
+                       <div class="modal-content">
+                           <div class="modal-body p-4">
+                               <h5 class="fs-5 mb-2 fw-bold">Sort By</h5>
+                               <div class="form-check ms-3">
+                                   <input class="form-check-input" type="radio" name="sort" value="acquisition" id="filter_acquisition" {% if request.GET.sort == "acquisition" %} checked {% endif %}>
+                                   <label class="form-check-label" for="filter_acquisition">
+                                       Pulled On
+                                   </label>
+                               </div>
+                               <div class="form-check ms-3">
+                                    <input class="form-check-input" type="radio" name="sort" value="rarity_ascending" id="filter_rarity_ascending" {% if request.GET.sort == "rarity_ascending" %} checked {% endif %}>
+                                    <label class="form-check-label" for="filter_rarity_ascending">
+                                        <svg xmlns="http://www.w3.org/2000/svg" height="20px" fill="white" viewBox="0 0 576 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M151.6 469.6C145.5 476.2 137 480 128 480s-17.5-3.8-23.6-10.4l-88-96c-11.9-13-11.1-33.3 2-45.2s33.3-11.1 45.2 2L96 365.7 96 64c0-17.7 14.3-32 32-32s32 14.3 32 32l0 301.7 32.4-35.4c11.9-13 32.2-13.9 45.2-2s13.9 32.2 2 45.2l-88 96zM320 32l32 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-32 0c-17.7 0-32-14.3-32-32s14.3-32 32-32zm0 128l96 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-96 0c-17.7 0-32-14.3-32-32s14.3-32 32-32zm0 128l160 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-160 0c-17.7 0-32-14.3-32-32s14.3-32 32-32zm0 128l224 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-224 0c-17.7 0-32-14.3-32-32s14.3-32 32-32z"/></svg> Rarity
+                                    </label>
+                                </div>
+
+                                <div class="form-check ms-3">
+                                    <input class="form-check-input" type="radio" name="sort" value="rarity_descending" id="filter_rarity_descending" {% if request.GET.sort == "rarity_descending" %} checked {% endif %}>
+                                    <label class="form-check-label" for="filter_rarity_descending">
+                                        <svg xmlns="http://www.w3.org/2000/svg" height="20px" fill="white" viewBox="0 0 576 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M151.6 469.6C145.5 476.2 137 480 128 480s-17.5-3.8-23.6-10.4l-88-96c-11.9-13-11.1-33.3 2-45.2s33.3-11.1 45.2 2L96 365.7 96 64c0-17.7 14.3-32 32-32s32 14.3 32 32l0 301.7 32.4-35.4c11.9-13 32.2-13.9 45.2-2s13.9 32.2 2 45.2l-88 96zM320 480c-17.7 0-32-14.3-32-32s14.3-32 32-32l32 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-32 0zm0-128c-17.7 0-32-14.3-32-32s14.3-32 32-32l96 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-96 0zm0-128c-17.7 0-32-14.3-32-32s14.3-32 32-32l160 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-160 0zm0-128c-17.7 0-32-14.3-32-32s14.3-32 32-32l224 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L320 96z"/></svg> Rarity
+                                    </label>
+                                </div>
+                               <div class="form-check ms-3">
+                                   <input class="form-check-input" type="radio" name="sort" value="price_ascending" id="filter_price_ascending" {% if request.GET.sort == "price_ascending" %} checked {% endif %}>
+                                   <label class="form-check-label" for="filter_price_ascending">
+                                       <svg xmlns="http://www.w3.org/2000/svg" height="20px" fill="white" viewBox="0 0 576 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M151.6 469.6C145.5 476.2 137 480 128 480s-17.5-3.8-23.6-10.4l-88-96c-11.9-13-11.1-33.3 2-45.2s33.3-11.1 45.2 2L96 365.7 96 64c0-17.7 14.3-32 32-32s32 14.3 32 32l0 301.7 32.4-35.4c11.9-13 32.2-13.9 45.2-2s13.9 32.2 2 45.2l-88 96zM320 32l32 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-32 0c-17.7 0-32-14.3-32-32s14.3-32 32-32zm0 128l96 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-96 0c-17.7 0-32-14.3-32-32s14.3-32 32-32zm0 128l160 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-160 0c-17.7 0-32-14.3-32-32s14.3-32 32-32zm0 128l224 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-224 0c-17.7 0-32-14.3-32-32s14.3-32 32-32z"/></svg> Price
+                                   </label>
+                               </div>
+
+                               <div class="form-check ms-3">
+                                   <input class="form-check-input" type="radio" name="sort" value="price_descending" id="filter_price_descending" {% if request.GET.sort == "price_descending" %} checked {% endif %}>
+                                   <label class="form-check-label" for="filter_price_descending">
+                                       <svg xmlns="http://www.w3.org/2000/svg" height="20px" fill="white" viewBox="0 0 576 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M151.6 469.6C145.5 476.2 137 480 128 480s-17.5-3.8-23.6-10.4l-88-96c-11.9-13-11.1-33.3 2-45.2s33.3-11.1 45.2 2L96 365.7 96 64c0-17.7 14.3-32 32-32s32 14.3 32 32l0 301.7 32.4-35.4c11.9-13 32.2-13.9 45.2-2s13.9 32.2 2 45.2l-88 96zM320 480c-17.7 0-32-14.3-32-32s14.3-32 32-32l32 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-32 0zm0-128c-17.7 0-32-14.3-32-32s14.3-32 32-32l96 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-96 0zm0-128c-17.7 0-32-14.3-32-32s14.3-32 32-32l160 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-160 0zm0-128c-17.7 0-32-14.3-32-32s14.3-32 32-32l224 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L320 96z"/></svg> Price
+                                   </label>
+                               </div>
+
+                               <h6 class="fs-5 my-2 fw-bold">Rarity</h6>
+                               <div class="form-check ms-3">
+                                   <input class="form-check-input" type="checkbox" name="rarity" value="Common" id="filter_common" {% if 0 in rarity_selected %} checked {% endif %}>
+                                   <label class="form-check-label" for="filter_common">
+                                       Common
+                                   </label>
+                               </div>
+                               <div class="form-check ms-3">
+                                   <input class="form-check-input" type="checkbox" name="rarity" value="Uncommon" id="filter_uncommon"  {% if 1 in rarity_selected %} checked {% endif %}>
+                                   <label class="form-check-label" for="filter_uncommon">
+                                       Uncommon
+                                   </label>
+                               </div>
+                               <div class="form-check ms-3">
+                                   <input class="form-check-input" type="checkbox" name="rarity" value="Rare" id="filter_rare"  {% if 2 in rarity_selected %} checked {% endif %}>
+                                   <label class="form-check-label" for="filter_rare">
+                                       Rare
+                                   </label>
+                               </div>
+                               <div class="form-check ms-3">
+                                   <input class="form-check-input" type="checkbox" name="rarity" value="Mythical" id="filter_mythical" {% if 3 in rarity_selected %} checked {% endif %}>
+                                   <label class="form-check-label" for="filter_mythical">
+                                       Mythical
+                                   </label>
+                               </div>
+                               <div class="form-check ms-3">
+                                   <input class="form-check-input" type="checkbox" name="rarity" value="Legendary" id="filter_legendary" {% if 4 in rarity_selected %} checked {% endif %}>
+                                   <label class="form-check-label" for="filter_legendary">
+                                       Legendary
+                                   </label>
+                               </div>
+                           </div>
+                           <div class="modal-footer">
+                               <button type="submit" class="btn btn-primary w-100">Apply</button>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+           </form>
+           {% if sales %}
+           <h5>{{ total }} items displayed</h5>
+           {% else %}
+           <h5>0 items displayed</h5>
+           {% endif %}
+       </div>
+       <hr>
+
+        {% if sales %}
+        <div class="sold-items h-100">
+            {% for s in sales %}
+                <div class="card-transparent border border-light p-4 rounded-4" style="width: 14rem; height:fit-content;">
+                    <img src="{{ s.inventory.pet_id.pet_image.url }}" class="card-img-top pet-image" alt="{{ s.inventory.pet_id.pet_species }}">
+                    <div class="card-body d-flex flex-column align-items-center">
+                        <h2 class="card-title fw-bold price">¢{{ s.cost }}</h2>
+                        <h4 class="card-title fw-bold text-white">{{ s.inventory.pet_id.pet_species }}</h4>
+                        <h6 class="mb-2
+                            {% if s.inventory.pet_id.rarity == 0 %} rarity_common
+                            {% elif s.inventory.pet_id.rarity == 1 %} rarity_uncommon
+                            {% elif s.inventory.pet_id.rarity == 2 %} rarity_rare
+                            {% elif s.inventory.pet_id.rarity == 3 %} rarity_mythical
+                            {% elif s.inventory.pet_id.rarity == 4 %} rarity_legendary
+                            {% endif %} card-subtitle pt-1">
+                            {% if s.inventory.pet_id.rarity == 0 %}
+                                Common
+                            {% elif s.inventory.pet_id.rarity == 1 %}
+                                Uncommon
+                            {% elif s.inventory.pet_id.rarity == 2 %}
+                                Rare
+                            {% elif s.inventory.pet_id.rarity == 3 %}
+                                Mythical
+                            {% elif s.inventory.pet_id.rarity == 4 %}
+                                Legendary
+                            {% endif %}
+                        </h6>
+                    </div>
+                    <div class="card-footer">
+                        <div class="d-flex gap-1 pt-2">
+                            <button class="btn btn-warning flex-fill" type="button" data-bs-target="#sale-view-{{ s.id }}" data-bs-toggle="modal">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="25px" viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336l24 0 0-64-24 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l48 0c13.3 0 24 10.7 24 24l0 88 8 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-80 0c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"/></svg>
+                            </button>
+                            <button class="btn btn-primary flex-fill" type="button" data-bs-target="#purchase-confirm" data-bs-toggle="modal">Buy</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="sale-view-{{ s.id }}" aria-hidden="true" aria-labelledby="sale-view-{{ s.id }}" tabindex="-1">
+                    <div class="modal-dialog modal-lg modal-dialog-centered">
+                        <div class="modal-content pet-display py-3">
+                            <div class="modal-body p-4">
+                                <div class="pet-display-grid">
+                                    <div class="pet-display-image">
+                                        <img class="pb-5
+                                            {% if s.inventory.pet_id.rarity == 0 %} rarity_common
+                                            {% elif s.inventory.pet_id.rarity == 1 %} rarity_uncommon
+                                            {% elif s.inventory.pet_id.rarity == 2 %} rarity_rare
+                                            {% elif s.inventory.pet_id.rarity == 3 %} rarity_mythical
+                                            {% elif s.inventory.pet_id.rarity == 4 %} rarity_legendary
+                                            {% endif %}
+                                        " src="{{ s.inventory.pet_id.pet_image.url }}" alt="{{ s.inventory.pet_id.pet_species }}">
+                                    </div>
+                                    <div class="pet-display-text">
+                                        <div class="vr h-100 bg-white opacity-100"></div>
+                                        <div class="pet-display-text-grid">
+                                            <div>{{ s.inventory.pet_id.pet_species }}</div>
+                                            <div>Rarity:</div>
+                                            <div>
+                                                {% if s.inventory.pet_id.rarity == 0 %}
+                                                    Common
+                                                {% elif s.inventory.pet_id.rarity == 1 %}
+                                                    Uncommon
+                                                {% elif s.inventory.pet_id.rarity == 2 %}
+                                                    Rare
+                                                {% elif s.inventory.pet_id.rarity == 3 %}
+                                                    Mythical
+                                                {% elif s.inventory.pet_id.rarity == 4 %}
+                                                    Legendary
+                                                {% endif %}
+                                            </div>
+                                            <div>Rate:</div>
+                                            <div>{{ s.inventory.pet_id.pet_rate|floatformat:0 }}/hour</div>
+                                            <div>Owner:</div>
+                                            <div>{{ s.inventory.owner_id.username }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="purchase-confirm" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true" aria-labelledby="purchase-confirm" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content pet-display">
+                            <div class="modal-header" data-bs-theme="dark">
+                                <h1 class="modal-title fs-5" id="purchase-confirmation-title">Purchase Confirmation</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                You are about to purchase <span class="fw-bold">{{ s.inventory.pet_id.pet_species }}</span> for <span class="fw-bold">{{ s.cost }}</span>. Would you like to continue?
+                            </div>
+                            <form method="post" class="modal-footer m-0">
+                                {% csrf_token %}
+                                <input class="visually-hidden" type="number" id="confirmed-purchase" name="confirmed-purchase" value="{{ s.id }}"/>
+                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Confirm</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            {% endfor %}
+        </div>
+
+        {% else %}
+            <div class="h-100 d-flex justify-content-center align-items-center">
+                <h1 class="fw-bold">No Pets Available...</h1>
+            </div>
+        {% endif %}
+   </div>
+{% endblock %}

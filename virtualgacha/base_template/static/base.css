@@ -215,21 +215,21 @@ html, body {
 /* RARITY COLORS */
 
 .mythical{
-  color: #1896C8;
+  color: #FFD60A;
 }
 
 .legendary{
-  color: #E20B80;
+  color: #ED0685;
 }
 
 .rare{
-  color: #F6D00C;
+  color: #1699D2;
 }
 
 .common{
-  color: white;
+  color: #CDCDCD;
 }
 
 .uncommon{
-  color: brown;
+  color: #00DD0F;
 }

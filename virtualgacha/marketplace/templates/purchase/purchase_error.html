@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}Error!{% endblock %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'market.css' %}">
+{% endblock %}
+
+{% block market_active %}
+    active
+{% endblock %}
+
+{% block content %}
+    <div class="d-flex flex-column justify-self-center align-items-center">
+        <img class="pet-image" src="{% static 'Regional_Dugtrio_Front.png' %}" height="250" alt="Dugtrio">
+        <h1 class="fw-bold mb-5">Oops!</h1>
+
+        <p class="fs-5 text-center">An error occurred during your purchase.<br/> Please try again later.</p>
+
+        <div class="d-flex flex-column w-25 gap-3 mt-4">
+            <a href="{% url 'marketplace' %}" class="btn btn-primary p-3">Return to Market</a>
+        </div>
+    </div>
+{% endblock %}
