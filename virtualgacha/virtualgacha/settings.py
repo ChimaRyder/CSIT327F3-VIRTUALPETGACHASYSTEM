@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'login_register',
     'inventory',
     'adventure',
+    'marketplace',
     'channels',
     'chat',
     'daily_rewards',

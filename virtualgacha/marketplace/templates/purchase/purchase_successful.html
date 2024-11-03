@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}Purchase Successful!{% endblock %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'market.css' %}">
+{% endblock %}
+
+{% block market_active %}
+    active
+{% endblock %}
+
+{% block content %}
+    <div class="d-flex flex-column justify-self-center align-items-center">
+        <h1 class="fw-bold">Purchase Successful!</h1>
+        <img class="pet-image" src="{{ purchase.inventory.pet_id.pet_image.url }}" height="250" alt="{{ purchase.inventory.pet_id.pet_species }}">
+
+        <p class="fs-5 text-center">You have successfully purchased <span class="fw-bold">{{ purchase.inventory.pet_id.pet_species }}</span> for <span class="fw-bold">{{ purchase.cost }}</span>.</p>
+
+        <div class="d-flex flex-column w-25 gap-3 mt-4">
+            <a href="/my_pets/" class="btn btn-warning p-3">Go to My Pets</a>
+            <a href="{% url 'marketplace' %}" class="btn btn-primary p-3">Return to Market</a>
+        </div>
+    </div>
+{% endblock %}
