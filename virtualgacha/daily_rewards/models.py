@@ -6,7 +6,7 @@ import datetime
 class Reward(models.Model):
     date = models.DateField(default=datetime.date.today,unique=True)  # Date of the reward
     credit_reward = models.IntegerField(default=100)  # Reward details
-    pet_reward = models.ForeignKey(Pet, on_delete=models.CASCADE, null=True, blank=True)  # Reward details
+    pet_reward = models.ForeignKey(Pet, on_delete=models.CASCADE,  null=True, blank=True)  # Reward details
 
     def __str__(self):
         return f"{self.date}"
