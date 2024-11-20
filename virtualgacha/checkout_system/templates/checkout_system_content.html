@@ -9,6 +9,11 @@
     Checkout
 {% endblock %}
 
+{% block checkout_active %}
+    active
+{% endblock %}
+
+
 {% block content %}  
     <form class="checkout-container" id="checkout-form" method="post" action="{% url 'process_transaction' %}">
             {% csrf_token %}
