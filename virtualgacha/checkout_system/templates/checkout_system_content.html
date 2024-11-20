@@ -1,0 +1,290 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'checkout_system_content.css' %}"/>
+{% endblock %}
+
+{% block title %}
+    Checkout
+{% endblock %}
+
+{% block content %}  
+    <form class="checkout-container" id="checkout-form" method="post" action="{% url 'process_transaction' %}">
+            {% csrf_token %}
+            <div class="checkout-choose">
+                <h1>1. Choose option</h1>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="transaction_type" value="BUY" id="flexRadioDefault1" checked>
+                    <label class="form-check-label" for="flexRadioDefault1">
+                      Buy Credits
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="transaction_type" value = "SELL" id="flexRadioDefault2">
+                    <label class="form-check-label" for="flexRadioDefault2">
+                      Sell Credits
+                    </label>
+                </div>
+
+                <span class="amount-rate" id="amount-rate">1 dollar is equal to 400 credits</span>
+
+                <div class="checkout-calculate">
+                    <input class="form-control" type="number" id="credit-amount" name="amount" placeholder="Enter amount here in credits">
+                    <button type="button" class="btn btn-primary" id="calculate-button">Calculate</button>
+                </div>
+            </div>
+
+            <div class="checkout-billing">
+                <h1>2. Billing Option</h1>
+
+                <h4>Billing Method</h4>
+
+                <div class="billing-method">
+                    <input type="radio" class="btn-check" name="payment_method" id="option1" value="GCASH"  checked autocomplete="off">
+                    <label class="btn btn-primary billing-method-item" for="option1">
+                        <i class="bi bi-phone-fill"></i>
+                        Gcash
+                    </label>
+                    <input type="radio" class="btn-check" name="payment_method" id="option2" value="CARD" autocomplete="off">
+                    <label class="btn btn-primary billing-method-item" for="option2">
+                        <i class="bi bi-credit-card-fill"></i>
+                        Card
+                    </label>
+                </div>
+
+                <h4>Billing Details</h4>
+
+                <div class="billing-details">
+                    <div id="gcash-details">
+                        <span>Receiver Number</span>
+                        <input class="form-control" type="text" id="gcash-number" name="gcash_number" checked readonly value = "09472546834">
+                        <span>Receiver Name</span>
+                        <input class="form-control" type="text" id="receiver-name" name="receiver_name" readonly value = "Ronan Black">
+                        <span id="reference-number-label">Reference Number</span>
+                        <input class="form-control" type="text" id="reference-number" name="reference_number">
+                    </div>
+                    <div id="card-details" style="display: none;">
+                        <span>Card Number</span>
+                        <input class="form-control" type="text" id="card-number" name="card_number">
+                        <span>Name on the Card</span>
+                        <input class="form-control" type="text" id="card-name" name="card_name">
+                        <div class="row">
+                            <div class="col">
+                                <span>Expiry Date</span>
+                                <input class="form-control" type="text" id="card-expiry-date" name="card_expiry_date" placeholder="MM/YY">
+                            </div>
+                            <div class="col">
+                                <span>Security Code</span>
+                                <input class="form-control" type="text" id="card-security-code" name="card_security_code" placeholder="CVC">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr>
+
+                <div class="checkout-details">
+                    <span id="checkout-price"></span>
+                    <button type="submit" class="btn btn-success" id="checkout-button" disabled>Checkout</button>
+                </div>
+            </div>
+
+            <div class="checkout-background">
+            </div>
+    </form>
+
+    <!-- Success Modal -->
+    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="successModalLabel">Transaction Successful</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="successModalBody">
+                    Your transaction was successful.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error Modal -->
+    <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="errorModalLabel">Transaction Failed</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    There was an error processing your transaction. Please try again.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const radioButtons = document.querySelectorAll('input[name="transaction_type"]');
+            const calculateButton = document.getElementById('calculate-button');
+            const creditAmountInput = document.getElementById('credit-amount');
+            const billingFields = document.querySelectorAll('.checkout-billing input, .checkout-billing button');
+            const amountRateSpan = document.getElementById('amount-rate');
+            const checkoutPriceSpan = document.getElementById('checkout-price');
+            const gcashDetails = document.getElementById('gcash-details');
+            const cardDetails = document.getElementById('card-details');
+            const receiverNumberInput = document.getElementById('gcash-number');
+            const receiverNameInput = document.getElementById('receiver-name');
+            const referenceNumberLabel = document.getElementById('reference-number-label');
+            const referenceNumberInput = document.getElementById('reference-number');
+            const checkoutForm = document.getElementById('checkout-form');
+            const checkoutButton = document.getElementById('checkout-button');
+    
+            function disableBillingFields() {
+                billingFields.forEach(field => {
+                    field.disabled = true;
+                });
+            }
+    
+            function enableBillingFields() {
+                billingFields.forEach(field => {
+                    field.disabled = false;
+                });
+            }
+    
+            // Disable billing fields by default
+            disableBillingFields();
+    
+            // Disable billing fields when any radio button in step 1 is clicked
+            radioButtons.forEach(radio => {
+                radio.addEventListener('click', function() {
+                    disableBillingFields();
+                    if (radio.id === 'flexRadioDefault1') {
+                        amountRateSpan.textContent = '1 dollar is equal to 400 credits';
+                        creditAmountInput.removeAttribute('min'); // Remove minimum amount for buying credits
+                        receiverNumberInput.readOnly = true;
+                        receiverNameInput.readOnly = true;
+                        receiverNumberInput.value = "09472546834";
+                        receiverNameInput.value = "Ronan Black";
+                        referenceNumberLabel.style.display = 'block';
+                        referenceNumberInput.style.display = 'block';
+                        checkoutPriceSpan.textContent = "";
+                    } else if (radio.id === 'flexRadioDefault2') {
+                        amountRateSpan.textContent = '10000 credits is equal to 1 dollar';
+                        creditAmountInput.min = 10000; // Minimum amount for selling credits
+                        receiverNumberInput.readOnly = false;
+                        receiverNameInput.readOnly = false;
+                        receiverNumberInput.value = "";
+                        receiverNameInput.value = "";
+                        referenceNumberLabel.style.display = 'none';
+                        referenceNumberInput.style.display = 'none';
+                        checkoutPriceSpan.textContent = "";
+                    }
+                });
+            });
+    
+            // Enable billing fields if the amount is valid when the calculate button is clicked
+            calculateButton.addEventListener('click', function() {
+                const amount = parseFloat(creditAmountInput.value);
+                const selectedOption = document.querySelector('input[name="transaction_type"]:checked').id;
+                if (!isNaN(amount) && (selectedOption === 'flexRadioDefault1' || amount >= parseFloat(creditAmountInput.min))) {
+                    enableBillingFields();
+                    let priceOrEarnings;
+                    if (selectedOption === 'flexRadioDefault1') {
+                        priceOrEarnings = `Price: $${(amount / 400).toFixed(2)}`;
+                    } else if (selectedOption === 'flexRadioDefault2') {
+                        priceOrEarnings = `Earnings: $${(amount / 10000).toFixed(2)}`;
+                    }
+                    checkoutPriceSpan.textContent = priceOrEarnings;
+                } else {
+                    alert('Please enter a valid amount.');
+                }
+            });
+    
+            // Show/hide billing details based on selected billing method
+            document.querySelectorAll('input[name="payment_method"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    if (radio.id === 'option1') {
+                        gcashDetails.style.display = 'flex';
+                        cardDetails.style.display = 'none';
+                    } else if (radio.id === 'option2') {
+                        gcashDetails.style.display = 'none';
+                        cardDetails.style.display = 'flex';
+                    }
+                });
+            });
+    
+            // Handle form submission with AJAX
+            checkoutForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+    
+                const formData = new FormData(checkoutForm);
+
+                formData.append('total_changes', checkoutPriceSpan.textContent);
+
+                console.log(formData)
+
+                fetch(checkoutForm.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'SUCCESS') {
+                        const successModalBody = document.getElementById('successModalBody');
+                        if ( data.transaction_type == "BUY"){
+                            successModalBody.innerHTML = `
+                            <p>Transaction ID: ${data.transaction_id}</p>
+                            <p>Credits Amount: ${data.amount}</p>
+                            <p>Status: ${data.status_text}</p>
+                            <p>Payment Method: ${data.payment_method}</p>
+                            <p>Total Spent: ${data.total_changes}</p>
+                        `;
+                        } else {
+                            successModalBody.innerHTML = `
+                            <p>Transaction ID: ${data.transaction_id}</p>
+                            <p>Credits Amount: ${data.amount}</p>
+                            <p>Status: ${data.status_text}</p>
+                            <p>Payment Method: ${data.payment_method}</p>
+                            <p>Total Earned: ${data.total_changes}</p>
+                        `;
+                        }
+                       
+                        if (data.payment_method === 'GCASH') {
+                            successModalBody.innerHTML += `
+                                <p>GCash Number: ${data.gcash_number}</p>
+                                <p>Receiver Name: ${data.receiver_name}</p>
+                                <p>Reference Number: ${data.reference_number}</p>
+                            `;
+                        } else if (data.payment_method === 'CARD') {
+                            successModalBody.innerHTML += `
+                                <p>Card Number: ${data.card_number}</p>
+                                <p>Name on Card: ${data.card_name}</p>
+                                <p>Expiry Date: ${data.card_expiry_date}</p>
+                                <p>Security Code: ${data.card_security_code}</p>
+                            `;
+                        }
+                        new bootstrap.Modal(document.getElementById('successModal')).show();
+                    } else {
+                        new bootstrap.Modal(document.getElementById('errorModal')).show();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    new bootstrap.Modal(document.getElementById('errorModal')).show();
+                });
+            });
+        });
+    </script>
+{% endblock %}
