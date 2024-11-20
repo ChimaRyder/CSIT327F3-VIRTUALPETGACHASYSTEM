@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'channels',
     'chat',
     'daily_rewards',
-    'user_profile'
+    'user_profile',
+    'checkout_system',
 ]
 
 ASGI_APPLICATION = 'virtualgacha.asgi.application'
