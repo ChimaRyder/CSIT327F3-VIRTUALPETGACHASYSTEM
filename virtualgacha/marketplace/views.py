@@ -4,6 +4,7 @@ from django.shortcuts import render
 
 from login_register.models import Profile
 from marketplace.models import Sale, Purchase
+from notification.models import Notification
 
 
 # Create your views here.
@@ -24,8 +25,14 @@ def marketplace(request):
                 profile.total_credits -= purchase.cost
                 profile.save()
 
-                purchase.inventory.owner_id.profile.total_credits += purchase.cost
-                purchase.inventory.owner_id.profile.save()
+                # purchase.inventory.owner_id.profile.total_credits += purchase.cost
+                # purchase.inventory.owner_id.profile.save()
+                Notification.objects.create(
+                    user=purchase.inventory.owner_id,
+                    title="Sale Success",
+                    text=f"Your pet has been successfully sold. You have earned {purchase.cost} coins.",
+                    claim_coins=purchase.cost,
+                )
 
                 purchase.inventory.owner_id = user
                 purchase.inventory.is_busy = 0
