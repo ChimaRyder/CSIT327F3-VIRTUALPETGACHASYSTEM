@@ -117,7 +117,7 @@
     align-items: center;
     padding: 15px 10px;
     border-radius: 15px;
-    background-color: #07092E;
+    background-color: #1A1D45;
 }
 
 .pet-showcase-header .psh:not(:last-child) {
@@ -129,6 +129,117 @@
     margin-right: 5px;
 }
 
+.pet-showcase-header:hover {
+    background-color: #07092E;  
+    cursor: pointer;
+}
+
+.pets-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+    justify-items: center;
+    align-items: center;
+    min-height: 80%;
+    padding: 20px
+}
+
+.showcase-remove-btns {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.showcase-remove-btns form {
+    margin: 0;
+}
+
+.showcase-pet-container {
+    margin: 20px 0px;
+    padding: 40px;
+    background-color: #07092E;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 24px;
+}
+
+.showcased-pets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 50px;
+    justify-content: center;
+    align-items: center;
+}
+
+.showcased-pet-card {
+    position: relative;
+    width: 150px;
+    height: 220px;
+    background: rgba(0, 0, 0, 0.8);
+    border: 2px solid #FFD700;
+    border-radius: 15px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.showcased-pet-card:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.7);
+}
+
+.pet-image-container {
+    height: 150px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.showcased-pet-img {
+    width: 1000px;
+    object-fit: cover;
+    image-rendering: pixelated;
+}
+
+.pet-info {
+    padding: 10px;
+    color: white;
+}
+
+.pet-name {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin: 0;
+    color: #FFD700;
+}
+
+.pet-rarity {
+    font-size: 0.9rem;
+    font-style: italic;
+    opacity: 0.8;
+}
+
+.no-pets-showcased {
+    text-align: center;
+    font-size: 1.2rem;
+    color: white;
+    opacity: 0.7;
+}
+
+.no-pets-showcased p {
+    font-size: 1rem;
+    opacity: 0.6;
+}
+
+.filter-btn.active {
+    background-color: #007bff;
+    color: white;
+}
+
+
 /*
     ACHIEVEMENTS
 */
@@ -138,21 +249,72 @@
 }
 
 .achievements-header {
-    display: flex;
+    justify-content: space-between;
     align-items: center;
-    padding: 15px 10px;
-    border-radius: 15px;
-    background-color: #07092E;
 }
 
 .achievements-header .psh {
-    margin: 0px 10px;
+    margin: 5px 10px;
+}
+
+.achievements-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.achievement-item {
+    display: flex;
+    margin: 5px 10px;
+    padding: 20px 15px;
+    border: 1px white solid;
+    border-radius: 10px;
+}
+
+.achievement-item:hover {
+    background-color: #07092E;
+    transform: scale(1.01);
+}
+
+.achievement-badge {
+    border-radius: 50px;
 }
 
 
+.achievement-deets {
+    padding: 0px 0px 0px 15px;
+}
 
+.achievement-deets h6 {
+    margin: 0px;
+}
+
+
+/* MODAL */
 
 .modal-content{
     background-color: #1A1D45;
 
+}
+
+/* RARITY COLORS */
+
+.btn-mythical{
+    background-color: #FFD60A;
+}
+
+.btn-legendary{
+    background-color: #ED0685;
+}
+
+.btn-rare{
+    background-color: #1699D2;
+}
+
+.btn-common{
+    background-color: #CDCDCD;
+}
+
+.btn-uncommon{
+    background-color: #00DD0F;
 }

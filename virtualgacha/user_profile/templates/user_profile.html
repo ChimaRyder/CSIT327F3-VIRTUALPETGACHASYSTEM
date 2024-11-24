@@ -64,6 +64,10 @@
                 <svg width="15px" height="15px" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <circle cx="8" cy="8" r="8" fill="#FFD60A"></circle> </g></svg>
                 Mythical
             </div>
+            <div>
+                <svg width="15px" height="15px" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <circle cx="8" cy="8" r="8" fill="#ED0685"></circle> </g></svg>
+                Legendary
+            </div>
         </div>
     </div>
 
@@ -76,49 +80,121 @@
         <div style="background-color: #00DD0F; width: {{ rarity_bar.uncommon }}%;"></div>
         <div style="background-color: #1699D2; width: {{ rarity_bar.rare }}%;"></div>
         <div style="background-color: #FFD60A; width: {{ rarity_bar.mythical }}%;"></div>
+        <div style="background-color: #ED0685; width: {{ rarity_bar.legendary }}%;"></div>
     </div>
 </div>
 
 
 <div class="pet-showcase">
-    <div class="pet-showcase-header">
-        <div class="psh">
-            <svg width="20px" height="20px" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill="#ffffff" class="bi bi-clock-history" stroke="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M8.515 1.019A7 7 0 0 0 8 1V0a8 8 0 0 1 .589.022l-.074.997zm2.004.45a7.003 7.003 0 0 0-.985-.299l.219-.976c.383.086.76.2 1.126.342l-.36.933zm1.37.71a7.01 7.01 0 0 0-.439-.27l.493-.87a8.025 8.025 0 0 1 .979.654l-.615.789a6.996 6.996 0 0 0-.418-.302zm1.834 1.79a6.99 6.99 0 0 0-.653-.796l.724-.69c.27.285.52.59.747.91l-.818.576zm.744 1.352a7.08 7.08 0 0 0-.214-.468l.893-.45a7.976 7.976 0 0 1 .45 1.088l-.95.313a7.023 7.023 0 0 0-.179-.483zm.53 2.507a6.991 6.991 0 0 0-.1-1.025l.985-.17c.067.386.106.778.116 1.17l-1 .025zm-.131 1.538c.033-.17.06-.339.081-.51l.993.123a7.957 7.957 0 0 1-.23 1.155l-.964-.267c.046-.165.086-.332.12-.501zm-.952 2.379c.184-.29.346-.594.486-.908l.914.405c-.16.36-.345.706-.555 1.038l-.845-.535zm-.964 1.205c.122-.122.239-.248.35-.378l.758.653a8.073 8.073 0 0 1-.401.432l-.707-.707z"></path> <path d="M8 1a7 7 0 1 0 4.95 11.95l.707.707A8.001 8.001 0 1 1 8 0v1z"></path> <path d="M7.5 3a.5.5 0 0 1 .5.5v5.21l3.248 1.856a.5.5 0 0 1-.496.868l-3.5-2A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5z"></path> </g></svg>
-        </div>
+    <a href="#pet-showcase-modal" data-bs-toggle="modal" style="text-decoration: none;">
+        <div class="pet-showcase-header">
+            <div class="psh">
+                <svg width="20px" height="20px" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill="#ffffff" class="bi bi-clock-history" stroke="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M8.515 1.019A7 7 0 0 0 8 1V0a8 8 0 0 1 .589.022l-.074.997zm2.004.45a7.003 7.003 0 0 0-.985-.299l.219-.976c.383.086.76.2 1.126.342l-.36.933zm1.37.71a7.01 7.01 0 0 0-.439-.27l.493-.87a8.025 8.025 0 0 1 .979.654l-.615.789a6.996 6.996 0 0 0-.418-.302zm1.834 1.79a6.99 6.99 0 0 0-.653-.796l.724-.69c.27.285.52.59.747.91l-.818.576zm.744 1.352a7.08 7.08 0 0 0-.214-.468l.893-.45a7.976 7.976 0 0 1 .45 1.088l-.95.313a7.023 7.023 0 0 0-.179-.483zm.53 2.507a6.991 6.991 0 0 0-.1-1.025l.985-.17c.067.386.106.778.116 1.17l-1 .025zm-.131 1.538c.033-.17.06-.339.081-.51l.993.123a7.957 7.957 0 0 1-.23 1.155l-.964-.267c.046-.165.086-.332.12-.501zm-.952 2.379c.184-.29.346-.594.486-.908l.914.405c-.16.36-.345.706-.555 1.038l-.845-.535zm-.964 1.205c.122-.122.239-.248.35-.378l.758.653a8.073 8.073 0 0 1-.401.432l-.707-.707z"></path> <path d="M8 1a7 7 0 1 0 4.95 11.95l.707.707A8.001 8.001 0 1 1 8 0v1z"></path> <path d="M7.5 3a.5.5 0 0 1 .5.5v5.21l3.248 1.856a.5.5 0 0 1-.496.868l-3.5-2A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5z"></path> </g></svg>
+            </div>
 
-        <div class="psh"> Pet Showcase </div>
+            <div class="psh"> Pet Showcase </div>
 
-        <div class="psh">
-            <svg fill="#ffffff" width="35px" height="35px" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path class="st0" d="M12 25l3 3 15-15-3-3-15 15zM11 26l3 3-4 1z"></path></g></svg>
-        </div>
-    </div>
-
-    <a href="{% url 'showcase_pet' %}">
-        <div style="height: 200px; margin: 20px 0px; background-color: #07092E; justify-content: center; align-items: center; font-size: 24px; opacity: 0.4;">
-            
+            <div class="psh">
+                <svg fill="#ffffff" width="35px" height="35px" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path class="st0" d="M12 25l3 3 15-15-3-3-15 15zM11 26l3 3-4 1z"></path></g></svg>
+            </div>
         </div>
     </a>
+
+    {% if messages %}
+    <div class="alert-container">
+        {% for message in messages %}
+            <div class="alert 
+                {% if message.tags == 'error' %}
+                    alert-danger
+                {% endif %}
+                alert-dismissible fade show" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="showcase-pet-container">
+        {% if showcased_pets %}
+            <div class="showcased-pets">
+                
+                {% for pet in showcased_pets %}
+                    <div class="showcased-pet-card">
+                        <div class="pet-image-container"
+                        style="
+                        background: radial-gradient(circle, 
+                        {% if pet.pet_id.rarity == 0 %} #CDCDCD
+                        {% elif pet.pet_id.rarity == 1 %} #00DD0F
+                        {% elif pet.pet_id.rarity == 2 %} #1699D2
+                        {% elif pet.pet_id.rarity == 3 %} #FFD60A
+                        {% elif pet.pet_id.rarity == 4 %} #ED0685
+                        {% endif %} 10%, transparent 100%);
+                        ">
+                            <img src="{{ pet.pet_id.pet_image.url }}" alt="{{ pet.pet_id.pet_species }}" class="showcased-pet-img">
+                        </div>
+                        <div class="pet-info">
+                            <h4 class="pet-name">{{ pet.pet_id.pet_species }}</h4>
+                            <p class="pet-rarity">
+                                {% if pet.pet_id.rarity == 0 %} Common
+                                {% elif pet.pet_id.rarity == 1 %} Uncommon
+                                {% elif pet.pet_id.rarity == 2 %} Rare
+                                {% elif pet.pet_id.rarity == 3 %} Mythical
+                                {% elif pet.pet_id.rarity == 4 %} Legendary
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="no-pets-showcased">
+                <h3>No pets showcased...</h3>
+                <p>Highlight your favorite pets here for others to admire!</p>
+            </div>
+        {% endif %}
+    </div>
+    
 </div>
 
 <div class="pet-showcase">
-    <div class="pet-showcase-header">
-        <div class="psh">
-            <svg width="20px" height="20px" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill="#ffffff" class="bi bi-clock-history" stroke="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M8.515 1.019A7 7 0 0 0 8 1V0a8 8 0 0 1 .589.022l-.074.997zm2.004.45a7.003 7.003 0 0 0-.985-.299l.219-.976c.383.086.76.2 1.126.342l-.36.933zm1.37.71a7.01 7.01 0 0 0-.439-.27l.493-.87a8.025 8.025 0 0 1 .979.654l-.615.789a6.996 6.996 0 0 0-.418-.302zm1.834 1.79a6.99 6.99 0 0 0-.653-.796l.724-.69c.27.285.52.59.747.91l-.818.576zm.744 1.352a7.08 7.08 0 0 0-.214-.468l.893-.45a7.976 7.976 0 0 1 .45 1.088l-.95.313a7.023 7.023 0 0 0-.179-.483zm.53 2.507a6.991 6.991 0 0 0-.1-1.025l.985-.17c.067.386.106.778.116 1.17l-1 .025zm-.131 1.538c.033-.17.06-.339.081-.51l.993.123a7.957 7.957 0 0 1-.23 1.155l-.964-.267c.046-.165.086-.332.12-.501zm-.952 2.379c.184-.29.346-.594.486-.908l.914.405c-.16.36-.345.706-.555 1.038l-.845-.535zm-.964 1.205c.122-.122.239-.248.35-.378l.758.653a8.073 8.073 0 0 1-.401.432l-.707-.707z"></path> <path d="M8 1a7 7 0 1 0 4.95 11.95l.707.707A8.001 8.001 0 1 1 8 0v1z"></path> <path d="M7.5 3a.5.5 0 0 1 .5.5v5.21l3.248 1.856a.5.5 0 0 1-.496.868l-3.5-2A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5z"></path> </g></svg>
+    <a href="#achievements-modal" data-bs-toggle="modal" style="text-decoration: none;">
+        <div class="pet-showcase-header">
+            <div class="psh">
+                <svg width="20px" height="20px" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill="#ffffff" class="bi bi-clock-history" stroke="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M8.515 1.019A7 7 0 0 0 8 1V0a8 8 0 0 1 .589.022l-.074.997zm2.004.45a7.003 7.003 0 0 0-.985-.299l.219-.976c.383.086.76.2 1.126.342l-.36.933zm1.37.71a7.01 7.01 0 0 0-.439-.27l.493-.87a8.025 8.025 0 0 1 .979.654l-.615.789a6.996 6.996 0 0 0-.418-.302zm1.834 1.79a6.99 6.99 0 0 0-.653-.796l.724-.69c.27.285.52.59.747.91l-.818.576zm.744 1.352a7.08 7.08 0 0 0-.214-.468l.893-.45a7.976 7.976 0 0 1 .45 1.088l-.95.313a7.023 7.023 0 0 0-.179-.483zm.53 2.507a6.991 6.991 0 0 0-.1-1.025l.985-.17c.067.386.106.778.116 1.17l-1 .025zm-.131 1.538c.033-.17.06-.339.081-.51l.993.123a7.957 7.957 0 0 1-.23 1.155l-.964-.267c.046-.165.086-.332.12-.501zm-.952 2.379c.184-.29.346-.594.486-.908l.914.405c-.16.36-.345.706-.555 1.038l-.845-.535zm-.964 1.205c.122-.122.239-.248.35-.378l.758.653a8.073 8.073 0 0 1-.401.432l-.707-.707z"></path> <path d="M8 1a7 7 0 1 0 4.95 11.95l.707.707A8.001 8.001 0 1 1 8 0v1z"></path> <path d="M7.5 3a.5.5 0 0 1 .5.5v5.21l3.248 1.856a.5.5 0 0 1-.496.868l-3.5-2A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5z"></path> </g></svg>
+            </div>
+
+            <div class="psh"> Achievements </div>
+
+            <div class="psh">
+                <svg width="25px" height="25px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12ZM12 17.75C12.4142 17.75 12.75 17.4142 12.75 17V11C12.75 10.5858 12.4142 10.25 12 10.25C11.5858 10.25 11.25 10.5858 11.25 11V17C11.25 17.4142 11.5858 17.75 12 17.75ZM12 7C12.5523 7 13 7.44772 13 8C13 8.55228 12.5523 9 12 9C11.4477 9 11 8.55228 11 8C11 7.44772 11.4477 7 12 7Z" fill="#ffffff"></path> </g></svg>
+            </div>
+        </div>
+    </a>
+
+    <div style="margin: 20px 0px; padding: 20px 20px; background-color: #07092E;">
+        <div class="mb-4">
+            <div class="achievements-list mt-3" id="achievements">
+                {% for achievement in unlocked_achievements %}
+                    <div class="achievement-item">
+
+                        <div class="achievement-badge">
+                            {{ achievement.badge|safe }}    
+                        </div>
+
+                        <div class="achievement-deets">
+                            <h5 class="achievement-title">{{ achievement.name }}</h5>
+                            <h6 class="achievement-description">{{ achievement.description }}</h6>
+                            <!-- <div style="text-align: right;"> Complete </div> -->
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
         </div>
 
-        <div class="psh"> Achievements </div>
-
-        <div class="psh">
-            <svg width="25px" height="25px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12ZM12 17.75C12.4142 17.75 12.75 17.4142 12.75 17V11C12.75 10.5858 12.4142 10.25 12 10.25C11.5858 10.25 11.25 10.5858 11.25 11V17C11.25 17.4142 11.5858 17.75 12 17.75ZM12 7C12.5523 7 13 7.44772 13 8C13 8.55228 12.5523 9 12 9C11.4477 9 11 8.55228 11 8C11 7.44772 11.4477 7 12 7Z" fill="#ffffff"></path> </g></svg>
-        </div>
-
-    </div>
-
-    <div style="height: 200px; margin: 20px 0px; background-color: #07092E;">
         
     </div>
 
-    <button type="button" data-bs-toggle="modal" data-bs-target="#showcasepet-modal"> Edit </button>
 </div>
 
 
@@ -203,5 +279,218 @@
 </div>
 
 
+<!-- Pet Showcase Modal-->
+<div class="modal fade" id="pet-showcase-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Pet Showcase</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body" style="min-height: 600px;">
+                <div>
+                    <button class="btn btn-light filter-btn" data-filter="all">All</button>
+                    <button class="btn btn-common filter-btn" data-filter="common">Common</button>
+                    <button class="btn btn-uncommon filter-btn" data-filter="uncommon">Uncommon</button>
+                    <button class="btn btn-rare filter-btn" data-filter="rare">Rare</button>
+                    <button class="btn btn-mythical filter-btn" data-filter="mythical">Mythical</button>
+                    <button class="btn btn-legendary filter-btn" data-filter="legendary">Legendary</button>
+                </div>
+
+                <div id="no-pets-message" class="d-none">
+                    <h3 class="fst-italic fw-bold">No pets found...</h3>
+                </div>
+                
+
+                <div>
+                    {% if pets %}
+                        <div class="pets-grid">
+                            {% for p in pets %}
+                                <div class="card-transparent border border-light p-3 rounded-4 pet-card" data-rarity="{% if p.pet_id.rarity == 0 %}common{% elif p.pet_id.rarity == 1 %}uncommon{% elif p.pet_id.rarity == 2 %}rare{% elif p.pet_id.rarity == 3 %}mythical{% elif p.pet_id.rarity == 4 %}legendary{% endif %}"
+                                    style="width: 11rem; height:fit-content;">
+                                    <div class="card-header d-flex justify-content-center">
+                                        {% if p.is_busy == 2 %}
+                                            <span class="badge bg-danger">On Market</span>
+                                        {% else %}
+                                            <svg xmlns="http://www.w3.org/2000/svg" width='23px' fill="
+                                                    {% if p.pet_id.rarity == 0 %}
+                                                        #CDCDCD
+                                                    {% elif p.pet_id.rarity == 1 %}
+                                                        #00DD0F
+                                                    {% elif p.pet_id.rarity == 2 %}
+                                                        #1699D2
+                                                    {% elif p.pet_id.rarity == 3 %}
+                                                        #FFD60A
+                                                    {% elif p.pet_id.rarity == 4 %}
+                                                        #ED0685
+                                                    {% endif %}"
+                                                viewBox="0 0 576 512">
+                                                <path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"/>
+                                            </svg>
+                                        {% endif %}
+                                    </div>
+
+                                    <img src="{{ p.pet_id.pet_image.url }}" class="card-img-top pet-image" height="80" alt="{{ p.pet_id.pet_species }}">
+                                    
+                                    <div class="card-body d-flex flex-column align-items-center">
+                                        <h6 class="card-subtitle mb-2 text-white">
+                                            {% if p.pet_id.rarity == 0 %}
+                                                Common
+                                            {% elif p.pet_id.rarity == 1 %}
+                                                Uncommon
+                                            {% elif p.pet_id.rarity == 2 %}
+                                                Rare
+                                            {% elif p.pet_id.rarity == 3 %}
+                                                Mythical
+                                            {% elif p.pet_id.rarity == 4 %}
+                                                Legendary
+                                            {% endif %}
+                                        </h6>
+                                        <h4 class="card-title fw-bold">{{ p.pet_id.pet_species }}</h4>
+                                    </div>
+
+                                    <div class="showcase-remove-btns">
+                                        {% if p in user.profile.showcased_pets.all %}
+                                            <form action="{% url 'unshowcase_pet' p.id %}" method="POST">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-danger">Unshowcase Pet</button>
+                                            </form>
+                                        {% else %}
+                                            <form action="{% url 'showcase_pet' p.id %}" method="POST">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-primary">Showcase Pet</button>
+                                            </form>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                            
+                        </div>
+                    {% else %}
+                        <h3 class="fst-italic fw-bold">No pets found...</h3>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const buttons = document.querySelectorAll(".filter-btn");
+        const petCards = document.querySelectorAll(".pet-card");
+
+        buttons.forEach(button => {
+            button.addEventListener("click", () => {
+                const filter = button.getAttribute("data-filter");
+
+                if(filter === "all") {
+                    petCards.forEach(card => card.style.display = "block");
+                } else {
+                    petCards.forEach(card => {
+                        if(card.getAttribute("data-rarity") === filter) {
+                            card.style.display = "block";
+                        } else {
+                            card.style.display = "none";
+                        }
+                    });
+                }
+
+                const noPetsMessage = document.getElementById('no-pets-message');
+                if(petsFound) {
+                    noPetsMessage.classList.add('d-none');
+                } else {
+                    noPetsMessage.classList.remove('d-none');
+                }
+            });
+        });
+    });
+
+    buttons.forEach(button => {
+        button.addEventListener("click", () => {
+            buttons.forEach(btn => btn.classList.remove("active"));
+            button.classList.add("active");
+        });
+    });
+</script>
+
+
+
+<!-- Achievements Modal -->
+<div class="modal fade" tabindex="-1" id="achievements-modal" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="achievements-header d-flex">
+                    {% if curr_page.has_previous %}
+                        <div>
+                            <a href="?page={{ curr_page.previous_page_number }}#achievements-modal" class="text-decoration-none">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="25px" fill="#ffffff" viewBox="0 0 512 512"><path d="M512 256A256 256 0 1 0 0 256a256 256 0 1 0 512 0zM271 135c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-87 87 87 87c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0L167 273c-9.4-9.4-9.4-24.6 0-33.9L271 135z" /></svg>
+                            </a>
+                        </div>
+                    {% endif %}
+
+                    {% for achievement in curr_page %}
+                        <h5 class="modal-title text-center flex-grow-1">
+                            {{ achievement }}
+                        </h5>
+                    {% endfor %}
+
+                    {% if curr_page.has_next %}
+                        <div>
+                            <a href="?page={{ curr_page.next_page_number }}#achievements-modal" class="text-decoration-none">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="25px" fill="#ffffff" viewBox="0 0 512 512"><path d="M0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM241 377c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l87-87-87-87c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0L345 239c9.4 9.4 9.4 24.6 0 33.9L241 377z" /></svg>
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="achievements-list mt-3">
+                    {% for achievement in category_achievements %}
+                        <div class="achievement-item">
+
+                            <div class="achievement-badge">
+                                {{ achievement.badge|safe }}    
+                            </div>
+
+                            <div class="achievement-deets">
+                                <h5 class="achievement-title">{{ achievement.name }}</h5>
+                                <h6 class="achievement-description">{{ achievement.description }}</h6>
+                                <!-- <div style="text-align: right;"> Complete </div> -->
+                                {% for unlocked_achievements in unlocked_achievements %}
+                                    {% if unlocked_achievements.name == achievement.name %}
+                                        <div style="font-style: italic; color: yellow;"> Complete </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"> Close </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        if (window.location.hash === "#achievements-modal") {
+            var modalElement = document.getElementById('achievements-modal');
+            if (modalElement) {
+                var modal = new bootstrap.Modal(modalElement);
+                modal.show();
+            }
+        }
+    });
+
+    
+
+</script>
 
 {% endblock %}

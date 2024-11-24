@@ -12,7 +12,7 @@ class Profile(models.Model):
     avatar = models.CharField(max_length=100, default='avatar1.png')
     following = models.PositiveIntegerField(default=0)
     followers = models.PositiveIntegerField(default=0)
-    showcased_pets = models.ForeignKey(Inventory, on_delete=models.SET_NULL, null=True, blank=True)
+    showcased_pets = models.ManyToManyField(Inventory, blank=True, related_name="showcased_by")
 
     def __str__(self):
         return self.user.username
