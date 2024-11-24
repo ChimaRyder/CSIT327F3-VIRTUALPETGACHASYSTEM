@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from login_register.models import Profile
+from notification.models import Notification
 from .models import Adventure, AdventureUser, AdventurePet
 from inventory.models import Pet, Inventory  # Assuming Pet and Inventory models are in the inventory app
 from django.contrib.auth.decorators import login_required
@@ -59,8 +60,14 @@ def adventure_page(request):
             inventory_item.save()
 
             # Update the total earnings for the user
-            profile.total_credits += finished_earnings
-            profile.save()
+            # profile.total_credits += finished_earnings
+            # profile.save()
+            Notification.objects.create(
+                user = request.user,
+                title = "Adventure Finished",
+                text = f"Your pet {inventory_item.pet_id.pet_species} had a wonderful adventure. You have received {round(finished_earnings,2)} coins.",
+                claim_coins = finished_earnings,
+            )
 
         current_adventure = {
             'adventure': adventure,
