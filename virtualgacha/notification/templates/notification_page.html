@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% block title %}{% if notifications > 0 %}({{ notifications }}){% endif %} Notifications{% endblock %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'notif.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="d-flex h-100 justify-content-center">
+        <div class="flex-grow-1 notification_container rounded p-3 d-flex flex-column">
+            <h2 class="fw-bold">Notifications</h2>
+            <hr>
+
+            {% if notifications_list %}
+                <div class="d-flex flex-column justify-content-between flex-grow-1">
+                <div>
+                {% for notification in notifications_list %}
+                    <div class="container p-2 notif-block">
+                        <div class="row px-3">
+                            <div class="col-2 d-flex justify-content-center align-items-center">
+                                <div class="h-75 w-100 rounded d-flex justify-content-center align-items-center bg-danger">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="white" width="50px"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M512 80c0 18-14.3 34.6-38.4 48c-29.1 16.1-72.5 27.5-122.3 30.9c-3.7-1.8-7.4-3.5-11.3-5C300.6 137.4 248.2 128 192 128c-8.3 0-16.4 .2-24.5 .6l-1.1-.6C142.3 114.6 128 98 128 80c0-44.2 86-80 192-80S512 35.8 512 80zM160.7 161.1c10.2-.7 20.7-1.1 31.3-1.1c62.2 0 117.4 12.3 152.5 31.4C369.3 204.9 384 221.7 384 240c0 4-.7 7.9-2.1 11.7c-4.6 13.2-17 25.3-35 35.5c0 0 0 0 0 0c-.1 .1-.3 .1-.4 .2c0 0 0 0 0 0s0 0 0 0c-.3 .2-.6 .3-.9 .5c-35 19.4-90.8 32-153.6 32c-59.6 0-112.9-11.3-148.2-29.1c-1.9-.9-3.7-1.9-5.5-2.9C14.3 274.6 0 258 0 240c0-34.8 53.4-64.5 128-75.4c10.5-1.5 21.4-2.7 32.7-3.5zM416 240c0-21.9-10.6-39.9-24.1-53.4c28.3-4.4 54.2-11.4 76.2-20.5c16.3-6.8 31.5-15.2 43.9-25.5l0 35.4c0 19.3-16.5 37.1-43.8 50.9c-14.6 7.4-32.4 13.7-52.4 18.5c.1-1.8 .2-3.5 .2-5.3zm-32 96c0 18-14.3 34.6-38.4 48c-1.8 1-3.6 1.9-5.5 2.9C304.9 404.7 251.6 416 192 416c-62.8 0-118.6-12.6-153.6-32C14.3 370.6 0 354 0 336l0-35.4c12.5 10.3 27.6 18.7 43.9 25.5C83.4 342.6 135.8 352 192 352s108.6-9.4 148.1-25.9c7.8-3.2 15.3-6.9 22.4-10.9c6.1-3.4 11.8-7.2 17.2-11.2c1.5-1.1 2.9-2.3 4.3-3.4l0 3.4 0 5.7 0 26.3zm32 0l0-32 0-25.9c19-4.2 36.5-9.5 52.1-16c16.3-6.8 31.5-15.2 43.9-25.5l0 35.4c0 10.5-5 21-14.9 30.9c-16.3 16.3-45 29.7-81.3 38.4c.1-1.7 .2-3.5 .2-5.3zM192 448c56.2 0 108.6-9.4 148.1-25.9c16.3-6.8 31.5-15.2 43.9-25.5l0 35.4c0 44.2-86 80-192 80S0 476.2 0 432l0-35.4c12.5 10.3 27.6 18.7 43.9 25.5C83.4 438.6 135.8 448 192 448z"/></svg>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <h4 class="fw-bold">{{ notification.title }}</h4>
+                                <p>{{ notification.text }}</p>
+                                {% if notification.claim_coins != 0 %}
+                                    <form method="POST" class="m-2 ms-0">
+                                        {% csrf_token %}
+                                        <button type="submit" name="notif-claimed" value="{{ notification.id }}" class="btn btn-primary w-25">Claim</button>
+                                    </form>
+                                {% endif %}
+
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                </div>
+
+
+                <div class="mb-4 align-self-center">
+                    <ul class="nav flex-row justify-content-between">
+                        <li class="nav-item">
+                            {% if notifications_list.has_previous %}
+                                <a href="?page={{ notifications_list.previous_page_number }}" class="nav-link text-white fw-bold">
+                                    <svg class="pe-2" xmlns="http://www.w3.org/2000/svg" height="25px" fill="#ffffff" viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M512 256A256 256 0 1 0 0 256a256 256 0 1 0 512 0zM271 135c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-87 87 87 87c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0L167 273c-9.4-9.4-9.4-24.6 0-33.9L271 135z"/></svg>
+                                    Previous
+                                </a>
+                            {% else %}
+                                <a href="#" class="disabled nav-link text-secondary fw-bold">
+                                    <svg class="pe-2" xmlns="http://www.w3.org/2000/svg" height="25px" fill="#6c757d" viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M512 256A256 256 0 1 0 0 256a256 256 0 1 0 512 0zM271 135c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-87 87 87 87c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0L167 273c-9.4-9.4-9.4-24.6 0-33.9L271 135z"/></svg>
+                                    Previous
+                                </a>
+                            {% endif %}
+                        </li>
+                        <li class="nav-item">
+                            {% if notifications_list.has_next %}
+                                <a href="?page={{ notifications_list.next_page_number }}" class="nav-link text-white fw-bold">
+                                    Next
+                                    <svg class="ps-2" xmlns="http://www.w3.org/2000/svg" height="25px" fill="#ffffff" viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM241 377c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l87-87-87-87c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0L345 239c9.4 9.4 9.4 24.6 0 33.9L241 377z"/></svg>
+                                </a>
+                            {% else %}
+                                <a href="#" class="disabled nav-link text-secondary fw-bold">
+                                    Next
+                                    <svg class="ps-2" xmlns="http://www.w3.org/2000/svg" height="25px" fill="#6c757d" viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM241 377c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l87-87-87-87c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0L345 239c9.4 9.4 9.4 24.6 0 33.9L241 377z"/></svg>
+                                </a>
+                            {% endif %}
+                        </li>
+                    </ul>
+                </div>
+
+                </div>
+
+            {% else %}
+                <h3>You have no new notifications...</h3>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

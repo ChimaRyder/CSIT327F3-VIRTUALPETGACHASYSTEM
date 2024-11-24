@@ -46,7 +46,9 @@ INSTALLED_APPS = [
     'channels',
     'chat',
     'daily_rewards',
-    'user_profile'
+    'user_profile',
+    'checkout_system',
+    'notification'
 ]
 
 ASGI_APPLICATION = 'virtualgacha.asgi.application'
@@ -83,6 +85,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'notification.context_processor.notification_context',
             ],
         },
     },

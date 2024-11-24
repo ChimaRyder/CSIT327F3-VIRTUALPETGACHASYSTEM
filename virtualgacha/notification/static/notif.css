@@ -1,0 +1,13 @@
+.notification_container {
+    max-width: 50%;
+    background-color: #1F254B;
+}
+
+.notif-block {
+    transition: 0.2s ease-in-out;
+}
+
+.notif-block:hover {
+    background-color: #181F45;
+
+}

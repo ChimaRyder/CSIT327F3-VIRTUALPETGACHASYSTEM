@@ -29,6 +29,8 @@ def inventory_list(request):
                     inventory = inventory.order_by('pet_id__rarity')
                 if request.GET.get('sort') == 'rarity_descending':
                     inventory = inventory.order_by('pet_id__rarity').reverse()
+                if request.GET.get('sort') == 'status':
+                    inventory = inventory.order_by('is_busy').reverse()
             if request.GET.get('rarity'):
                 rarity_filter = request.GET.getlist('rarity')
                 rarity_enum = ['Common', 'Uncommon', 'Rare', 'Mythical', 'Legendary']

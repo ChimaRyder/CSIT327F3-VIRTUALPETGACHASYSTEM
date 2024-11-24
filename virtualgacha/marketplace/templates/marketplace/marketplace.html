@@ -210,6 +210,38 @@
                 </div>
 
             {% endfor %}
+
+
+        </div>
+        <div class="mb-4 align-self-center">
+            <ul class="nav flex-row justify-content-between">
+                <li class="nav-item">
+                    {% if sales.has_previous %}
+                        <a href="?page={{ sales.previous_page_number }}{% for key, value in request.GET.items %}{% if key != "page" %}&{{ key }}={{ value }}{% endif %}{% endfor %}" class="nav-link text-white fw-bold">
+                            <svg class="pe-2" xmlns="http://www.w3.org/2000/svg" height="25px" fill="#ffffff" viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M512 256A256 256 0 1 0 0 256a256 256 0 1 0 512 0zM271 135c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-87 87 87 87c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0L167 273c-9.4-9.4-9.4-24.6 0-33.9L271 135z"/></svg>
+                            Previous
+                        </a>
+                    {% else %}
+                        <a href="#" class="disabled nav-link text-secondary fw-bold">
+                            <svg class="pe-2" xmlns="http://www.w3.org/2000/svg" height="25px" fill="#6c757d" viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M512 256A256 256 0 1 0 0 256a256 256 0 1 0 512 0zM271 135c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-87 87 87 87c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0L167 273c-9.4-9.4-9.4-24.6 0-33.9L271 135z"/></svg>
+                            Previous
+                        </a>
+                    {% endif %}
+                </li>
+                <li class="nav-item">
+                    {% if sales.has_next %}
+                        <a href="?page={{ sales.next_page_number }}{% for key, value in request.GET.items %}{% if key != "page" %}&{{ key }}={{ value }}{% endif %}{% endfor %}" class="nav-link text-white fw-bold">
+                            Next
+                            <svg class="ps-2" xmlns="http://www.w3.org/2000/svg" height="25px" fill="#ffffff" viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM241 377c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l87-87-87-87c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0L345 239c9.4 9.4 9.4 24.6 0 33.9L241 377z"/></svg>
+                        </a>
+                    {% else %}
+                        <a href="#" class="disabled nav-link text-secondary fw-bold">
+                            Next
+                            <svg class="ps-2" xmlns="http://www.w3.org/2000/svg" height="25px" fill="#6c757d" viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM241 377c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l87-87-87-87c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0L345 239c9.4 9.4 9.4 24.6 0 33.9L241 377z"/></svg>
+                        </a>
+                    {% endif %}
+                </li>
+            </ul>
         </div>
 
         {% else %}
