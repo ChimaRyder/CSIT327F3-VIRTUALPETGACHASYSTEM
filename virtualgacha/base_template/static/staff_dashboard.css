@@ -1,0 +1,41 @@
+.staff-dashboard-container{
+    width: 100%;
+    height: 100%;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+
+    gap: 1em;
+
+    font-size: 1.5em;
+    font-weight: bold;
+
+    overflow-y: hidden;
+}
+
+.staff-dashboard-activity{
+    background-color: #040528;
+
+    padding: 2em;
+}
+
+.staff-dashboard-statistics {
+    margin: 0.5em;
+    height: calc(100dvh - 56px); /* Set a specific height */
+    overflow-y: auto; /* Enable vertical scrolling */
+}
+
+.staff-dashboard-statistics-item{
+    background-color: #040528;
+    width: 100%;
+    height: 30dvh;
+    border-radius: 15px;
+    padding: 2em;
+    margin-top: 1em;
+}
+
+.staff-dashboard-chats{
+    background-color: #040528;
+
+    padding: 2em;
+}
