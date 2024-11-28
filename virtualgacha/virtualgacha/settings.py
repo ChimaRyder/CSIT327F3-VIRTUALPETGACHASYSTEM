@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'daily_rewards',
     'user_profile',
     'checkout_system',
-    'notification'
+    'notification',
+    'admin_system'
 ]
 
 ASGI_APPLICATION = 'virtualgacha.asgi.application'

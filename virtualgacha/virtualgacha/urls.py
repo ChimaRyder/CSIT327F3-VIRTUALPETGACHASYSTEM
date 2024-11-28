@@ -37,6 +37,7 @@ urlpatterns = [
     path('daily/', include('daily_rewards.urls')),
     path('checkout/', include('checkout_system.urls')),
     path('notifications/', include('notification.urls')),
+    path('staff/', include('admin_system.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
