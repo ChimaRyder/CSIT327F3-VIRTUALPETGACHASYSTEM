@@ -35,6 +35,11 @@
     border-radius: 10px;
 }
 
+.lootbox-image{
+    width: 100%;
+    height: 100%;
+}
+
 .lootbox-featured-container{
     display: flex;
     flex-direction: row;

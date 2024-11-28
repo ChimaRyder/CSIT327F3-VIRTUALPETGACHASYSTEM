@@ -1,0 +1,70 @@
+.staff-lootboxes-add-container{
+    width: 100%;
+    height: calc(100vh - 56px);
+
+    display: flex;
+    flex-direction: column;
+    padding: 2em;
+    overflow-y: auto;
+}
+
+.staff-lootboxes-add-container input{
+    width: 100%;
+
+    color: #1a1a1a;
+}
+
+.staff-lootboxes-add-droptable{
+    height: 30em;
+
+    display: grid;
+    
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    gap: 1em;
+
+    grid-template-areas: 
+    "pet result";
+}
+
+.staff-lootboxes-add-pets{
+    grid-area: pet;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+
+.staff-lootboxes-add-result{
+    grid-area: result;
+
+    height: 100%;
+    overflow-y: auto;
+
+}
+
+.staff-lootboxes-add-pets-header{
+    width: 100%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 2em;
+    /* padding: 1em; */
+
+    height: 3em;
+}
+
+#search-container{
+    width: 30%;
+}
+
+.staff-lootboxes-add-pets-header-filter{
+    width: 20%;
+}
+
+.staff-lootboxes-add-pets-header-sort{
+    width: 20%;
+}
