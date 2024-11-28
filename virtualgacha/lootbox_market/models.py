@@ -4,8 +4,6 @@ from django.contrib.auth.models import User # Can be changed later if a custom U
 
 
 # Create your models here.
-
-    
 class Lootbox(models.Model):
     class TaggedRelevance(models.TextChoices):
         POPULAR = 'popular', 'Popular'
