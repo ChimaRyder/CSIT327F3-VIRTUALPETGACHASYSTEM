@@ -12,6 +12,9 @@ def is_staff(user):
     return user.is_staff
 
 def login_view(request):
+    if request.user.is_authenticated:
+        return redirect('staff_dashboard')
+
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
