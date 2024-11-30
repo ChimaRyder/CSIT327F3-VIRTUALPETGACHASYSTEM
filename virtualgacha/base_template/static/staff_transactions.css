@@ -1,0 +1,46 @@
+.staff-transactions-container{
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+
+    padding: 2em;
+}
+
+.staff-add-pets-button{
+    width: 15em;
+}
+
+.staff-transactions-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 1em;
+    background-color: #07092E;
+    border-radius: 15px;
+}
+
+#search-container{
+    width: 50%;
+}
+
+
+.staff-transactions-header-filter{
+    width: 10%;
+}
+
+.staff-transactions-header-sort{
+    width:10%;
+}
+
+li{
+    color: #1a1a1a;
+}
+
+li::marker{
+    color: #1a1a1a;
+}
