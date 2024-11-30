@@ -11,63 +11,151 @@
 
 {% block content %}
 
-    <div class = "staff-dashboard-container">
-        <div class = "staff-dashboard-activity">
-            Global Activity
-        </div>
+<div class="staff-dashboard-container">
+    <div class="staff-dashboard-activity">
+        Global Activity Feed <br>
+        (10 most recent)
 
-        <div class = "staff-dashboard-statistics">
-            <div class =" staff-dashboard-statistics-item">
-                <div class = "staff-dashboard-statistics-item-title">
-                    Global Sales
+        <button class="btn btn-primary" data-toggle="modal" data-target="#announcementModal">Make an Announcement</button>
+
+        <div class = "staff-dashboard-activity-container">
+        {% for notification in notifications_list %}
+            <div class = "staff-dashboard-activity-item">
+                <div class="staff-dashboard-activity-item-date">
+                    [{{ notification.created_at }}]
                 </div>
-                <div class = "staff-dashboard-statistics-item-value">
-                    100
+                <div class="staff-dashboard-activity-item-title">
+                    {{ notification.user.username}} :  {{ notification.title }}
+                </div>
+                <div class="staff-dashboard-activity-item-text">
+                    {{ notification.text }}
                 </div>
             </div>
-
-            <div class =" staff-dashboard-statistics-item">
-                <div class = "staff-dashboard-statistics-item-title">
-                    Global Sales
-                </div>
-                <div class = "staff-dashboard-statistics-item-value">
-                    100
-                </div>
-            </div>
-
-            <div class =" staff-dashboard-statistics-item">
-                <div class = "staff-dashboard-statistics-item-title">
-                    Global Sales
-                </div>
-                <div class = "staff-dashboard-statistics-item-value">
-                    100
-                </div>
-            </div>
-
-            <div class =" staff-dashboard-statistics-item">
-                <div class = "staff-dashboard-statistics-item-title">
-                    Global Sales
-                </div>
-                <div class = "staff-dashboard-statistics-item-value">
-                    100
-                </div>
-            </div>
-
-            <div class =" staff-dashboard-statistics-item">
-                <div class = "staff-dashboard-statistics-item-title">
-                    Global Sales
-                </div>
-                <div class = "staff-dashboard-statistics-item-value">
-                    100
-                </div>
-            </div>
-
-        </div>
-
-        <div class = "staff-dashboard-chats">
-            Global Chat
+        {% endfor %}
         </div>
     </div>
 
-  
+    <div class="staff-dashboard-statistics">
+        <div class="staff-dashboard-statistics-item">
+            <div class="staff-dashboard-statistics-item-title">
+                Total Pulls
+            </div>
+            <div class="staff-dashboard-statistics-item-value">
+                {{ total_pulls }}
+            </div>
+        </div>
+
+        <div class="staff-dashboard-statistics-item">
+            <div class="staff-dashboard-statistics-item-title">
+                Total Adventures
+            </div>
+            <div class="staff-dashboard-statistics-item-value">
+                {{ total_adventures }}
+            </div>
+        </div>
+
+        <div class="staff-dashboard-statistics-item">
+            <div class="staff-dashboard-statistics-item-title">
+                Total Credits Spent on Lootbox
+            </div>
+            <div class="staff-dashboard-statistics-item-value">
+                ¢{{ total_money_spent_lootbox }}
+            </div>
+        </div>
+
+        <div class="staff-dashboard-statistics-item">
+            <div class="staff-dashboard-statistics-item-title">
+                Total Credits Spent on Marketplace
+            </div>
+            <div class="staff-dashboard-statistics-item-value">
+                ¢{{ total_money_spent_marketplace }}
+            </div>
+        </div>
+
+        <div class="staff-dashboard-statistics-item">
+            <div class="staff-dashboard-statistics-item-title">
+                Total Money Spent on Transactions
+            </div>
+            <div class="staff-dashboard-statistics-item-value">
+                ${{ total_money_spent_transactions }}
+            </div>
+        </div>
+
+        <div class="staff-dashboard-statistics-item">
+            <div class="staff-dashboard-statistics-item-title">
+                Total Users
+            </div>
+            <div class="staff-dashboard-statistics-item-value">
+                {{ total_users }}
+            </div>
+        </div>
+    </div>
+
+    <div class="staff-dashboard-chats">
+        Global Chat
+    </div>
+</div>
+
+
+<!-- Announcement Modal -->
+<div class="modal fade" id="announcementModal" tabindex="-1" role="dialog" aria-labelledby="announcementModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="announcementModalLabel">Make an Announcement</h5>
+            </div>
+            <div class="modal-body">
+                <form id="announcementForm">
+                    <div class="form-group">
+                        <label for="announcementTitle">Title</label>
+                        <input type="text" class="form-control" id="announcementTitle" name="title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="announcementText">Text</label>
+                        <textarea class="form-control" id="announcementText" name="text" rows="3" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="claimCoins">Claim Coins</label>
+                        <input type="number" class="form-control" id="claimCoins" name="claim_coins" value="0" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="submitAnnouncement()">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    function submitAnnouncement() {
+        const form = document.getElementById('announcementForm');
+        const formData = new FormData(form);
+
+        fetch('/staff/make_announcement/', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Announcement made successfully.');
+                location.reload();
+            } else {
+                alert('Failed to make announcement.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+</script>
+
 {% endblock %}

@@ -1,7 +1,6 @@
 * {
     box-sizing: border-box;
     color: #fdfdfd;
-    overflow-y: hidden;
   } 
   
 html, body {
@@ -75,6 +74,10 @@ a{
     cursor: pointer;
 }
 
+select option{
+    color: #1a1a1a !important;
+}
+
 
 /* BOOTSTRAP COLORS */
 .pagination > .page-item > .page-link {
@@ -90,6 +93,8 @@ a{
 .modal-footer {
     border: 0;
 }
+
+
 
 
 

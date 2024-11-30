@@ -7,7 +7,13 @@ from inventory.models import *
 from django.contrib import messages
 from django.http import JsonResponse
 from inventory.models import *
+from login_register.models import *
 from lootbox_market.models import * 
+from checkout_system.models import *
+from notification.models import *
+from marketplace.models import *
+from django.db.models import Sum
+from adventure.models import *
 import json
 
 def is_staff(user):
@@ -69,10 +75,51 @@ def query_pets(request):
 
     return render(request, 'staff_pets.html', {'page_obj': page_obj, 'rarity_choices': rarity_choices})
 
-@login_required(login_url='admin_login')
+@login_required
 @user_passes_test(is_staff)
 def dashboard_view(request):
-    return render(request, 'staff_dashboard.html')
+    total_pulls = Pull.objects.count()
+    total_adventures = Adventure.objects.count()
+    total_money_spent_lootbox = Pull.objects.aggregate(total_cost=Sum('lootbox_id__rate_cost'))['total_cost'] or 0
+    total_money_spent_marketplace = Purchase.objects.filter(sale__is_active=False).aggregate(total_cost=Sum('sale__cost'))['total_cost'] or 0
+    total_money_spent_transactions = Transaction.objects.filter(status='SUCCESS', transaction_type='BUY').aggregate(total_cost=Sum('total_changes'))['total_cost'] or 0
+    total_sales_transactions = Transaction.objects.filter(status='SUCCESS', transaction_type='BUY').count()
+    total_users = User.objects.count()
+    notifications_list = Notification.objects.all().order_by('-created_at')
+
+    context = {
+        'notifications_list' : notifications_list[0:10],
+        'total_pulls': total_pulls,
+        'total_adventures': total_adventures,
+        'total_money_spent_lootbox': total_money_spent_lootbox,
+        'total_money_spent_marketplace': total_money_spent_marketplace,
+        'total_money_spent_transactions': total_money_spent_transactions,
+        'total_sales_transactions': total_sales_transactions,
+        'total_users': total_users,
+    }
+
+    return render(request, 'staff_dashboard.html', context)
+
+@login_required
+@user_passes_test(is_staff)
+def make_announcement(request):
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        text = request.POST.get('text')
+        claim_coins = request.POST.get('claim_coins', 0)
+
+        users = User.objects.all()
+        for user in users:
+            Notification.objects.create(
+                user=user,
+                notif_status=Notification.Status.unread,
+                title=title,
+                text=text + f" - admin {request.user.username}",
+                claim_coins=claim_coins
+            )
+
+        return JsonResponse({'success': True})
+    return JsonResponse({'success': False})
 
 @login_required(login_url='admin_login')
 @user_passes_test(is_staff)
@@ -352,6 +399,242 @@ def delete_inventory(request, inventory_id):
     inventory_item = get_object_or_404(Inventory, id=inventory_id)
     if request.method == 'POST':
         inventory_item.delete()
+        return JsonResponse({'success': True})
+    return JsonResponse({'success': False})
+
+# -- USERS --
+@login_required
+@user_passes_test(is_staff)
+def query_users(request):
+    query = request.GET.get('search', '')
+    filter_by = request.GET.get('filter', 'user_id')
+    sort_by = request.GET.get('sort', 'ascending')
+
+    profiles = Profile.objects.all()
+
+    if query:
+        if filter_by == 'user_id':
+            profiles = profiles.filter(user__id__icontains=query)
+        elif filter_by == 'username':
+            profiles = profiles.filter(user__username__icontains=query)
+        elif filter_by == 'email':
+            profiles = profiles.filter(user__email__icontains=query)
+        elif filter_by == 'first_name':
+            profiles = profiles.filter(first_name__icontains=query)
+        elif filter_by == 'last_name':
+            profiles = profiles.filter(last_name__icontains=query)
+        elif filter_by == 'birthdate':
+            profiles = profiles.filter(birthdate__icontains=query)
+        elif filter_by == 'total_credits':
+            profiles = profiles.filter(total_credits__icontains=query)
+
+    if sort_by == 'ascending':
+        profiles = profiles.order_by(f'user__{filter_by}' if filter_by in ['username', 'email'] else filter_by)
+    elif sort_by == 'descending':
+        profiles = profiles.order_by(f'-user__{filter_by}' if filter_by in ['username', 'email'] else f'-{filter_by}')
+
+    paginator = Paginator(profiles, 5)  # Show 10 transactions per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'staff_users.html', {'page_obj': page_obj})
+
+@login_required
+@user_passes_test(is_staff)
+def edit_user(request, user_id):
+    if request.method == 'POST':
+        user = get_object_or_404(User, id=user_id)
+        profile = get_object_or_404(Profile, user=user)
+
+        user.username = request.POST.get('username')
+        user.email = request.POST.get('email')
+        user.save()
+
+        profile.first_name = request.POST.get('first_name')
+        profile.last_name = request.POST.get('last_name')
+        profile.birthdate = request.POST.get('birthdate')
+        profile.total_credits = request.POST.get('total_credits')
+        # profile.following = request.POST.get('following')
+        # profile.followers = request.POST.get('followers')
+        profile.save()
+
+        return redirect('staff_users')
+    return redirect('staff_users')
+
+@login_required
+@user_passes_test(is_staff)
+def ban_user(request, user_id):
+    if request.method == 'POST':
+        user = get_object_or_404(User, id=user_id)
+        user.is_active = False
+        user.save()
+        return JsonResponse({'success': True})
+    return JsonResponse({'success': False})
+
+@login_required
+@user_passes_test(is_staff)
+def unban_user(request, user_id):
+    if request.method == 'POST':
+        user = get_object_or_404(User, id=user_id)
+        user.is_active = True
+        user.save()
+        return JsonResponse({'success': True})
+    return JsonResponse({'success': False})
+
+@login_required
+@user_passes_test(is_staff)
+def turn_admin(request, user_id):
+    if request.method == 'POST':
+        user = get_object_or_404(User, id=user_id)
+        user.is_staff = True
+        user.save()
+        return JsonResponse({'success': True})
+    return JsonResponse({'success': False})
+
+@login_required
+@user_passes_test(is_staff)
+def revoke_admin(request, user_id):
+    if request.method == 'POST':
+        user = get_object_or_404(User, id=user_id)
+        user.is_staff = False
+        user.save()
+        return JsonResponse({'success': True})
+    return JsonResponse({'success': False})
+
+# -- TRANSACTIONS --
+@login_required
+@user_passes_test(is_staff)
+def query_transactions(request):
+    query = request.GET.get('search', '')
+    filter_by = request.GET.get('filter', 'transaction_id')
+    sort_by = request.GET.get('sort', 'ascending')
+
+    transactions = Transaction.objects.all()
+
+    if query:
+        if filter_by == 'transaction_id':
+            transactions = transactions.filter(transaction_id__icontains=query)
+        elif filter_by == 'user_id':
+            transactions = transactions.filter(user_id__icontains=query)
+        elif filter_by == 'status':
+            transactions = transactions.filter(status__icontains=query)
+        elif filter_by == 'payment_method':
+            transactions = transactions.filter(payment_method__icontains=query)
+        elif filter_by == 'transaction_type':
+            transactions = transactions.filter(transaction_type__icontains=query)
+        elif filter_by == 'gcash_number':
+            transactions = transactions.filter(gcash_details__gcash_number__icontains=query)
+        elif filter_by == 'card_number':
+            transactions = transactions.filter(card_details__card_number__icontains=query)
+
+    if sort_by == 'ascending':
+        transactions = transactions.order_by(filter_by)
+    elif sort_by == 'descending':
+        transactions = transactions.order_by(f'-{filter_by}')
+
+    paginator = Paginator(transactions, 5)  # Show 10 transactions per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'staff_transactions.html', {'page_obj': page_obj})
+
+login_required
+@user_passes_test(is_staff)
+def approve_transaction(request, transaction_id):
+    if request.method == 'POST':
+        transaction = get_object_or_404(Transaction, transaction_id=transaction_id)
+        transaction.status = 'SUCCESS'
+        transaction.save()
+
+        # Create notification
+        user = get_object_or_404(User, id=transaction.user_id)
+
+        profile = get_object_or_404(Profile, user=user)
+
+        profile.total_credits -= transaction.credits_amount
+
+        Notification.objects.create(
+            user=user,
+            title="Transaction Approved",
+            text=f"Your transaction with ID {transaction.transaction_id} has been approved.",
+            claim_coins=0,
+        )
+
+        profile.save()
+
+        return JsonResponse({'success': True})
+    return JsonResponse({'success': False})
+
+@login_required
+@user_passes_test(is_staff)
+def decline_transaction(request, transaction_id):
+    if request.method == 'POST':
+        transaction = get_object_or_404(Transaction, transaction_id=transaction_id)
+        transaction.status = 'DECLINED'
+        transaction.save()
+
+        # Create notification
+        user = get_object_or_404(User, id=transaction.user_id)
+        Notification.objects.create(
+            user=user,
+            title="Transaction Declined",
+            text=f"Your transaction with ID {transaction.transaction_id} has been declined.",
+            claim_coins=0,
+        )
+
+        return JsonResponse({'success': True})
+    return JsonResponse({'success': False})
+
+# -- MARKETPLACE --
+@login_required
+@user_passes_test(is_staff)
+def query_marketplace(request):
+    query = request.GET.get('search', '')
+    filter_by = request.GET.get('filter', 'id')
+    sort_by = request.GET.get('sort', 'ascending')
+
+    sales = Sale.objects.all()
+
+    if query:
+        if filter_by == 'id':
+            sales = sales.filter(id__icontains=query)
+        elif filter_by == 'pet_species':
+            sales = sales.filter(inventory__pet_id__pet_species__icontains=query)
+        elif filter_by == 'cost':
+            sales = sales.filter(cost__icontains=query)
+        elif filter_by == 'date_created':
+            sales = sales.filter(date_created__icontains=query)
+        elif filter_by == 'status':
+            sales = sales.filter(is_active__icontains=query)
+        elif filter_by == 'seller':
+            sales = sales.filter(inventory__owner_id__username__icontains=query)
+
+   
+    if sort_by == 'ascending':
+        if filter_by == 'seller':
+            sales = sales.order_by('inventory__owner_id__username')
+        else:
+            sales = sales.order_by(filter_by)
+    elif sort_by == 'descending':
+        if filter_by == 'seller':
+            sales = sales.order_by('-inventory__owner_id__username')
+        else:
+            sales = sales.order_by(f'-{filter_by}')
+
+    paginator = Paginator(sales, 10)  # Show 10 sales per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'staff_marketplace.html', {'page_obj': page_obj})
+
+
+@login_required
+@user_passes_test(is_staff)
+def toggle_listing(request, sale_id):
+    if request.method == 'POST':
+        sale = get_object_or_404(Sale, id=sale_id)
+        sale.is_active = not sale.is_active
+        sale.save()
         return JsonResponse({'success': True})
     return JsonResponse({'success': False})
 

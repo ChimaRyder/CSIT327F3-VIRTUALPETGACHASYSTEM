@@ -3,6 +3,7 @@ from django.shortcuts import render, get_object_or_404
 from .models import Transaction, GCashDetails, CardDetails
 from login_register.models import Profile
 from decimal import *
+from notification.models import Notification
 
 def process_transaction(request):
     print(request.POST)
@@ -18,12 +19,12 @@ def process_transaction(request):
     
 
     if transaction_type == 'BUY':
-        profile.total_credits += int(credits_amount)
+        pass
     else:
         if profile.total_credits < int(credits_amount):
             return JsonResponse({'status': 'FAILED', 'message': 'Insufficient credits'})
         else:
-            profile.total_credits -= int(credits_amount)
+            pass
 
     # Parse the total_changes value
     total_changes_value = float(total_changes.split('$')[1].replace(',', ''))
@@ -87,7 +88,12 @@ def process_transaction(request):
             'card_security_code': transaction.card_details.card_security_code,
         })
     print("SUCCESS!")
-    profile.save()
+    Notification.objects.create(
+        user=request.user,
+        title=f"A {transaction_type} request is sent",
+        text=f"Your transaction with ID {transaction.transaction_id} is waiting for approval.",
+        claim_coins=0,
+    )
     return JsonResponse(response_data)
 
 def checkout(request):
