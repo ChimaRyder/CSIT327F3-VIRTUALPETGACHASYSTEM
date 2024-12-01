@@ -1,0 +1,107 @@
+* {
+    box-sizing: border-box;
+    color: #fdfdfd
+  } 
+  
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+.staff-login-container {
+    background-color: #010222;
+    height: 100dvh;
+    width: 100dvw;
+
+    display: grid;
+    grid-template-columns: 0.25fr 1fr;
+    grid-template-rows: 56px 1fr;
+
+    grid-template-areas: 
+    "navbar navbar"
+    "main-content main-content";
+
+}
+
+.staff-login-navbar {
+    grid-area: navbar;
+    background-color: #010222;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    font-size: 1.5em;
+    font-weight: 500;
+    gap: 0.5em;
+    filter: drop-shadow(-1px 4px 4px #000000);
+}
+
+.staff-login-wrapper {
+    grid-area: main-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 0.5em;
+    font-size: 2em;
+    font-weight: bolder;
+}
+
+.staff-login-form {
+    width: 40dvw;
+    height: 40dvh;
+    background-color: #07092E;
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1em;
+    font-size: 0.7em;
+    padding: 2em;
+    font-weight: lighter;
+}
+
+.staff-login-form button {
+    height: 4em;
+    font-weight: bolder;
+}
+
+.staff-login-form input {
+    height: 3em;
+    font-size: 1em;
+    padding: 0.5em;
+    border-radius: 5px;
+    border: none;
+}
+
+.alert p{
+    color: #1A1A1A;
+}
+
+
+
+
+
+
+/* RARITY COLORS */
+
+.mythical{
+color: #FFD60A;
+}
+
+.legendary{
+color: #ED0685;
+}
+
+.rare{
+color: #1699D2;
+}
+
+.common{
+color: #CDCDCD;
+}
+
+.uncommon{
+color: #00DD0F;
+}

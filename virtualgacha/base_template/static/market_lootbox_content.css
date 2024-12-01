@@ -69,6 +69,9 @@
 
 .lootbox-market-item {
     background-color: #CCCCCC;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
     min-width: 20em; /* Ensure items have enough width to cause overflow */
     height: 100%;
     flex-shrink: 0; /* Prevent items from shrinking */

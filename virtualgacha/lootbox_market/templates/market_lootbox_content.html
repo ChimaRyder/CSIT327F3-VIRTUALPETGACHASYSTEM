@@ -70,8 +70,8 @@
 
         <div class="recent-container">
             {% for item in recent_items %}
-            <a href="{% url 'lootbox_detail' item.lootbox_id %}" class="lootbox-market-item-link">
-                <div class="lootbox-market-item">
+            <a href="{% url 'lootbox_detail' item.lootbox_id %}" class="lootbox-market-item-link" >
+                <div class="lootbox-market-item" {% if item.image %} style="background-image: url('{{ item.image.url }}');" {% endif %}>
                     <h2>{{ item.lootbox_id }}</h2>
                     <p>{{ item.lootbox_name }}</p>
                 </div>

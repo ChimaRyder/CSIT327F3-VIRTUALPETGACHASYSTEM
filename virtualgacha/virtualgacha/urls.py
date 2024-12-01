@@ -37,6 +37,7 @@ urlpatterns = [
     path('daily/', include('daily_rewards.urls')),
     path('checkout/', include('checkout_system.urls')),
     path('notifications/', include('notification.urls')),
+    path('staff/', include('admin_system.urls')),
     path('leaderboard/', include('leaderboard.urls')),
 ]
 

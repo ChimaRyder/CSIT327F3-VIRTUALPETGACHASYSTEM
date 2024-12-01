@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'user_profile',
     'checkout_system',
     'notification',
+    'admin_system',
     'leaderboard',
 ]
 
