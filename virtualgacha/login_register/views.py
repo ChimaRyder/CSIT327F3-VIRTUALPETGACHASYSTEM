@@ -1,3 +1,4 @@
+import random
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from .models import Profile
@@ -11,7 +12,11 @@ def landingpage_view(request):
 
     if request.user.is_authenticated:
         return redirect('lootboxes')
-    return render(request, 'landing_page.html')
+    return render(request, 'login_register/landing_page.html')
+
+BUILT_IN_AVATARS = [
+    'avatar1.png', 'avatar2.png', 'avatar3.png', 'avatar4.png'
+]
 
 def signup_view(request):
     if request.user.is_authenticated:
@@ -22,13 +27,18 @@ def signup_view(request):
 
         if form.is_valid():
             user = form.save()
+
+            if not Profile.objects.filter(user=user).exists():
+                random_avatar = random.choice(BUILT_IN_AVATARS)
+                Profile.objects.create(user=user, avatar=random_avatar)
+
             return redirect('login')
         else:
             print(form.errors)
     else:
         form = SignupForm()
 
-    return render(request, 'signup.html', {'form': form})
+    return render(request, 'login_register/signup.html', {'form': form})
 
 def login_view(request):
     if request.user.is_authenticated:
@@ -43,4 +53,4 @@ def login_view(request):
     else:
         form = LoginForm()
     
-    return render(request, 'login.html', {'form': form})
+    return render(request, 'login_register/login.html', {'form': form})

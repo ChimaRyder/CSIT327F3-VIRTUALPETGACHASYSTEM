@@ -1,15 +1,19 @@
 {% extends 'base.html' %}
+{% block title %} Profile {% endblock %}
 {% load static %}
 
+
 {% block css %}
-    <link rel="stylesheet" href="{% static 'user_profile_content.css' %}"/>
+    <link rel="stylesheet" href="{% static 'user_profile.css' %}">
 {% endblock %}
+
 
 {% block content %}
 <div class="profile-header">
     <div class="profile-img">
-        <img src="/media/avatars/{{ profile.avatar }}" alt="avatar"/>
+        <img src="{{ profile.get_profile_image_url }}" alt="profile avatar" />
     </div>
+    
 
     <div class="profile-details">
         <div class="profile-username"> {{ profile.user }} </div>
@@ -42,6 +46,25 @@
         </form>
     </div>
 </div>
+
+
+{% if messages %}
+    <div class="alert-container">
+        {% for message in messages %}
+            {% if message.tags == 'error' %}
+                <div class="alert alert-danger">
+                    {{ message }}
+                </div>
+            {% elif message.tags == 'success' %}
+                <div class="alert alert-success">
+                    {{ message }}
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endif %}
+
+
 
 <div class="total-pets">
     <div class="total-pets-header">
@@ -76,11 +99,30 @@
     </div>
 
     <div class="pets-bar">
-        <div style="background-color: #CDCDCD; width: {{ rarity_bar.common }}%;"></div>
-        <div style="background-color: #00DD0F; width: {{ rarity_bar.uncommon }}%;"></div>
-        <div style="background-color: #1699D2; width: {{ rarity_bar.rare }}%;"></div>
-        <div style="background-color: #FFD60A; width: {{ rarity_bar.mythical }}%;"></div>
-        <div style="background-color: #ED0685; width: {{ rarity_bar.legendary }}%;"></div>
+        <div style="background-color: #CDCDCD; width: {{ rarity_bar.common }}%;" 
+             data-bs-toggle="tooltip" 
+             data-bs-placement="top" 
+             title="{{ rarity_ctr.common }} pets"></div>
+        
+        <div style="background-color: #00DD0F; width: {{ rarity_bar.uncommon }}%;" 
+             data-bs-toggle="tooltip" 
+             data-bs-placement="top" 
+             title="{{ rarity_ctr.uncommon }} pets"></div>
+        
+        <div style="background-color: #1699D2; width: {{ rarity_bar.rare }}%;" 
+             data-bs-toggle="tooltip" 
+             data-bs-placement="top" 
+             title="{{ rarity_ctr.rare }} pets"></div>
+        
+        <div style="background-color: #FFD60A; width: {{ rarity_bar.mythical }}%;" 
+             data-bs-toggle="tooltip" 
+             data-bs-placement="top" 
+             title="{{ rarity_ctr.mythical }} pets"></div>
+        
+        <div style="background-color: #ED0685; width: {{ rarity_bar.legendary }}%;" 
+             data-bs-toggle="tooltip" 
+             data-bs-placement="top" 
+             title="{{ rarity_ctr.legendary }} pets"></div>
     </div>
 </div>
 
@@ -99,20 +141,6 @@
             </div>
         </div>
     </a>
-
-    {% if messages %}
-    <div class="alert-container">
-        {% for message in messages %}
-            <div class="alert 
-                {% if message.tags == 'error' %}
-                    alert-danger
-                {% endif %}
-                alert-dismissible fade show" role="alert">
-                {{ message }}
-            </div>
-        {% endfor %}
-    </div>
-    {% endif %}
 
     <div class="showcase-pet-container">
         {% if showcased_pets %}
@@ -173,29 +201,33 @@
 
     <div style="margin: 20px 0px; padding: 20px 20px; background-color: #07092E;">
         <div class="mb-4">
-            <div class="achievements-list mt-3" id="achievements">
-                {% for achievement in unlocked_achievements %}
-                    <div class="achievement-item">
+            {% if unlocked_achievements %}
+                <div class="achievements-list mt-3" id="achievements">
+                    {% for achievement in unlocked_achievements %}
+                        <div class="achievement-item">
 
-                        <div class="achievement-badge">
-                            {{ achievement.badge|safe }}    
+                            <div class="achievement-badge">
+                                {{ achievement.badge|safe }}    
+                            </div>
+
+                            <div class="achievement-deets">
+                                <h5 class="achievement-title">{{ achievement.name }}</h5>
+                                <h6 class="achievement-description">{{ achievement.description }}</h6>
+                                <!-- <div style="text-align: right;"> Complete </div> -->
+                            </div>
                         </div>
-
-                        <div class="achievement-deets">
-                            <h5 class="achievement-title">{{ achievement.name }}</h5>
-                            <h6 class="achievement-description">{{ achievement.description }}</h6>
-                            <!-- <div style="text-align: right;"> Complete </div> -->
-                        </div>
-                    </div>
-                {% endfor %}
-            </div>
-
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="no-pets-showcased">
+                    <h3> No achievements yet...</h3>
+                    <p> Complete challenges to fill your achievement board! </p>
+                </div>
+            {% endif %}
         </div>
-
-        
     </div>
-
 </div>
+
 
 
 <!-- Edit profile modal -->
@@ -208,20 +240,24 @@
             </div>
 
             <div class="modal-body">
-                <form id="editProfileForm" method="POST" action="{% url 'edit_profile' %}">
+                <form id="editProfileForm" method="POST" action="{% url 'edit_profile' %}" enctype="multipart/form-data">
                     {% csrf_token %}
-                    <div class="mb-3" style="display: flex; align-items: center;">
-                        <img src="/media/avatars/{{ profile.avatar }}" id="pet_image" class="img-thumbnail" style="width: 100px; height: 100px; border-radius: 50px; margin-right: 20px;" alt="Pet Photo">
-                        
-                        <div>
-                            <label for="inventory_id" class="form-label"> Choose Avatar </label>
-                            <select>
-                                <option style="background-image:url(/media/avatars/avatar2.png);"></option>
+                    <div class="mb-3 mt-3" style="display: flex; align-items: center;">
+                        <img src="{{ profile.get_profile_image_url }}" id="avatar-img">
+
+                        <div id="avatar-btns">
+                            <select id="avatar-options" class="avatar-btn" name="avatar" class="form-select" onchange="updateAvatar()">
+                                <option value="" disabled selected="selected" id="selected-avatar">Select avatar</option>
+                                <option value="avatar1.png"> Nurse Bear </option>
+                                <option value="avatar2.png"> Blue Sheep </option>
+                                <option value="avatar3.png"> Brown Spider </option>
+                                <option value="avatar4.png"> Climbing Sloth </option>
                             </select>
-                            <select class="form-select" id="inventory_id" name="inventory_id">
-                                <option value="" disabled selected> Select an avatar </option>
-                                
-                            </select>
+
+                            <input type="file" id="uploaded_avatar" name="uploaded_avatar" class="d-none" accept="image/*">
+                            <button type="button" class="avatar-btn" onclick="document.getElementById('uploaded_avatar').click();">
+                                Select a new image
+                            </button>
                         </div>
                     </div>
 
@@ -240,20 +276,58 @@
                         <input type="text" class="form-control" id="username" name="username" value="{{ profile.user.username }}" required>
                     </div>
 
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Change Password</label><br>
+
+                        <label class="switch mb-3">
+                            <input type="checkbox" id="changepass-toggle">
+                            <span class="slider round"></span>
+                        </label>
+
+                        <div id="pass-inputs" style="display: none;">
+                            <input type="password" class="form-control mb-3" id="curr_password" name="curr_password" placeholder="Current Password">
+                            <input type="password" class="form-control mb-3" id="new_password" name="new_password" placeholder="Password">
+                            <input type="password" class="form-control mb-3" id="confirm-password" name="confirm-password" placeholder="Confirm Password">
+                        </div>
+                    </div>
+
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">
                             Delete Account
                         </button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary">Save</button>
+                        <button type="submit" class="btn btn-primary"> Save </button>
                     </div>
                 </form>
             </div>
-
-            
         </div>
     </div>
 </div>
+
+<script>
+    function updateAvatar() {
+        var selectedAvatar = document.getElementById('avatar-options').value;
+        document.getElementById('avatar-img').src = '/media/avatars/' + selectedAvatar;
+    }
+
+    document.getElementById('uploaded_avatar').addEventListener('change', function(event) {
+        const reader = new FileReader();
+        reader.onload = function () {
+            document.getElementById('avatar-img').src = reader.result;
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    });
+
+    document.getElementById('changepass-toggle').addEventListener('change', function(event) {
+        const passFields = document.getElementById('pass-inputs');
+
+        if(this.checked) {
+            passFields.style.display = 'block';
+        } else {
+            passFields.style.display = 'none';
+        }
+    });
+</script>
 
 
 <!-- Delete account modal -->
@@ -381,40 +455,39 @@
     document.addEventListener("DOMContentLoaded", function () {
         const buttons = document.querySelectorAll(".filter-btn");
         const petCards = document.querySelectorAll(".pet-card");
+        const noPetsMessage = document.getElementById('no-pets-message');
 
         buttons.forEach(button => {
             button.addEventListener("click", () => {
                 const filter = button.getAttribute("data-filter");
 
-                if(filter === "all") {
+                petCards.forEach(card => card.style.display = "none");
+
+                if (filter === "all") {
                     petCards.forEach(card => card.style.display = "block");
                 } else {
                     petCards.forEach(card => {
-                        if(card.getAttribute("data-rarity") === filter) {
+                        if (card.getAttribute("data-rarity") === filter) {
                             card.style.display = "block";
-                        } else {
-                            card.style.display = "none";
                         }
                     });
                 }
 
-                const noPetsMessage = document.getElementById('no-pets-message');
-                if(petsFound) {
+                const visiblePets = Array.from(petCards).some(card => card.style.display === "block");
+
+                if (visiblePets) {
                     noPetsMessage.classList.add('d-none');
                 } else {
                     noPetsMessage.classList.remove('d-none');
                 }
+
+                buttons.forEach(btn => btn.classList.remove("active"));
+                button.classList.add("active");
             });
         });
     });
-
-    buttons.forEach(button => {
-        button.addEventListener("click", () => {
-            buttons.forEach(btn => btn.classList.remove("active"));
-            button.classList.add("active");
-        });
-    });
 </script>
+
 
 
 

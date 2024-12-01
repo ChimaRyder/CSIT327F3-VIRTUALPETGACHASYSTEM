@@ -91,27 +91,27 @@ achievements = {
             'name': "Streak Achiever",
             'description': "Claim rewards for a week.",
             'badge': '',
-            "condition": lambda user: Inventory.objects.filter(owner_id=user).exists(),
+            "condition": lambda user: UserReward.objects.filter(user=user, claimed=True, claim_date__gte=timezone.now() - timedelta(days=3)).count() == 3,
         }, {
             'name': "Persistence Pays",
             'description': "Claim rewards for 15 consecutive days.",
             'badge': '',
-            "condition": lambda user: Inventory.objects.filter(owner_id=user).exists(),
+            "condition": lambda user: UserReward.objects.filter(user=user, claimed=True, claim_date__gte=timezone.now() - timedelta(days=3)).count() == 3,
         }, {
             'name': "Hardcore Collector",
             'description': "Claim rewards for a month.",
             'badge': '',
-            "condition": lambda user: Inventory.objects.filter(owner_id=user).exists(),
+            "condition": lambda user: UserReward.objects.filter(user=user, claimed=True, claim_date__gte=timezone.now() - timedelta(days=3)).count() == 3,
         }, {
             'name': "Ultimate Streak",
             'description': "Claim rewards for 2 months.",
             'badge': '',
-            "condition": lambda user: Inventory.objects.filter(owner_id=user).exists(),
+            "condition": lambda user: UserReward.objects.filter(user=user, claimed=True, claim_date__gte=timezone.now() - timedelta(days=3)).count() == 3,
         }, {
             'name': "Adventurer’s Commitment",
             'description': "Log in daily for a month while sending a pet on adventures.",
             'badge': '',
-            "condition": lambda user: Inventory.objects.filter(owner_id=user).exists(),
+            "condition": lambda user: UserReward.objects.filter(user=user, claimed=True, claim_date__gte=timezone.now() - timedelta(days=3)).count() == 3,
         }
     ]
 

@@ -8,7 +8,9 @@
 
 .profile-img img {
     width: 120px;
+    height: 120px;
     margin-right: 20px;
+    border-radius: 50%;
 }
 
 .profile-username {
@@ -58,6 +60,107 @@
 }
 
 /*
+    EDIT PROFILE
+*/
+
+#avatar-img {
+    width: 150px;
+    height: 150px;
+    border: 5px solid transparent;
+    outline: 5px solid #1699D2;
+    border-radius: 50%;
+    margin-right: 20px;
+}
+
+#avatar-btns {
+    display: flex;
+}
+
+.avatar-btn {
+    margin: 5px;
+    padding: 10px;
+    background-color: #1699D2;
+    color: white;
+    font-size: small;
+    border: 0;
+    border-radius: 10px;
+}
+
+.avatar-btn:hover {
+    cursor: pointer;
+}
+
+#avatar-options {
+    background-color: #1699D2;
+    border: 0;
+    margin-right: 15px;
+}
+
+#avatar-options option {
+    color: black;
+}
+
+.mb-3 label {
+    font-weight: bold;
+}
+
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 25px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 25px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 21px;
+    width: 21px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #2196F3;
+}
+
+input:checked + .slider:before {
+    transform: translateX(25px);
+}
+
+.slider.round {
+    border-radius: 25px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+
+
+/*
     TOTAL PETS
 */
 
@@ -103,6 +206,8 @@
     margin: 0px;
     height: 20px;
 }
+
+
 
 /*
     PET SHOWCASE
@@ -235,7 +340,8 @@
 }
 
 .filter-btn.active {
-    background-color: #007bff;
+    background-color: transparent;
+    border: 0;
     color: white;
 }
 

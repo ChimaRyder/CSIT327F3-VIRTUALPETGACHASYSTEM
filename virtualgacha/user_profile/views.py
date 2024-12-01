@@ -1,15 +1,17 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from login_register.models import Profile
 from inventory.models import Inventory, Pet
 from django.contrib import messages
-from django.http import HttpResponseForbidden, JsonResponse
+from django.http import HttpResponse, HttpResponseForbidden, JsonResponse
 from django.core.paginator import Paginator
 from .achievements import achievements
 from .models import UserAchievements
+from django.contrib.auth import update_session_auth_hash
 
 # Create your views here.
-@login_required
+@login_required(login_url='login')
 def user_profile(request):
     profile = Profile.objects.filter(user=request.user).first()
     pets = Inventory.objects.select_related('pet_id').filter(owner_id=request.user.id)
@@ -24,12 +26,13 @@ def user_profile(request):
     current_category = curr_page.object_list[0]
     category_achievements = achievements[current_category]
 
-    unlocked_achievements = check_and_save_achievements(request.user)
+    unlocked_achievements = check_achievements(request.user)
 
     context = {
         'profile': profile,
         'total_pets': total_pets,
         'rarity_bar': rarity_bar,
+        'rarity_ctr': rarity_ctr,
         'pets': pets,
         'showcased_pets': showcased_pets,
         'filtered_rarity': filtered_rarity,
@@ -39,8 +42,8 @@ def user_profile(request):
         "curr_page": curr_page,
         "unlocked_achievements": unlocked_achievements,
     }
-
-    return render(request, 'user_profile.html', context)
+    
+    return render(request, 'user_profile/user_profile.html', context)
 
 
 def edit_profile(request):
@@ -49,18 +52,42 @@ def edit_profile(request):
     if request.method == 'POST':
         profile.first_name = request.POST.get('first_name', profile.first_name)
         profile.last_name = request.POST.get('last_name', profile.last_name)
-
         username = request.POST.get('username', profile.user.username)
 
+        curr_password = request.POST.get('curr_password')
+        if curr_password and not request.user.check_password(curr_password):
+            messages.error(request, "The current password is incorrect.")
+            return redirect('profile')
+
+        new_password = request.POST.get('new_password')
+        confirm_password = request.POST.get('confirm-password')
+        if new_password and new_password != confirm_password:
+            messages.error(request, "Passwords do not match.")
+            return redirect('profile')
+
         if username != profile.user.username:
+            if User.objects.filter(username=username).exists():
+                messages.error(request, "Username already taken. Please enter a different one.", extra_tags="username_error")
+                return redirect('profile')
+
             profile.user.username = username
             profile.user.save()
 
-        avatar_id = request.POST.get('inventory_id')
-        if avatar_id:
-            profile.avatar = avatar_id
+        if 'avatar' in request.POST:
+            profile.avatar = request.POST['avatar']
+            profile.uploaded_avatar = None
+
+        if 'uploaded_avatar' in request.FILES:
+            profile.uploaded_avatar = request.FILES['uploaded_avatar']
+            profile.avatar = None
+
+        if new_password:
+            profile.user.set_password(new_password)
+            profile.user.save()
+            update_session_auth_hash(request, profile.user) 
 
         profile.save()
+        messages.success(request, "Your profile has been successfully updated!")
         return redirect('profile')
 
     return HttpResponseForbidden("Invalid request")
@@ -110,7 +137,7 @@ def showcase_pet(request, pet_id):
         profile = request.user.profile
 
         if profile.showcased_pets.all().count() >= 5:
-            messages.error(request, "You can only showcase up to 5 pets.")
+            messages.error(request, "You can only showcase up to 5 pets.", extra_tags="showcase_error")
             return redirect('profile')
 
         pet = get_object_or_404(Inventory, id=pet_id,  owner_id=request.user)
@@ -139,7 +166,7 @@ def achievement_pages(request, achievement_types):
 
     return paginator.get_page(page_num)
 
-def check_and_save_achievements(user):
+def check_achievements(user):
     unlocked_achievements = []
 
     for category, achievements_list in achievements.items():
