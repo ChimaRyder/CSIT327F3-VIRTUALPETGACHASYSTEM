@@ -15,7 +15,7 @@ def leaderboards_view(request):
 
     for profile in profiles:
         points = calculate_player_points(profile)
-        avatar_url = f"/media/avatars/{profile.avatar}"
+        avatar_url = profile.get_profile_image_url
         full_name = f"{profile.user.first_name} {profile.user.last_name}"
         leaderboard_data.append((full_name, profile.user.username, points, avatar_url))
 

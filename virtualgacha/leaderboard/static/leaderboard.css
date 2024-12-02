@@ -64,13 +64,16 @@
 
 .avatar-img {
   position: absolute;
-  top: 43.5%;
-  left: 50%;
+  top: 45%;
+  left: 50.5%;
   transform: translate(-50%, -50%);
-  width: 65%;
-  height: 65%;
+  /* width: 65%;
+  height: 65%; */
+  width: 149px;
+  height: 149px;
   border-radius: 50%;
   z-index: 1;
+  object-fit: cover;
 }
 
 .avatar-top1 {
@@ -148,6 +151,7 @@
   width: 125px;
   margin-left: 37%;
   margin-bottom: 10px;
+  border-radius: 50%;
 }
 
 .profile-username{
