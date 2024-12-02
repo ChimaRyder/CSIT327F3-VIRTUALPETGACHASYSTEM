@@ -1,0 +1,120 @@
+#query {
+    background-color: #1A1D45;
+    border: 0;
+    color: #ffffff;
+    height: 50px;
+    padding: 1.5rem;
+}
+
+#query::placeholder {
+    color: #ffffff;
+    opacity: 50%;
+}
+
+.btn {
+    border: 0;
+    font-weight: bold;
+}
+
+.btn-primary {
+    background-color: #272ffe;
+}
+
+.modal-content {
+    background-color: #1A1D45 !important;
+}
+
+.modal-footer {
+    border: 0;
+}
+
+.form-check label {
+    font-size: 19px;
+    margin-left: 10px;
+}
+
+.form-check {
+    display: flex;
+    align-items: center;
+}
+
+.search-button {
+    top: 9px;
+    right: 13px;
+    width: 70px;
+}
+
+.space-x > * + * {
+    margin-left: 0.5rem;
+}
+
+.rarity_common {
+    --color: #CDCDCD;
+}
+
+.rarity_uncommon {
+    --color: #00DD0F;
+}
+
+.rarity_rare {
+    --color: #1699D2;
+}
+
+.rarity_mythical {
+    --color: #FFD60A;
+}
+
+.rarity_legendary {
+    --color: #ED0685;
+}
+
+#selected_pet_image {
+    image-rendering: pixelated;
+    filter: drop-shadow(4px 4px 14px var(--color));
+}
+
+.image-parent {
+    min-height: 209px;
+    border: 1px solid white;
+}
+
+.pet_subtext {
+    font-size: 12px;
+    text-align: right;
+}
+
+.desired_parent {
+    min-height: 100px;
+}
+
+.for_delete {
+    transition: 0.1s ease-in-out;
+    cursor: pointer;
+}
+
+.for_delete img {
+    transition: 0.1s ease-in-out;
+}
+
+.for_delete:hover {
+    background-color: #dc3545;
+}
+
+.for_delete:hover img {
+    filter: drop-shadow(4px 4px 14px rgba(26, 26, 26, 0.5));
+}
+
+.list-item-container {
+    min-height: 70px;
+    background-color: #1F254B;
+    text-decoration: none;
+}
+
+.list-image-container {
+    max-width: 100px;
+}
+
+.mw {
+    min-height: 40px;
+    min-width: 200px;
+}
