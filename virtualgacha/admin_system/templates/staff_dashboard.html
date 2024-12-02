@@ -90,9 +90,22 @@
             </div>
         </div>
     </div>
-
-    <div class="staff-dashboard-chats">
-        Global Chat
+    <div class="staff-dashboard-pulls">
+        Live Pulls (Recent 10)
+        <div class = "staff-dashboard-pulls-container">
+        {% for pull in pulls_list %}
+            <div class = "staff-dashboard-pulls-item">
+                <div class="staff-dashboard-pulls-item-date">
+                    [{{ pull.pull_id__date_created }}]
+                </div>
+                <div class="staff-dashboard-pulls-item-title">
+                    {{ pull.pull_id__user_id__username }} : {{ pull.pull_id__lootbox_id__lootbox_name }}
+                </div>
+                <div class="staff-dashboard-pulls-item-text">
+                    pulled a <strong> {{ pull.pet_id__pet_species }} </strong> 
+                </div>
+            </div>
+        {% endfor %}
     </div>
 </div>
 
