@@ -49,13 +49,11 @@
               let initial = message.sender.charAt(0).toUpperCase();
               messages.insertAdjacentHTML('beforeend',
                 `<div class="chatmsg">
-                  <div class="sender-profile">
-                    ${initial}
-                  </div>
+                  <img src="${message.sender_profile_image_url}" class="sender-profile">
 
                   <div class="sender-message">
                     <div class="message-sender">
-                      ${message.sender} | ${message.timestamp}
+                      <b> ${message.sender} </b> | ${message.timestamp}
                     </div>
 
                     <div class="message-content">
@@ -83,13 +81,11 @@
         let messages = document.getElementById('messages');
         messages.insertAdjacentHTML('beforeend',
             `<div class="chatmsg">
-                <div class="sender-profile">
-                    ${initial}
-                </div>
+                <img src="{{ profile.get_profile_image_url }}" class="sender-profile">
 
                 <div class="sender-message">
                     <div class="message-sender">
-                        ${data.sender} | ${formattedTime}
+                        <b> ${data.sender} </b> | ${formattedTime}
                     </div>
 
                     <div class="message-content">

@@ -22,6 +22,46 @@ html, body {
   margin: 0px 10px;
 }
 
+/*
+  top navbar
+*/
+
+.header-nav {
+  padding: 15px 20px;
+}
+
+.topnav-logo {
+  margin: 0px 20px 0px 10px;
+}
+
+.topnav-title {
+  margin-bottom: 0;
+  margin-right: 20px;
+  font-family: "Super Boys";
+  font-size: 36px;
+  align-self: center;
+}
+
+.custom-navbar .nav-item {
+  margin: 0px 20px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 18px;
+}
+
+.custom-navbar .left:hover {
+  font-weight: bold;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}
+
+img.navbar-profile-img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+/**/
+
 .sidebar {
   width: 280px;
   height: 100%;
@@ -78,25 +118,18 @@ html, body {
 }
 
 .chatmsg {
+  margin: 10px 0px;
   padding: 10px 0px;
   display: flex;
   justify-content: flex-start;
 }
 
 .sender-profile {
-  display: flex;
-  margin: 15px 15px 15px 5px;
-  padding: 10px;
   height: 50px;
   width: 50px;
-  object-fit: cover;
-  overflow: hidden;
-  background-color: #F6D00C;
+  align-self: center;
+  margin-right: 10px;
   border-radius: 50%;
-  color: black;
-  justify-content: center;
-  align-items: center;
-  flex-shrink: 0;
 }
 
 .sender-message {
@@ -105,7 +138,7 @@ html, body {
 }
 
 .message-sender {
-  padding: 5px 0px;
+  padding-bottom: 5px;
 }
 
 .message-content {
