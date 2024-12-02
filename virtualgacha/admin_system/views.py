@@ -14,6 +14,8 @@ from notification.models import *
 from marketplace.models import *
 from django.db.models import Sum
 from adventure.models import *
+from trading.models import *
+from chat.models import *
 import json
 
 def is_staff(user):
@@ -86,6 +88,10 @@ def dashboard_view(request):
     total_sales_transactions = Transaction.objects.filter(status='SUCCESS', transaction_type='BUY').count()
     total_users = User.objects.count()
     notifications_list = Notification.objects.all().order_by('-created_at')
+    pull_pets = PullPet.objects.select_related('pull_id').order_by('-pull_id__date_created')[:10]
+    pull_pets_data = pull_pets.values('pull_id__user_id__username' , "pet_id__pet_species", 'pull_id', 'pull_id__lootbox_id__lootbox_name','pet_id', 'pull_id__date_created')
+
+    print(pull_pets_data)
 
     context = {
         'notifications_list' : notifications_list[0:10],
@@ -96,6 +102,7 @@ def dashboard_view(request):
         'total_money_spent_transactions': total_money_spent_transactions,
         'total_sales_transactions': total_sales_transactions,
         'total_users': total_users,
+        'pulls_list' : pull_pets_data
     }
 
     return render(request, 'staff_dashboard.html', context)
@@ -501,6 +508,68 @@ def revoke_admin(request, user_id):
         return JsonResponse({'success': True})
     return JsonResponse({'success': False})
 
+# -- TRADES --
+@login_required(login_url='admin_login')
+@user_passes_test(is_staff)
+def query_trades(request):
+    query = request.GET.get('search', '')
+    filter_by = request.GET.get('filter', '')
+    sort_by = request.GET.get('sort', '')
+
+    trades = Trade.objects.all()
+
+    if query:
+        if filter_by == 'trade_id':
+            trades = trades.filter(id=query)
+        elif filter_by == 'pet_to_trade':
+            trades = trades.filter(pet_to_trade__pet_id__id=query)
+        elif filter_by == 'pet_to_offer':
+            trades = trades.filter(pet_to_offer__pet_id__id=query)
+        elif filter_by == 'status':
+            trades = trades.filter(status__icontains=query)
+        elif filter_by == 'date_created':
+            trades = trades.filter(date_created__date=query)
+        elif filter_by == 'date_completed':
+            trades = trades.filter(date_completed__date=query)
+        elif filter_by == 'username':
+            trades = trades.filter(pet_to_trade__owner_id__username__icontains=query)
+
+    if filter_by:
+        if filter_by == 'trade_id':
+            trades = trades.order_by('id')
+        elif filter_by == 'pet_to_trade':
+            trades = trades.order_by('pet_to_trade')
+        elif filter_by == 'pet_to_offer':
+            trades = trades.order_by('pet_to_offer')
+        elif filter_by == 'status':
+            trades = trades.order_by('status')
+        elif filter_by == 'date_created':
+            trades = trades.order_by('date_created')
+        elif filter_by == 'date_completed':
+            trades = trades.order_by('date_completed')
+        elif filter_by == 'username':
+            trades = trades.order_by('pet_to_trade__owner_id__username')
+
+    if sort_by == 'descending':
+        trades = trades.reverse()
+
+
+    paginator = Paginator(trades, 10)  # Show 10 trades per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'staff_trades.html', {'page_obj': page_obj})
+
+@login_required(login_url='admin_login')
+@user_passes_test(is_staff)
+def disable_trade(request, trade_id):
+    trade = get_object_or_404(Trade, id=trade_id)
+    if request.method == 'POST':
+        trade.status = Trade.TradeStatus.success
+        trade.save()
+        return JsonResponse({'success': True})
+    return JsonResponse({'success': False})
+
 # -- TRANSACTIONS --
 @login_required
 @user_passes_test(is_staff)
@@ -637,6 +706,120 @@ def toggle_listing(request, sale_id):
         sale.save()
         return JsonResponse({'success': True})
     return JsonResponse({'success': False})
+
+
+# -- MESSAGES -- 
+@login_required(login_url='admin_login')
+@user_passes_test(is_staff)
+def query_chats(request):
+    query = request.GET.get('search', '')
+    filter_by = request.GET.get('filter', '')
+    sort_by = request.GET.get('sort', '')
+
+    messages = Message.objects.all()
+
+    if query:
+        if filter_by == 'message_id':
+            messages = messages.filter(id=query)
+        elif filter_by == 'room':
+            messages = messages.filter(room__name__icontains=query)
+        elif filter_by == 'sender':
+            messages = messages.filter(sender__username__icontains=query)
+        elif filter_by == 'content':
+            messages = messages.filter(content__icontains=query)
+        elif filter_by == 'timestamp':
+            messages = messages.filter(timestamp__date=query)
+
+    if filter_by:
+        if filter_by == 'message_id':
+            messages = messages.order_by('id')
+        elif filter_by == 'room':
+            messages = messages.order_by('room')
+        elif filter_by == 'sender':
+            messages = messages.order_by('sender')
+        elif filter_by == 'content':
+            messages = messages.order_by('content')
+        elif filter_by == 'timestamp':
+            messages = messages.order_by('timestamp')
+
+    if sort_by == 'descending':
+        messages = messages.reverse()
+
+    paginator = Paginator(messages, 10)  # Show 10 messages per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'staff_messages.html', {'page_obj': page_obj})
+
+@login_required(login_url='admin_login')
+@user_passes_test(is_staff)
+def view_message_content(request, message_id):
+    message = get_object_or_404(Message, id=message_id)
+    return JsonResponse({
+        'message_id': message.id,
+        'room': message.room.name,
+        'sender': message.sender.username,
+        'content': message.content,
+        'timestamp': message.timestamp
+    })
+
+@login_required(login_url='admin_login')
+@user_passes_test(is_staff)
+def delete_message(request, message_id):
+    if request.method == 'POST':
+        message = get_object_or_404(Message, id=message_id)
+        message.delete()
+        return JsonResponse({'success': True})
+    return JsonResponse({'success': False})
+
+# -- ROOMS --
+@login_required(login_url='admin_login')
+@user_passes_test(is_staff)
+def query_staff_rooms(request):
+    query = request.GET.get('search', '')
+    filter_by = request.GET.get('filter', '')
+    sort_by = request.GET.get('sort', '')
+
+    staff_rooms = ChatRoom.objects.all()
+
+    if query:
+        if filter_by == 'id':
+            staff_rooms = staff_rooms.filter(id=query)
+        elif filter_by == 'type':
+            staff_rooms = staff_rooms.filter(type__icontains=query)
+        elif filter_by == 'name':
+            staff_rooms = staff_rooms.filter(name__icontains=query)
+        elif filter_by == 'members':
+            staff_rooms = staff_rooms.annotate(member_count=models.Count('members')).filter(member_count=query)
+
+    if filter_by:
+        if filter_by == 'id':
+            staff_rooms = staff_rooms.order_by('id')
+        elif filter_by == 'type':
+            staff_rooms = staff_rooms.order_by('type')
+        elif filter_by == 'name':
+            staff_rooms = staff_rooms.order_by('name')
+        elif filter_by == 'members':
+            staff_rooms = staff_rooms.annotate(member_count=models.Count('members')).order_by('member_count')
+
+    if sort_by == 'descending':
+        staff_rooms = staff_rooms.reverse()
+
+    paginator = Paginator(staff_rooms, 10)  # Show 10 staff rooms per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'staff_rooms.html', {'page_obj': page_obj})
+
+@login_required(login_url='admin_login')
+@user_passes_test(is_staff)
+def delete_chat_room(request, room_id):
+    if request.method == 'POST':
+        room = get_object_or_404(ChatRoom, room_id=room_id)
+        room.delete()
+        return JsonResponse({'success': True})
+    return JsonResponse({'success': False})
+
 
 # OTHER SUTFF
 

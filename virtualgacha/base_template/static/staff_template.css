@@ -6,6 +6,7 @@
 html, body {
     height: 100%;
     margin: 0;
+    overflow: hidden;
 }
 
 .staff-template-container {
@@ -79,6 +80,8 @@ select option{
 }
 
 
+
+
 /* BOOTSTRAP COLORS */
 .pagination > .page-item > .page-link {
     background-color: #07092E;
@@ -93,6 +96,8 @@ select option{
 .modal-footer {
     border: 0;
 }
+
+
 
 
 

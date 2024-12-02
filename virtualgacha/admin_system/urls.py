@@ -40,4 +40,13 @@ urlpatterns = [
 
     path('make_announcement/', views.make_announcement, name='make_announcement'),
 
+    path('trades/', views.query_trades, name='query_trades'),
+    path('disable_trade/<int:trade_id>/', views.disable_trade, name='disable_trade'),
+
+    path('chats/', views.query_chats, name='query_chats'),
+    path('view_message_content/<int:message_id>/', views.view_message_content, name='view_message_content'),
+    path('delete_message/<int:message_id>/', views.delete_message, name='delete_message'),
+
+    path('chat_rooms/', views.query_staff_rooms, name='query_chat_rooms'),
+    path('delete_chat_room/<int:room_id>/', views.delete_chat_room, name='delete_chat_room'),
 ]

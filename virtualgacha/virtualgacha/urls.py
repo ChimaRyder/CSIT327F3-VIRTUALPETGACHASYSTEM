@@ -40,6 +40,7 @@ urlpatterns = [
     path('staff/', include('admin_system.urls')),
     path('leaderboard/', include('leaderboard.urls')),
     path('trade/', include('trading.urls')),
+    
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

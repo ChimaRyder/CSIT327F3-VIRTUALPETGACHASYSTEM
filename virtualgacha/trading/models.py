@@ -11,6 +11,7 @@ class Trade(models.Model):
         available = 'available', 'Available'
         waiting = 'waiting', 'Waiting'
         success = 'success', 'Success'
+        closed = 'closed', 'Closed'
 
     pet_to_trade = models.ForeignKey(Inventory, on_delete=models.CASCADE, related_name='pet_to_trade')
     pet_to_offer = models.ForeignKey(Inventory, on_delete=models.CASCADE, related_name='pet_to_offer', null=True, blank=True)

@@ -10,7 +10,7 @@
     font-size: 1.5em;
     font-weight: bold;
 
-
+    overflow: hidden;
 }
 
 .staff-dashboard-activity{
@@ -74,4 +74,37 @@
     width: 100%;
     height: 100%; /* Set a specific height */
     overflow-y: scroll;
+}
+
+
+.staff-dashboard-pulls-item{
+    width: 100%;
+    height: fit;
+    border-radius: 0.5em;
+    padding: 1em;
+    margin-top: 1em;
+    font-size: 0.5em;
+    background-color: #1F254B;
+}
+
+.staff-dashboard-pulls-item-title{
+    font-size: 1em;
+    font-weight: bold;
+}
+
+.staff-dashboard-pulls-item-text{
+    font-size: 1em;
+    font-weight: lighter;
+}
+
+.staff-dashboard-pulls-container{
+    width: 100%;
+    height: 100%; /* Set a specific height */
+    overflow-y: scroll;
+}
+
+.staff-dashboard-pulls{
+    background-color: #040528;
+
+    padding: 2em;
 }
