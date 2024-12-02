@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'notification',
     'admin_system',
     'leaderboard',
+    'trading',
 ]
 
 ASGI_APPLICATION = 'virtualgacha.asgi.application'
