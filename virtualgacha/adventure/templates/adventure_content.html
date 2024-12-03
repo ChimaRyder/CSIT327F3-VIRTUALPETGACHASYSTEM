@@ -152,7 +152,7 @@
                             {{ history.adventure_id.adventurepet_set.first.pet_id.pet_species }}
                         </div>
                         <div class="adventure-history-pet-rate">
-                            ${{ history.adventure_id.adventurepet_set.first.rate_multiplier }}/hour
+                            ${{ history.adventure_id.adventurepet_set.first.rate_multiplier|floatformat:2 }}/hr
                         </div>
                         <div class="adventure-history-pet-earned">
                             ${{ history.adventure_id.total_earnings|floatformat:2 }}
