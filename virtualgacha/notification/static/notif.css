@@ -1,5 +1,6 @@
 .notification_container {
     max-width: 50%;
+    height: fit-content;
     background-color: #1F254B;
 }
 
@@ -10,4 +11,9 @@
 .notif-block:hover {
     background-color: #181F45;
 
+}
+
+.notif-icon-cont {
+    min-height: 70px;
+    min-width: 70px;
 }

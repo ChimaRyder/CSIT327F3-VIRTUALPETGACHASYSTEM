@@ -108,6 +108,11 @@
     min-height: 70px;
     background-color: #1F254B;
     text-decoration: none;
+    transition: 0.2s ease-in-out;
+}
+
+.list-item-container:hover {
+    background-color: #1A1D45;
 }
 
 .list-image-container {
@@ -116,5 +121,36 @@
 
 .mw {
     min-height: 40px;
-    min-width: 200px;
+    min-width: 40px;
+}
+
+.random {
+    min-height: 55px;
+    min-width: 55px;
+}
+
+.trade-view-image-container {
+    min-width: 400px;
+    min-height: 400px;
+    background: linear-gradient(40deg, rgba(26,29,69,1) 0%, rgba(39,47,254,1) 95%);
+}
+
+.trade-view-image-container img {
+    image-rendering: pixelated;
+    filter: drop-shadow(4px 4px 14px rgba(26, 26, 26, 0.5));
+}
+
+.pet-preferences-container {
+    min-height: 100px;
+    max-width: 480px;
+    background-color: #1F254B;
+}
+
+.pref-mw {
+    min-width: 100px;
+    min-height: 100px;
+}
+
+.error-image {
+    image-rendering: pixelated;
 }

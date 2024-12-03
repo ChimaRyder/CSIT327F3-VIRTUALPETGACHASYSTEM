@@ -16,5 +16,6 @@ class Notification(models.Model):
     text = models.TextField()
     created_at = models.DateTimeField(default=timezone.now)
     claim_coins = models.IntegerField(default=0)
+    link = models.URLField(max_length=255, blank=True, null=True)
 
 
