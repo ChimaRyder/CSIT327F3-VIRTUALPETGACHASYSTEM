@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from inventory.models import Inventory
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from daily_rewards.models import *
 
 def upload_to(i, filename):
     return f'uploaded_avatars/{i.user.id}/{filename}'
@@ -15,6 +16,10 @@ class Profile(models.Model):
         ('avatar3.png', 'Avatar 3'),
         ('avatar4.png', 'Avatar 4'),
     ]
+
+    print(Reward.objects.latest('id'))
+
+
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=50)
