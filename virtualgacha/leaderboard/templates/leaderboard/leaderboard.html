@@ -71,7 +71,7 @@
     
         <div class="leaderboard-body">
             {% for profile in rest_lead %}
-                <a href="#otherprofile" class="profile-link" data-bs-toggle="modal" style="text-decoration: none; {% if curr_prof == profile.user %} border:1px solid yellow; {% endif %}"
+                <a href="#otherprofile" class="profile-link" data-bs-toggle="modal" style="text-decoration: none; {% if curr_prof == profile.1 %} border:1px solid yellow; {% endif %}"
                 data-username="{{ profile.1 }}"
                 data-avatar="{{ profile.3 }}"
                 data-fullname="{{ profile.0 }}"

@@ -446,12 +446,12 @@
 
                                     <div class="showcase-remove-btns">
                                         {% if p in user.profile.showcased_pets.all %}
-                                            <form action="{% url 'unshowcase_pet' p.id %}" method="POST">
+                                            <form action="{% url 'user_profile:unshowcase_pet' p.id %}" method="POST">
                                                 {% csrf_token %}
                                                 <button type="submit" class="btn btn-danger">Unshowcase Pet</button>
                                             </form>
                                         {% else %}
-                                            <form action="{% url 'showcase_pet' p.id %}" method="POST">
+                                            <form action="{% url 'user_profile:showcase_pet' p.id %}" method="POST">
                                                 {% csrf_token %}
                                                 <button type="submit" class="btn btn-primary">Showcase Pet</button>
                                             </form>
