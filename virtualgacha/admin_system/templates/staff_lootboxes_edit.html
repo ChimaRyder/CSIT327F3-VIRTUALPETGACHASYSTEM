@@ -26,9 +26,9 @@
     <div class="mb-3">
         <label for="tagged_relevance" class="form-label">Tagged Relevance</label>
         <select class="form-select" id="tagged_relevance" name="tagged_relevance">
-            <option value="popular">Popular</option>
-            <option value="recent">Recent</option>
-            <option value="featured">Featured</option>
+            {% for key, value in lootbox.TaggedRelevance.choices %}
+            <option value="{{ key }}" {% if lootbox.tagged_relevance == key %}selected{% endif %}>{{ value }}</option>
+            {% endfor %}
         </select>
     </div>
 

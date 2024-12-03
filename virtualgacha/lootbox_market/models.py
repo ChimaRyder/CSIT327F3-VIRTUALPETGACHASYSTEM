@@ -1,7 +1,7 @@
 from django.db import models
 from inventory.models import Pet
 from django.contrib.auth.models import User # Can be changed later if a custom User model is made, only foreign key is required
-
+from login_register.models import Profile
 
 # Create your models here.
 class Lootbox(models.Model):
@@ -47,6 +47,10 @@ class Pull(models.Model):
 
     def get_total_spent(self):
         return self.roll_info * self.lootbox_id.rate_cost
+    
+    def get_user_avatar(self):
+        profile = Profile.objects.filter(user=self.user_id).first()
+        return profile.get_profile_image_url()
 
     def __str__(self):
         return f'Pull {self.pull_id} by {self.user_id}'

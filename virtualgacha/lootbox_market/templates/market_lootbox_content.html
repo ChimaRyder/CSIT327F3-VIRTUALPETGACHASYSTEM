@@ -28,8 +28,8 @@
                 {% for item in search_results %}
                 <a href="{% url 'lootbox_detail' item.lootbox_id %}" class="lootbox-market-item-link">
                     <div class="search-market-item" {% if item.image %} style="background-image: url('{{ item.image.url }}');" {% endif %}>
-                        <h2>{{ item.lootbox_id }}</h2>
-                        <p>{{ item.lootbox_name }}</p>
+                        {% comment %} <h2>{{ item.lootbox_id }}</h2> {% endcomment %}
+                        {% comment %} <p>{{ item.lootbox_name }}</p> {% endcomment %}
                     </div>
                 </a>
                 {% endfor %}
@@ -42,8 +42,8 @@
             {% for item in featured_items %}
             <a href="{% url 'lootbox_detail' item.lootbox_id %}" class="lootbox-market-item-link">
                 <div class="featured-item" {% if item.image %} style="background-image: url('{{ item.image.url }}');" {% endif %}>
-                    <h2>{{ item.lootbox_id }}</h2>
-                    <p>{{ item.lootbox_name }}</p>
+                    {% comment %} <h2>{{ item.lootbox_id }}</h2> {% endcomment %}
+                    {% comment %} <p>{{ item.lootbox_name }}</p> {% endcomment %}
                 </div>
             </a>
             {% endfor %}
@@ -57,8 +57,8 @@
             {% for item in popular_items %}
                 <a href="{% url 'lootbox_detail' item.lootbox_id %}" class="lootbox-market-item-link">
                     <div class="lootbox-market-item" {% if item.image %} style="background-image: url('{{ item.image.url }}');" {% endif %}>
-                        <h2>{{ item.lootbox_id }}</h2>
-                        <p>{{ item.lootbox_name }}</p>
+                        {% comment %} <h2>{{ item.lootbox_id }}</h2> {% endcomment %}
+                        {% comment %} <p>{{ item.lootbox_name }}</p> {% endcomment %}
                     </div>
                 </a>
             {% endfor %}
@@ -72,8 +72,8 @@
             {% for item in recent_items %}
             <a href="{% url 'lootbox_detail' item.lootbox_id %}" class="lootbox-market-item-link" >
                 <div class="lootbox-market-item" {% if item.image %} style="background-image: url('{{ item.image.url }}');" {% endif %}>
-                    <h2>{{ item.lootbox_id }}</h2>
-                    <p>{{ item.lootbox_name }}</p>
+                    {% comment %} <h2>{{ item.lootbox_id }}</h2> {% endcomment %}
+                    {% comment %} <p>{{ item.lootbox_name }}</p> {% endcomment %}
                 </div>
             </a>
             {% endfor %}

@@ -66,6 +66,7 @@ def lootbox_detail(request, lootbox_id):
 
     total_users = len(set([pull.user_id for pull in lootbox_history]))
 
+
     # Pagination
     paginator = Paginator(lootbox_history, 5)
     page_number = request.GET.get('page')
@@ -75,7 +76,7 @@ def lootbox_detail(request, lootbox_id):
         'lootbox': lootbox,
         'lootbox_history': lootbox_history,
         'lootbox_drop_table' : drop_table,
-        'user_lootbox_history': Pull.objects.filter(user_id=request.user, lootbox_id=lootbox_id),
+        'user_lootbox_history': Pull.objects.filter(user_id=request.user, lootbox_id=lootbox_id)[::-1],
         'total_global_spent': human_readable_format(total_global_spent),
         'total_users': human_readable_format(total_users),
         'page_obj': page_obj,
@@ -122,6 +123,10 @@ def roll_lootbox(request, lootbox_id):
 
     for _ in range(rolls):
         pet = random.choice(drop_table)
+
+        if pet.rarity == Pet.Rarity.LEGENDARY:
+            pet = random.choice(drop_table)
+
         results.append({
             'name': pet.pet_species,
             'rarity': pet.get_rarity_display(),

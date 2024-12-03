@@ -89,7 +89,7 @@
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Close</button>
                                 </div>
                             </div>
                         </div>
@@ -147,7 +147,7 @@
                             <div class="modal-body roll-results-container">
                             </div>
                             <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onClick="location.reload()">Close</button>
                             </div>
                         </div>
                         </div>
@@ -286,7 +286,7 @@
             <div class="lootbox-history-container">
                 {% for history in page_obj %}
                 <div class="lootbox-history-item">
-                    <div class="lootbox-history-profile-image">
+                    <div class="lootbox-history-profile-image" style="background-image: url('{{ history.get_user_avatar }}');">
                         <!-- Add profile image if available -->
                     </div>
 
