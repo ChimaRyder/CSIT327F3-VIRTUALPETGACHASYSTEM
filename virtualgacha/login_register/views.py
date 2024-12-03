@@ -5,6 +5,8 @@ from .models import Profile
 from django.contrib.auth import authenticate, login
 from .forms import SignupForm, LoginForm
 from chat.models import ChatRoom
+from daily_rewards.models import Reward
+import datetime
 
 # Create your views here.
 def landingpage_view(request):
@@ -52,5 +54,13 @@ def login_view(request):
             return redirect('lootboxes')
     else:
         form = LoginForm()
+
+    try:
+        Reward.objects.create(
+            credit_reward=random.randint(50, 500),
+        )
+    except Exception as e:
+        print(e)
+
     
     return render(request, 'login_register/login.html', {'form': form})
