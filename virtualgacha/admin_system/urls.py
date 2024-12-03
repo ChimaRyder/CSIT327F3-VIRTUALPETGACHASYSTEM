@@ -32,7 +32,7 @@ urlpatterns = [
     path('revoke_admin/<int:user_id>/', views.revoke_admin, name='revoke_admin'),
 
     path('transactions/', views.query_transactions, name='staff_transactions'),
-      path('transactions/approve/<int:transaction_id>/', views.approve_transaction, name='approve_transaction'),
+    path('transactions/approve/<int:transaction_id>/', views.approve_transaction, name='approve_transaction'),
     path('transactions/decline/<int:transaction_id>/', views.decline_transaction, name='decline_transaction'),
 
     path('marketplace/', views.query_marketplace, name='staff_marketplace'),

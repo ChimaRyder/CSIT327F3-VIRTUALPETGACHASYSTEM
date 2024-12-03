@@ -15,12 +15,21 @@
 
     <div class="mb-3">
         <label for="lootbox_name" class="form-label">Lootbox Name</label>
-        <input type="text" class="form-control" id="lootbox_name" value="{{ lootbox.lootbox_name }}" placeholder="Enter your lootbox name here">
+        <input tyqpe="text" class="form-control" id="lootbox_name" value="{{ lootbox.lootbox_name }}" placeholder="Enter your lootbox name here">
     </div>
 
     <div class="mb-3">
         <label for="rate_cost" class="form-label">Rate Cost</label>
         <input type="number" class="form-control" id="rate_cost" value="{{ lootbox.rate_cost }}" placeholder="Enter the rate of your lootbox">
+    </div>
+
+    <div class="mb-3">
+        <label for="tagged_relevance" class="form-label">Tagged Relevance</label>
+        <select class="form-select" id="tagged_relevance" name="tagged_relevance">
+            <option value="popular">Popular</option>
+            <option value="recent">Recent</option>
+            <option value="featured">Featured</option>
+        </select>
     </div>
 
     <div class="mb-3">
@@ -237,14 +246,19 @@
             const lootboxName = document.getElementById('lootbox_name').value;
             const rateCost = document.getElementById('rate_cost').value;
             const image = document.getElementById('image').files[0];
+            const tagged_relevance = document.getElementById('tagged_relevance').value;
 
             const formData = new FormData();
+
             formData.append('pet_ids', JSON.stringify(petIds));
             formData.append('lootbox_name', lootboxName);
             formData.append('rate_cost', rateCost);
+            formData.append('tagged_relevance', tagged_relevance);
             if (image) {
                 formData.append('image', image);
             }
+            
+            formData.append('tagged_relevance', tagged_relevance);
 
             fetch(`/staff/lootboxes/edit/{{ lootbox.lootbox_id }}/`, {
                 method: 'POST',
@@ -259,7 +273,7 @@
                         alert('Lootbox updated successfully.');
                         window.location.href = '/staff/lootboxes';
                     } else {
-                        alert('Failed to update lootbox.');
+                        alert(data.message);
                     }
                 })
                 .catch(error => {

@@ -24,6 +24,15 @@
     </div>
 
     <div class="mb-3">
+        <label for="tagged_relevance" class="form-label">Tagged Relevance</label>
+        <select class="form-select" id="tagged_relevance" name="tagged_relevance">
+            <option value="popular">Popular</option>
+            <option value="recent">Recent</option>
+            <option value="featured">Featured</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
         <label for="image" class="form-label">Lootbox Image</label>
         <input type="file" class="form-control" id="image">
     </div>
@@ -215,12 +224,14 @@
             const lootboxName = document.getElementById('lootbox_name').value;
             const rateCost = document.getElementById('rate_cost').value;
             const image = document.getElementById('image').files[0];
+            const tagged_relevance = document.getElementById('tagged_relevance').value;
 
             const formData = new FormData();
             formData.append('pet_ids', JSON.stringify(petIds));
             formData.append('lootbox_name', lootboxName);
             formData.append('rate_cost', rateCost);
             formData.append('image', image);
+            formData.append('tagged_relevance', tagged_relevance);
 
             fetch('/staff/add_lootbox/', {
                 method: 'POST',
@@ -235,7 +246,7 @@
                         alert('Lootbox created successfully.');
                         window.location.href = '/staff/lootboxes';
                     } else {
-                        alert('Failed to create lootbox.');
+                        alert(data.message);
                     }
                 })
                 .catch(error => {

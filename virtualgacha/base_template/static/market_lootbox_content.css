@@ -71,9 +71,9 @@
     background-color: #CCCCCC;
     background-size: contain;
     background-position: center;
-    background-repeat: no-repeat;
-    min-width: 20em; /* Ensure items have enough width to cause overflow */
-    height: 100%;
+    background-repeat: repeat;
+    min-width: 35dvh; /* Ensure items have enough width to cause overflow */
+    height: 35dvh;
     flex-shrink: 0; /* Prevent items from shrinking */
     border-radius: 10px; /* Add rounded corners */
 }
@@ -94,4 +94,9 @@
     height: 30em;
     flex-shrink: 0; /* Prevent items from shrinking */
     border-radius: 10px; /* Add rounded corners */
+    background-size: contain;
+    background-position: center;
+    background-repeat: repeat;
+    min-width: 35dvh; /* Ensure items have enough width to cause overflow */
+    height: 35dvh;
 }

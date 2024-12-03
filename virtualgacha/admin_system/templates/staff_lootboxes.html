@@ -125,7 +125,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="deleteLootbox({{ lootbox.lootbox_id }})">Delete</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="location.href='/staff/delete_lootbox/{{ lootbox.lootbox_id }}'">Delete</button>
             </div>
         </div>
     </div>
@@ -202,31 +202,9 @@
             });
         });
 
-        function editLootbox(lootboxId) {
-            const form = document.getElementById(`editLootboxForm${lootboxId}`);
-            const formData = new FormData(form);
-
-            fetch(`/edit_lootbox/${lootboxId}/`, {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'X-CSRFToken': '{{ csrf_token }}'
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                showResponseModal(data.success ? 'Lootbox edited successfully!' : 'Failed to edit lootbox.');
-                if (data.success) {
-                    location.reload();
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                showResponseModal('An error occurred.');
-            });
-        }
 
         function deleteLootbox(lootboxId) {
+            alert("Clikced!")
             fetch(`/staff/delete_lootbox/${lootboxId}/`, {
                 method: 'POST',
                 headers: {
@@ -252,7 +230,6 @@
             $('#responseModal').modal('show');
         }
 
-        window.editLootbox = editLootbox;
         window.deleteLootbox = deleteLootbox;
     });
 </script>

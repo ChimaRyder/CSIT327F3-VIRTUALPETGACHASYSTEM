@@ -24,6 +24,14 @@ html, body {
 
 }
 
+.staff-template-container{
+    grid-area: main-content;
+    width: 100%;
+    height: 100%;
+
+    overflow-y: auto;
+}
+
 .staff-template-navbar {
     grid-area: navbar;
     background-color: #010222;
