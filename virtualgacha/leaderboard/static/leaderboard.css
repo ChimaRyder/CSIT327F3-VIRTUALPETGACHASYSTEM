@@ -170,8 +170,7 @@
 }
 
 .profile-btns {
-  align-items: center;
-  align-content: center;
+  align-self: center;
 }
 
 
@@ -204,6 +203,11 @@
 
 
 /* modal */
+.profile-modal {
+  display: flex;
+  flex-direction: column;
+}
+
 .modal-content{
   background-color: #1A1D45;
 }
