@@ -17,10 +17,6 @@ class Profile(models.Model):
         ('avatar4.png', 'Avatar 4'),
     ]
 
-    print(Reward.objects.latest('id'))
-
-
-
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)

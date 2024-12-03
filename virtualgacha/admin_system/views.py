@@ -297,11 +297,12 @@ def add_lootbox(request):
         rate_cost = request.POST.get('rate_cost')
         image = request.FILES.get('image')
         pet_ids_str = request.POST.get('pet_ids')
+        tagged_relevance = request.POST.get('tagged_relevance')
 
         # Convert the string representation of the list to an actual list
         pet_ids = json.loads(pet_ids_str)
 
-        lootbox = Lootbox(lootbox_name=lootbox_name, rate_cost=rate_cost, image=image)
+        lootbox = Lootbox(tagged_relevance=tagged_relevance, lootbox_name=lootbox_name, rate_cost=rate_cost, image=image)
         lootbox.save()
 
         for pet_id in pet_ids:
@@ -318,16 +319,23 @@ def add_lootbox(request):
 def edit_lootbox_view(request, lootbox_id):
     lootbox = get_object_or_404(Lootbox, lootbox_id=lootbox_id)
     if request.method == 'POST':
-        lootbox.lootbox_name = request.POST.get('lootbox_name')
-        lootbox.rate_cost = request.POST.get('rate_cost')
-        if 'image' in request.FILES:
-            lootbox.image = request.FILES.get('image')
-        lootbox.save()
+        try: 
+            lootbox.lootbox_name = request.POST.get('lootbox_name')
+            lootbox.rate_cost = request.POST.get('rate_cost')
+            lootbox.tagged_relevance = request.POST.get('tagged_relevance')
+            print("Tagged relevance: ", request.POST.get('tagged_relevance'))
+            
+            if 'image' in request.FILES:
+                lootbox.image = request.FILES.get('image')
+            lootbox.save()
+        except Exception as e:
+            return JsonResponse({'success': False, 'message' : str(e)})
 
         # Update drop table
         LootboxDropTable.objects.filter(lootbox_id=lootbox).delete()
         pet_ids_str = request.POST.get('pet_ids')
         pet_ids = json.loads(pet_ids_str)
+        
         for pet_id in pet_ids:
             pet = Pet.objects.get(id=int(pet_id))
             lootbox_drop_table = LootboxDropTable(lootbox_id=lootbox, pet_id=pet)
@@ -347,10 +355,10 @@ def edit_lootbox_view(request, lootbox_id):
 @user_passes_test(login_url='admin_login', test_func=is_staff)
 def delete_lootbox(request, lootbox_id):
     lootbox = get_object_or_404(Lootbox, lootbox_id=lootbox_id)
-    if request.method == 'POST':
+    if lootbox:
         lootbox.delete()
-        return JsonResponse({'success': True})
-    return JsonResponse({'success': False})
+        return redirect('staff_lootboxes')
+    return redirect('staff_lootboxes')
 
 # -- INVENTORY --
 

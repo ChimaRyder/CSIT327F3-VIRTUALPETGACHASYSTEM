@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'admin_system',
     'leaderboard',
     'trading',
+    'django_extensions'
 ]
 
 ASGI_APPLICATION = 'virtualgacha.asgi.application'
