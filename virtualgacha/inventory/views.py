@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect
 from inventory.models import Inventory, Pet
 from login_register.models import Profile
 from marketplace.models import Sale
+from notification.models import Notification
 
 
 # inventory list backend
@@ -20,8 +21,6 @@ def inventory_list(request):
 
         rarity_filter = []
         if request.GET:
-            if request.GET.get('q'):
-                inventory = [inventory for inventory in inventory if inventory.pet_id.pet_species.lower().startswith(request.GET.get('q').lower())]
             if request.GET.get('sort'):
                 if request.GET.get('sort') == 'acquisition':
                     inventory = inventory.order_by('date_acquired')
@@ -36,7 +35,8 @@ def inventory_list(request):
                 rarity_enum = ['Common', 'Uncommon', 'Rare', 'Mythical', 'Legendary']
                 rarity_filter = [rarity_enum.index(r) for r in rarity_filter]
                 inventory = [inventory for inventory in inventory if inventory.pet_id.rarity in rarity_filter]
-
+            if request.GET.get('q'):
+                inventory = [inventory for inventory in inventory if inventory.pet_id.pet_species.lower().startswith(request.GET.get('q').lower())]
 
         paginator = Paginator(inventory, items_per_page)
 

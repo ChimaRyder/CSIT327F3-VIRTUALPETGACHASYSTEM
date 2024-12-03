@@ -11,5 +11,14 @@
 {% endblock %}
 
 {% block content %}
-    it dont exist
+    <div class="d-flex flex-column justify-self-center align-items-center">
+        <img class="error-image" src="{% static 'Regional_Dugtrio_Front.png' %}" height="250" alt="Dugtrio">
+        <h1 class="fw-bold mb-5">Oops!</h1>
+
+        <p class="fs-5 text-center">This trade does not exist or has already been completed.</p>
+
+        <div class="d-flex flex-column w-25 gap-3 mt-4">
+            <a href="{% url 'trading_list' %}" class="btn btn-primary p-3">Return to Trades</a>
+        </div>
+    </div>
 {% endblock %}

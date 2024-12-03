@@ -54,8 +54,6 @@ def marketplace(request):
 
         rarity_filter = []
         if request.method == 'GET':
-            if request.GET.get('q'):
-                sales = [sales for sales in sales if sales.inventory.pet_id.pet_species.lower().startswith(request.GET.get('q').lower())]
             if request.GET.get('sort'):
                 if request.GET.get('sort') == 'acquisition':
                     sales = sales.order_by('inventory__date_acquired')
@@ -72,6 +70,8 @@ def marketplace(request):
                 rarity_enum = ['Common', 'Uncommon', 'Rare', 'Mythical', 'Legendary']
                 rarity_filter = [rarity_enum.index(r) for r in rarity_filter]
                 sales = [sales for sales in sales if sales.inventory.pet_id.rarity in rarity_filter]
+            if request.GET.get('q'):
+                sales = [sales for sales in sales if sales.inventory.pet_id.pet_species.lower().startswith(request.GET.get('q').lower())]
         total = len(sales)
 
         paginator = Paginator(sales, items_per_page)
