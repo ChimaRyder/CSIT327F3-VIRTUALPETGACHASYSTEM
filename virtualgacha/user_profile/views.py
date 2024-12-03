@@ -60,8 +60,19 @@ def edit_profile(request):
     profile = Profile.objects.get(user=request.user) 
 
     if request.method == 'POST':
-        profile.first_name = request.POST.get('first_name', profile.first_name)
-        profile.last_name = request.POST.get('last_name', profile.last_name)
+        first_name = request.POST.get('first_name', profile.first_name)
+        last_name = request.POST.get('last_name', profile.last_name)
+
+        if request.user.first_name != first_name or request.user.last_name != last_name:
+            request.user.first_name = first_name
+            request.user.last_name = last_name
+            request.user.save()
+
+        profile.first_name = first_name
+        profile.last_name = last_name
+
+        # profile.first_name = request.POST.get('first_name', profile.first_name)
+        # profile.last_name = request.POST.get('last_name', profile.last_name)
         username = request.POST.get('username', profile.user.username)
 
         curr_password = request.POST.get('curr_password')

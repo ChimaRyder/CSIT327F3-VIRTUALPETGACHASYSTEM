@@ -23,12 +23,12 @@ color palette:
     height: 100vh;
     justify-content: center;
     align-items: center;
+    color: white;
 }
 
 .l-container {
-    width: 40%;
-    padding: 5% 10%;
-    max-width: 600px;
+    width: 30%;
+    margin-left: 50px;
 }
 
 .r-container {
@@ -41,7 +41,8 @@ color palette:
     font-family: 'Super Boys';
     font-size: 80px;
     align-items: center;
-    margin: 20px 0px 50px 0px;
+    margin: 20px 0px 30px 0px;
+    color: white;
 }
 
 .auth-form div{
@@ -50,7 +51,9 @@ color palette:
 
 .auth-form div label{
     font-family: 'Arial';
+    font-size: 18px;
     margin: 10px 0px;
+    font-weight: bold;
 }
 
 .auth-input {
@@ -74,11 +77,13 @@ color palette:
 .auth-btn {
     width: 100%;
     height: 50px;
-    margin: 25px 0px 0px 0px;
+    margin: 0px 0px 25px 0px;
     background-color: #1A1D45;
     color: white;
     border-radius: 10px;
     border-width: 0px;
+    font-weight: bold;
+    font-size: 18px;
 }
 
 .auth-btn:hover{
@@ -87,6 +92,10 @@ color palette:
 
 .error-messages {
     color: red;
+}
+
+.error-mess {
+    margin-bottom: 50px;
 }
 
 .back-landing {
@@ -112,4 +121,5 @@ color palette:
     justify-content: center;
     height: 100px;
     width: 100%;
+    margin: 50px 0px;
 }

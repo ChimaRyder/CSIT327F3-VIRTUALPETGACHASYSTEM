@@ -22,6 +22,11 @@ html, body {
   margin: 0px 10px;
 }
 
+.nav-item a {
+  margin: 0px;
+  color: yellow;
+}
+
 /*
   top navbar
 */
@@ -50,6 +55,10 @@ html, body {
 
 .custom-navbar .left a:hover {
   color: #007bff;
+}
+
+.right-top {
+  margin: 0px;
 }
 
 img.navbar-profile-img {

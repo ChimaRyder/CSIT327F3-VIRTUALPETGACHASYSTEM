@@ -3,10 +3,11 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from .models import Profile
 from django.contrib.auth import authenticate, login
+from django.contrib import messages
 from .forms import SignupForm, LoginForm
 from chat.models import ChatRoom
 from daily_rewards.models import Reward
-import datetime
+from .models import Profile, get_random_avatar
 
 # Create your views here.
 def landingpage_view(request):
@@ -14,11 +15,9 @@ def landingpage_view(request):
 
     if request.user.is_authenticated:
         return redirect('lootboxes')
+    
     return render(request, 'login_register/landing_page.html')
 
-BUILT_IN_AVATARS = [
-    'avatar1.png', 'avatar2.png', 'avatar3.png', 'avatar4.png'
-]
 
 def signup_view(request):
     if request.user.is_authenticated:
@@ -26,14 +25,16 @@ def signup_view(request):
     
     if request.method == 'POST':
         form = SignupForm(request.POST)
-
         if form.is_valid():
-            user = form.save()
-
-            if not Profile.objects.filter(user=user).exists():
-                random_avatar = random.choice(BUILT_IN_AVATARS)
-                Profile.objects.create(user=user, avatar=random_avatar)
-
+            user = form.save(commit=False)
+            
+            user.first_name = form.cleaned_data['first_name'].capitalize()
+            user.last_name = form.cleaned_data['last_name'].capitalize()
+            user.save()
+            
+            Profile.objects.create(user=user, first_name=user.first_name, last_name=user.last_name)
+            
+            messages.success(request, "Successfully registered!")
             return redirect('login')
         else:
             print(form.errors)
@@ -41,6 +42,7 @@ def signup_view(request):
         form = SignupForm()
 
     return render(request, 'login_register/signup.html', {'form': form})
+
 
 def login_view(request):
     if request.user.is_authenticated:
