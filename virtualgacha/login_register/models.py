@@ -28,7 +28,7 @@ class Profile(models.Model):
         ('avatar4.png', 'Avatar 4'),
     ]
 
-    print(Reward.objects.latest('id'))
+    # print(Reward.objects.latest('id'))
 
 
 
