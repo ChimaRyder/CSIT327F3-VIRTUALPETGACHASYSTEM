@@ -24,7 +24,7 @@
             <div class="lootbox-info-container">
                 <h2> Featured Pets: </h2>
                 <div class="lootbox-featured-container">
-                    {% for pet in lootbox_drop_table|slice:":4" %}
+                    {% for pet in lootbox_drop_table|slice:":3" %}
                         <div class="lootbox-featured-item">
                             <div class="pet-info">
                                 <span style="font-size:0.7em;font-weight:light;">{{ pet.get_rarity_display }}</span>
@@ -259,7 +259,7 @@
                 </div>
             </div>
 
-            <nav aria-label="Page navigation example" style="align-self: center;justify-content: center;">
+            {% comment %} <nav aria-label="Page navigation example" style="align-self: center;justify-content: center;">
                 <ul class="pagination" style="background-color:#07092E;">
                     {% if page_obj.has_previous %}
                         <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
@@ -279,6 +279,42 @@
                         <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
                     {% else %}
                         <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+                    {% endif %}
+                </ul>
+            </nav> {% endcomment %}
+
+            <nav aria-label="Page navigation" style="align-self: center;justify-content: center;">
+                <ul class="pagination">
+                    {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page=1" aria-label="First">
+                            <span aria-hidden="true">&laquo;&laquo;</span>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    {% endif %}
+                    {% for num in page_obj.paginator.page_range %}
+                        {% if page_obj.number == num %}
+                            <li class="page-item active"><a class="page-link" href="#">{{ num }}</a></li>
+                        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                            <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Last">
+                            <span aria-hidden="true">&raquo;&raquo;</span>
+                        </a>
+                    </li>
                     {% endif %}
                 </ul>
             </nav>
