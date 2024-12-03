@@ -49,4 +49,9 @@ urlpatterns = [
 
     path('chat_rooms/', views.query_staff_rooms, name='query_chat_rooms'),
     path('delete_chat_room/<int:room_id>/', views.delete_chat_room, name='delete_chat_room'),
+
+    path('rewards/', views.query_staff_rewards, name='query_staff_rewards'),
+    path('edit_staff_reward/<int:reward_id>/', views.edit_staff_reward, name='edit_staff_reward'),
+    path('create_staff_reward/', views.create_staff_reward, name='create_staff_reward'),
+
 ]
