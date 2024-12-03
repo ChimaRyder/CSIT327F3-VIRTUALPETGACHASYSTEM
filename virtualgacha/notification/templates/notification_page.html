@@ -36,15 +36,19 @@
                                         <button type="submit" name="notif-claimed" value="{{ notification.id }}" class="btn btn-primary w-25">Claim</button>
                                     </form>
                                 {% elif notification.title == "Trade Request" or notification.title == "Trade Declined"%}
+                                    {% if notification.notif_status == "unread" %}
                                     <form class="m-2 ms-0" method="GET">
                                         {% csrf_token %}
                                         <button type="submit" name="notif-read" value="{{ notification.id }}" class="btn btn-warning">Check Trade</button>
                                     </form>
+                                    {% endif %}
                                 {% elif notification.title == "Trade Accepted" %}
+                                    {% if notification.notif_status == "unread" %}
                                     <form class="m-2 ms-0" method="GET">
                                         {% csrf_token %}
                                         <button type="submit" name="notif-read" value="{{ notification.id }}" class="btn btn-success">Visit Inventory</button>
                                     </form>
+                                    {% endif %}
                                 {% endif %}
 
                             </div>

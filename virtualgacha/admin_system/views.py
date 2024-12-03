@@ -589,7 +589,13 @@ def query_trades(request):
 def disable_trade(request, trade_id):
     trade = get_object_or_404(Trade, id=trade_id)
     if request.method == 'POST':
+        trade.pet_to_trade.is_busy = Inventory.BusyValue.NOT_BUSY
+        trade.pet_to_trade.save()
+        if trade.pet_to_offer:
+            trade.pet_to_offer.is_busy = Inventory.BusyValue.NOT_BUSY
+            trade.pet_to_offer.save()
         trade.status = Trade.TradeStatus.success
+        trade.date_completed = timezone.now()
         trade.save()
         return JsonResponse({'success': True})
     return JsonResponse({'success': False})

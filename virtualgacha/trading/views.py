@@ -2,7 +2,7 @@ from OpenSSL.rand import status
 from PIL.ImageTransform import PerspectiveTransform
 from django.core.paginator import Paginator
 from django.http import JsonResponse
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.utils import timezone
 
@@ -33,9 +33,12 @@ def trading_list(request):
 
         pet = Inventory.objects.get(id=request.POST.get('selected_pet'))
         pet.is_busy = Inventory.BusyValue.BUSY
+        pet.save()
 
     rarity_filter = []
     if request.method == 'GET':
+        if request.GET.get('own_trades'):
+            trades = Trade.objects.select_related('pet_to_trade__pet_id').filter(pet_to_trade__owner_id=request.user).exclude(status=Trade.TradeStatus.success)
         if request.GET.get('sort'):
             if request.GET.get('sort') == 'rarity_ascending':
                 trades = trades.order_by('pet_to_trade__pet_id__rarity')
@@ -68,6 +71,7 @@ def trade(request, trade_id):
         if request.method == "POST" and "selected-offer" in request.POST:
             offer = Inventory.objects.get(id=request.POST.get('selected-offer'))
             offer.is_busy = Inventory.BusyValue.BUSY
+            offer.save()
             trade_object.pet_to_offer = offer
             trade_object.status = Trade.TradeStatus.waiting
             trade_object.save()
@@ -110,6 +114,8 @@ def trade(request, trade_id):
                 trade_object.pet_to_trade.save()
                 trade_object.pet_to_offer.save()
 
+                return redirect("inventory_list")
+
             else:
                 #make trade available
                 trade_object.status = Trade.TradeStatus.available
@@ -128,7 +134,20 @@ def trade(request, trade_id):
                 trade_object.pet_to_offer = None
                 trade_object.save()
 
-
+        elif request.method == "POST" and "cancel-trade" in request.POST:
+            #make the pet not busy
+            trade_object.pet_to_trade.is_busy = Inventory.BusyValue.NOT_BUSY
+            trade_object.pet_to_trade.save()
+            #check if there's another pet, then turn it not busy
+            if trade_object.pet_to_offer:
+                trade_object.pet_to_offer.is_busy = Inventory.BusyValue.NOT_BUSY
+                trade_object.pet_to_offer.save()
+            #cancel the trade
+            trade_object.status = Trade.TradeStatus.success
+            trade_object.date_completed = timezone.now()
+            trade_object.save()
+            #redirect to trade list
+            return redirect("inventory_list")
 
         return render(request, "trade.html", {"trade": trade_object, "profile": profile, "pets": user_pets})
 

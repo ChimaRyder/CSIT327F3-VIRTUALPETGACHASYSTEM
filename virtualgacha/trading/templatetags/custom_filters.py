@@ -30,3 +30,13 @@ def short_timesince(value):
         return f"{minutes}m"
     else:
         return "Just Now"
+
+@register.filter
+def pet_name(value, key):
+    x = value.split(key)
+    return x[1]
+
+@register.filter
+def rarity(value, key):
+    x = value.split(key)
+    return x[0]
