@@ -60,6 +60,7 @@ def query_pets(request):
     sort_by = request.GET.get('sort', '')
 
     pets = Pet.objects.all()
+    print(filter_by)
 
     if query:
         if filter_by == 'pet_id':
@@ -78,6 +79,8 @@ def query_pets(request):
             pets = pets.order_by('rarity')
         elif filter_by == 'pet_rate':
             pets = pets.order_by('pet_rate')
+        if filter_by == 'pet_id':
+            pets = pets.order_by('id')
 
     if sort_by == 'descending':
         pets = pets.reverse()
@@ -273,7 +276,7 @@ def query_lootboxes(request):
     if sort_by == 'descending':
         lootboxes = lootboxes.reverse()
 
-    paginator = Paginator(lootboxes, 10)  # Show 10 lootboxes per page
+    paginator = Paginator(lootboxes, 5)  # Show 10 lootboxes per page
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
@@ -626,7 +629,7 @@ def query_transactions(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    return render(request, 'staff_transactions.html', {'page_obj': page_obj})
+    return render(request, 'staff_transactions.html', {'page_obj': page_obj, 'transactions' : transactions})
 
 login_required
 @user_passes_test(login_url='admin_login', test_func=is_staff)
@@ -636,19 +639,29 @@ def approve_transaction(request, transaction_id):
         transaction.status = 'SUCCESS'
         transaction.save()
 
-        # Create notification
         user = get_object_or_404(User, id=transaction.user_id)
 
         profile = get_object_or_404(Profile, user=user)
 
-        profile.total_credits -= transaction.credits_amount
+        if transaction.transaction_type == 'BUY':
+            Notification.objects.create(
+                user=user,
+                title="Transaction Approved",
+                text=f"Your transaction with ID {transaction.transaction_id} has been approved.",
+                claim_coins=transaction.credits_amount,
+            )
+        else:
+            profile.total_credits -= transaction.credits_amount
 
-        Notification.objects.create(
-            user=user,
-            title="Transaction Approved",
-            text=f"Your transaction with ID {transaction.transaction_id} has been approved.",
-            claim_coins=0,
-        )
+            Notification.objects.create(
+                user=user,
+                title="Transaction Approved",
+                text=f"Your transaction with ID {transaction.transaction_id} has been approved.",
+                claim_coins=0,
+            )
+
+        # Create notification
+        
 
         profile.save()
 

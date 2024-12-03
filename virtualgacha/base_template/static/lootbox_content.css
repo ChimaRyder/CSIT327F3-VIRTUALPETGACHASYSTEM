@@ -192,10 +192,11 @@
 }
 
 .lootbox-history-profile-image{
+    background-size: contain;
+    background-position: center;
     width: 4dvh;
     height: 4dvh;
     border-radius: 50%;
-    background-color: #FDFDFDFD;
 }
 
 .lootbox-history-profile-obtained{
