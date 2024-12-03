@@ -51,7 +51,7 @@ The Virtual Pet Gacha System is a web-based platform focused on pet collection, 
 10. [***Leaderboards***](#310-leaderboards-system)
     - Competitive rankings based on collection size, account rating, and other metrics motivate players to stay active and strive for top positions.
    
-11. [***Transactions***][#311-transaction-system]
+11. [***Transactions***](#311-transaction-system)
     - Players can purchase in-game credits using GCash or credit cards, with credits added to their accounts for use in buying loot boxes, pets, or other items. Players can also convert in-game coins into credits at a predefined exchange rate. All transactions, including purchases and coin-to-credit conversions, require admin approval to ensure fairness and security.
       
 
