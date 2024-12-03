@@ -6,8 +6,10 @@ from inventory.models import Inventory, Pet
 from django.contrib import messages
 from django.http import HttpResponse, HttpResponseForbidden, JsonResponse
 from django.core.paginator import Paginator
+from notification.models import Notification
 from .achievements import achievements
 from .models import UserAchievements
+from leaderboard.models import Leaderboard
 from django.contrib.auth import update_session_auth_hash
 
 # Create your views here.
@@ -34,7 +36,10 @@ def user_profile(request, username=None):
     current_category = curr_page.object_list[0]
     category_achievements = achievements[current_category]
 
-    unlocked_achievements = check_achievements(request.user)
+    check_achievements(request.user)
+    unlocked_achievements = get_unlocked_achievements(request.user)
+
+    rank_standing = Leaderboard.objects.get(user=request.user).rank
 
     context = {
         'profile': profile,
@@ -51,6 +56,7 @@ def user_profile(request, username=None):
         "paginator": curr_page.paginator,
         "curr_page": curr_page,
         "unlocked_achievements": unlocked_achievements,
+        'rank_standing': rank_standing,
     }
     
     return render(request, 'user_profile/user_profile.html', context)
@@ -188,19 +194,47 @@ def achievement_pages(request, achievement_types):
     return paginator.get_page(page_num)
 
 def check_achievements(user):
-    unlocked_achievements = []
+    unlocked_achievement = []
 
     for category, achievements_list in achievements.items():
         for achievement in achievements_list:
-            if achievement["condition"](user):
-                if not UserAchievements.objects.filter(user=user, achievement_name=achievement["name"]).exists():
-                    UserAchievements.objects.create(user=user, achievement_name=achievement["name"])
-                    
-                unlocked_achievements.append({
+            if not UserAchievements.objects.filter(user=user, achievement_name=achievement["name"]).exists():
+
+                if achievement["condition"](user):
+                    # if not UserAchievements.objects.filter(user=user, achievement_name=achievement["name"]).exists():
+                    UserAchievements.objects.create(user=user, achievement_name=achievement["name"], description=achievement['description'])
+
+                    Notification.objects.create(
+                        user=user,
+                        notif_status=Notification.Status.unread,
+                        title=f"Achievement Unlocked: {achievement['name']}",
+                        text=f"Congratulations! You've unlocked the achievement: {achievement['description']}.",
+                        claim_coins=achievement.get('reward_coins', 0),
+                    )
+                        
+                    unlocked_achievement.append({
+                        "category": category,
+                        "name": achievement["name"],
+                        "description": achievement["description"],
+                        "badge": achievement["badge"],
+                    })
+
+    return unlocked_achievement
+
+
+def get_unlocked_achievements(user):
+    unlocked_achievement_list = []
+
+    user_achievements = UserAchievements.objects.filter(user=user)
+
+    for category, achievements_list in achievements.items():
+        for achievement in achievements_list:
+            if user_achievements.filter(achievement_name=achievement["name"]).exists():
+                unlocked_achievement_list.append({
                     "category": category,
                     "name": achievement["name"],
                     "description": achievement["description"],
                     "badge": achievement["badge"],
                 })
 
-    return unlocked_achievements
+    return unlocked_achievement_list

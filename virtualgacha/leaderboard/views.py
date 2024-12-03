@@ -10,17 +10,30 @@ from .models import Leaderboard
 # Create your views here.
 @login_required(login_url='login')
 def leaderboards_view(request):
-    curr_prof = Profile.objects.get(user=request.user)
+    curr_prof = request.user.username
     profiles = Profile.objects.all()
     leaderboard_data = []
+
+    leaderboard_entry, created = Leaderboard.objects.get_or_create(user=request.user)
 
     for profile in profiles:
         points = calculate_player_points(profile)
         avatar_url = profile.get_profile_image_url
         full_name = f"{profile.user.first_name} {profile.user.last_name}"
-        leaderboard_data.append((full_name, profile.user.username, points, avatar_url))
+
+        leaderboard_entry, created = Leaderboard.objects.get_or_create(user=profile.user)
+        leaderboard_entry.points = points
+        leaderboard_entry.save()
+
+        leaderboard_data.append((full_name, profile.user.username, points, avatar_url, leaderboard_entry))
 
     leaderboard_data.sort(key=lambda x: x[2], reverse=True)
+
+    for idx, entry in enumerate(leaderboard_data):
+        leaderboard_entry = Leaderboard.objects.get(user__username=entry[1])
+        leaderboard_entry.rank = idx + 1  # Rank starts at 1
+        leaderboard_entry.save()
+        
     top3 = leaderboard_data[:3]  
     rest_lead = leaderboard_data[3:]
 
