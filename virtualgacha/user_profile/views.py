@@ -19,7 +19,7 @@ def user_profile(request, username=None):
         profile = get_object_or_404(Profile, user=request.user)
     
     
-    full_name = f"{profile.user.first_name} {profile.user.last_name}"
+    full_name = f"{profile.first_name} {profile.last_name}"
     is_own_profile = request.user == profile.user
 
     pets = Inventory.objects.select_related('pet_id').filter(owner_id=request.user.id)
