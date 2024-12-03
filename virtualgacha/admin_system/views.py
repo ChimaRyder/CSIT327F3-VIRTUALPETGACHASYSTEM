@@ -16,14 +16,19 @@ from django.db.models import Sum
 from adventure.models import *
 from trading.models import *
 from chat.models import *
+from daily_rewards.models import *
+import random
 import json
 
 def is_staff(user):
     return user.is_staff
 
 def login_view(request):
-    if request.user.is_authenticated:
+    if request.user.is_authenticated and request.user.is_staff:
         return redirect('staff_dashboard')
+
+    if not request.user.is_staff:
+        messages.error(request, 'You are not authorized to access this page.')
 
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -31,16 +36,24 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             if user.is_staff:
+                try:
+                    Reward.objects.create(
+                        credit_reward=random.randint(50, 500),
+                    )
+                except Exception as e:
+                    print(e)
+
                 login(request, user)
                 return redirect('staff_dashboard')
             else:
                 messages.error(request, 'You are not authorized to access this page.')
         else:
             messages.error(request, 'Invalid username or password.')
+
     return render(request, 'staff_login.html')
 
 @login_required(login_url='admin_login')
-@user_passes_test(is_staff)
+@user_passes_test(login_url='admin_login', test_func=is_staff)
 def query_pets(request):
     query = request.GET.get('search', '')
     filter_by = request.GET.get('filter', '')
@@ -77,8 +90,8 @@ def query_pets(request):
 
     return render(request, 'staff_pets.html', {'page_obj': page_obj, 'rarity_choices': rarity_choices})
 
-@login_required
-@user_passes_test(is_staff)
+@login_required(login_url='admin_login')
+@user_passes_test(login_url='admin_login', test_func=is_staff)
 def dashboard_view(request):
     total_pulls = Pull.objects.count()
     total_adventures = Adventure.objects.count()
@@ -107,8 +120,8 @@ def dashboard_view(request):
 
     return render(request, 'staff_dashboard.html', context)
 
-@login_required
-@user_passes_test(is_staff)
+@login_required(login_url='admin_login')
+@user_passes_test(login_url='admin_login', test_func=is_staff)
 def make_announcement(request):
     if request.method == 'POST':
         title = request.POST.get('title')
@@ -129,7 +142,7 @@ def make_announcement(request):
     return JsonResponse({'success': False})
 
 @login_required(login_url='admin_login')
-@user_passes_test(is_staff)
+@user_passes_test(login_url='admin_login', test_func=is_staff)
 def pets_view(request):
     pets = Pet.objects.all()
     paginator = Paginator(pets, 10)  # Show 10 pets per page
@@ -139,7 +152,7 @@ def pets_view(request):
     return render(request, 'staff_pets.html', {'page_obj': page_obj, 'rarity_choices': rarity_choices})
 
 @login_required(login_url='admin_login')
-@user_passes_test(is_staff)
+@user_passes_test(login_url='admin_login', test_func=is_staff)
 def add_pet(request):
     if request.method == 'POST':
         pet_species = request.POST.get('pet_species')
@@ -156,7 +169,7 @@ def add_pet(request):
     return JsonResponse({'success': False})
 
 @login_required(login_url='admin_login')
-@user_passes_test(is_staff)
+@user_passes_test(login_url='admin_login', test_func=is_staff)
 def edit_pet(request, pet_id):
     pet = get_object_or_404(Pet, id=pet_id)
     if request.method == 'POST':
@@ -172,7 +185,7 @@ def edit_pet(request, pet_id):
     return JsonResponse({'success': False})
 
 @login_required(login_url='admin_login')
-@user_passes_test(is_staff)
+@user_passes_test(login_url='admin_login', test_func=is_staff)
 def delete_pet(request, pet_id):
     pet = get_object_or_404(Pet, id=pet_id)
     if request.method == 'POST':
@@ -182,13 +195,13 @@ def delete_pet(request, pet_id):
 
 # --- LOOTBOX ---
 @login_required(login_url='admin_login')
-@user_passes_test(is_staff)
+@user_passes_test(login_url='admin_login', test_func=is_staff)
 def get_pet_details(request, pet_id):
     pet = get_object_or_404(Pet, id=pet_id)
     return JsonResponse({'id': pet.id, 'pet_image' : pet.pet_image.url, 'pet_species': pet.pet_species, 'rarity': pet.rarity, 'pet_rate': pet.pet_rate})
 
 @login_required(login_url='admin_login')
-@user_passes_test(is_staff)
+@user_passes_test(login_url='admin_login', test_func=is_staff)
 def lootbox_add_view(request):
     query = request.GET.get('search', '')
     filter_by = request.GET.get('filter', '')
@@ -227,7 +240,7 @@ def lootbox_add_view(request):
 
 
 @login_required(login_url='admin_login')
-@user_passes_test(is_staff)
+@user_passes_test(login_url='admin_login', test_func=is_staff)
 def query_lootboxes(request):
     query = request.GET.get('search', '')
     filter_by = request.GET.get('filter', '')
@@ -268,7 +281,7 @@ def query_lootboxes(request):
 
 
 @login_required(login_url='admin_login')
-@user_passes_test(is_staff)
+@user_passes_test(login_url='admin_login', test_func=is_staff)
 def lootboxes_view(request):
     lootboxes = Lootbox.objects.all()
     paginator = Paginator(lootboxes, 10)  # Show 10 lootboxes per page
@@ -277,7 +290,7 @@ def lootboxes_view(request):
     return render(request, 'staff_lootboxes.html', {'page_obj': page_obj})
 
 @login_required(login_url='admin_login')
-@user_passes_test(is_staff)
+@user_passes_test(login_url='admin_login', test_func=is_staff)
 def add_lootbox(request):
     if request.method == 'POST':
         lootbox_name = request.POST.get('lootbox_name')
@@ -301,7 +314,7 @@ def add_lootbox(request):
     return JsonResponse({'success': False})
 
 @login_required(login_url='admin_login')
-@user_passes_test(is_staff)
+@user_passes_test(login_url='admin_login', test_func=is_staff)
 def edit_lootbox_view(request, lootbox_id):
     lootbox = get_object_or_404(Lootbox, lootbox_id=lootbox_id)
     if request.method == 'POST':
@@ -331,7 +344,7 @@ def edit_lootbox_view(request, lootbox_id):
     })
 
 @login_required(login_url='admin_login')
-@user_passes_test(is_staff)
+@user_passes_test(login_url='admin_login', test_func=is_staff)
 def delete_lootbox(request, lootbox_id):
     lootbox = get_object_or_404(Lootbox, lootbox_id=lootbox_id)
     if request.method == 'POST':
@@ -342,7 +355,7 @@ def delete_lootbox(request, lootbox_id):
 # -- INVENTORY --
 
 @login_required(login_url='admin_login')
-@user_passes_test(is_staff)
+@user_passes_test(login_url='admin_login', test_func=is_staff)
 def query_inventory(request):
     query = request.GET.get('search', '')
     filter_by = request.GET.get('filter', '')
@@ -384,7 +397,7 @@ def query_inventory(request):
     return render(request, 'staff_inventory.html', {'page_obj': page_obj})
 
 @login_required(login_url='admin_login')
-@user_passes_test(is_staff)
+@user_passes_test(login_url='admin_login', test_func=is_staff)
 def add_inventory(request):
     if request.method == 'POST':
         pet_id = request.POST.get('pet_id')
@@ -401,7 +414,7 @@ def add_inventory(request):
     return JsonResponse({'success': False})
 
 @login_required(login_url='admin_login')
-@user_passes_test(is_staff)
+@user_passes_test(login_url='admin_login', test_func=is_staff)
 def delete_inventory(request, inventory_id):
     inventory_item = get_object_or_404(Inventory, id=inventory_id)
     if request.method == 'POST':
@@ -410,8 +423,8 @@ def delete_inventory(request, inventory_id):
     return JsonResponse({'success': False})
 
 # -- USERS --
-@login_required
-@user_passes_test(is_staff)
+@login_required(login_url='admin_login')
+@user_passes_test(login_url='admin_login', test_func=is_staff)
 def query_users(request):
     query = request.GET.get('search', '')
     filter_by = request.GET.get('filter', 'user_id')
@@ -447,7 +460,7 @@ def query_users(request):
     return render(request, 'staff_users.html', {'page_obj': page_obj})
 
 @login_required
-@user_passes_test(is_staff)
+@user_passes_test(login_url='admin_login', test_func=is_staff)
 def edit_user(request, user_id):
     if request.method == 'POST':
         user = get_object_or_404(User, id=user_id)
@@ -469,7 +482,7 @@ def edit_user(request, user_id):
     return redirect('staff_users')
 
 @login_required
-@user_passes_test(is_staff)
+@user_passes_test(login_url='admin_login', test_func=is_staff)
 def ban_user(request, user_id):
     if request.method == 'POST':
         user = get_object_or_404(User, id=user_id)
@@ -479,7 +492,7 @@ def ban_user(request, user_id):
     return JsonResponse({'success': False})
 
 @login_required
-@user_passes_test(is_staff)
+@user_passes_test(login_url='admin_login', test_func=is_staff)
 def unban_user(request, user_id):
     if request.method == 'POST':
         user = get_object_or_404(User, id=user_id)
@@ -489,7 +502,7 @@ def unban_user(request, user_id):
     return JsonResponse({'success': False})
 
 @login_required
-@user_passes_test(is_staff)
+@user_passes_test(login_url='admin_login', test_func=is_staff)
 def turn_admin(request, user_id):
     if request.method == 'POST':
         user = get_object_or_404(User, id=user_id)
@@ -499,7 +512,7 @@ def turn_admin(request, user_id):
     return JsonResponse({'success': False})
 
 @login_required
-@user_passes_test(is_staff)
+@user_passes_test(login_url='admin_login', test_func=is_staff)
 def revoke_admin(request, user_id):
     if request.method == 'POST':
         user = get_object_or_404(User, id=user_id)
@@ -510,7 +523,7 @@ def revoke_admin(request, user_id):
 
 # -- TRADES --
 @login_required(login_url='admin_login')
-@user_passes_test(is_staff)
+@user_passes_test(login_url='admin_login', test_func=is_staff)
 def query_trades(request):
     query = request.GET.get('search', '')
     filter_by = request.GET.get('filter', '')
@@ -561,7 +574,7 @@ def query_trades(request):
     return render(request, 'staff_trades.html', {'page_obj': page_obj})
 
 @login_required(login_url='admin_login')
-@user_passes_test(is_staff)
+@user_passes_test(login_url='admin_login', test_func=is_staff)
 def disable_trade(request, trade_id):
     trade = get_object_or_404(Trade, id=trade_id)
     if request.method == 'POST':
@@ -572,7 +585,7 @@ def disable_trade(request, trade_id):
 
 # -- TRANSACTIONS --
 @login_required
-@user_passes_test(is_staff)
+@user_passes_test(login_url='admin_login', test_func=is_staff)
 def query_transactions(request):
     query = request.GET.get('search', '')
     filter_by = request.GET.get('filter', 'transaction_id')
@@ -608,7 +621,7 @@ def query_transactions(request):
     return render(request, 'staff_transactions.html', {'page_obj': page_obj})
 
 login_required
-@user_passes_test(is_staff)
+@user_passes_test(login_url='admin_login', test_func=is_staff)
 def approve_transaction(request, transaction_id):
     if request.method == 'POST':
         transaction = get_object_or_404(Transaction, transaction_id=transaction_id)
@@ -635,7 +648,7 @@ def approve_transaction(request, transaction_id):
     return JsonResponse({'success': False})
 
 @login_required
-@user_passes_test(is_staff)
+@user_passes_test(login_url='admin_login', test_func=is_staff)
 def decline_transaction(request, transaction_id):
     if request.method == 'POST':
         transaction = get_object_or_404(Transaction, transaction_id=transaction_id)
@@ -656,7 +669,7 @@ def decline_transaction(request, transaction_id):
 
 # -- MARKETPLACE --
 @login_required
-@user_passes_test(is_staff)
+@user_passes_test(login_url='admin_login', test_func=is_staff)
 def query_marketplace(request):
     query = request.GET.get('search', '')
     filter_by = request.GET.get('filter', 'id')
@@ -698,7 +711,7 @@ def query_marketplace(request):
 
 
 @login_required
-@user_passes_test(is_staff)
+@user_passes_test(login_url='admin_login', test_func=is_staff)
 def toggle_listing(request, sale_id):
     if request.method == 'POST':
         sale = get_object_or_404(Sale, id=sale_id)
@@ -710,7 +723,7 @@ def toggle_listing(request, sale_id):
 
 # -- MESSAGES -- 
 @login_required(login_url='admin_login')
-@user_passes_test(is_staff)
+@user_passes_test(login_url='admin_login', test_func=is_staff)
 def query_chats(request):
     query = request.GET.get('search', '')
     filter_by = request.GET.get('filter', '')
@@ -752,7 +765,7 @@ def query_chats(request):
     return render(request, 'staff_messages.html', {'page_obj': page_obj})
 
 @login_required(login_url='admin_login')
-@user_passes_test(is_staff)
+@user_passes_test(login_url='admin_login', test_func=is_staff)
 def view_message_content(request, message_id):
     message = get_object_or_404(Message, id=message_id)
     return JsonResponse({
@@ -764,7 +777,7 @@ def view_message_content(request, message_id):
     })
 
 @login_required(login_url='admin_login')
-@user_passes_test(is_staff)
+@user_passes_test(login_url='admin_login', test_func=is_staff)
 def delete_message(request, message_id):
     if request.method == 'POST':
         message = get_object_or_404(Message, id=message_id)
@@ -774,7 +787,7 @@ def delete_message(request, message_id):
 
 # -- ROOMS --
 @login_required(login_url='admin_login')
-@user_passes_test(is_staff)
+@user_passes_test(login_url='admin_login', test_func=is_staff)
 def query_staff_rooms(request):
     query = request.GET.get('search', '')
     filter_by = request.GET.get('filter', '')
@@ -812,7 +825,7 @@ def query_staff_rooms(request):
     return render(request, 'staff_rooms.html', {'page_obj': page_obj})
 
 @login_required(login_url='admin_login')
-@user_passes_test(is_staff)
+@user_passes_test(login_url='admin_login', test_func=is_staff)
 def delete_chat_room(request, room_id):
     if request.method == 'POST':
         room = get_object_or_404(ChatRoom, room_id=room_id)
@@ -820,31 +833,91 @@ def delete_chat_room(request, room_id):
         return JsonResponse({'success': True})
     return JsonResponse({'success': False})
 
+# -- DAILY REWARDS --
+@login_required(login_url='admin_login')
+@user_passes_test(login_url='admin_login', test_func=is_staff)
+def query_staff_rewards(request):
+    query = request.GET.get('search', '')
+    filter_by = request.GET.get('filter', '')
+    sort_by = request.GET.get('sort', '')
+
+    staff_rewards = Reward.objects.all()
+
+    if query:
+        if filter_by == 'date':
+            staff_rewards = staff_rewards.filter(date=query)
+        elif filter_by == 'credit_reward':
+            staff_rewards = staff_rewards.filter(credit_reward=query)
+        elif filter_by == 'pet_reward':
+            staff_rewards = staff_rewards.filter(pet_reward__pet_species__icontains=query)
+
+    if filter_by:
+        if filter_by == 'date':
+            staff_rewards = staff_rewards.order_by('date')
+        elif filter_by == 'credit_reward':
+            staff_rewards = staff_rewards.order_by('credit_reward')
+        elif filter_by == 'pet_reward':
+            staff_rewards = staff_rewards.order_by('pet_reward')
+
+    if sort_by == 'descending':
+        staff_rewards = staff_rewards.reverse()
+
+    paginator = Paginator(staff_rewards, 10)  # Show 10 staff rewards per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'staff_rewards.html', {'page_obj': page_obj, 'pets': Pet.objects.all().order_by('pet_species')})
+
+
+@login_required(login_url='admin_login')
+@user_passes_test(login_url='admin_login', test_func=is_staff)
+def edit_staff_reward(request, reward_id):
+    reward = get_object_or_404(Reward, id=reward_id)
+    if request.method == 'POST':
+        # reward.date = request.POST.get('date')
+        reward.credit_reward = request.POST.get('credit_reward')
+        pet_id = request.POST.get('pet_reward')
+        reward.pet_reward = Pet.objects.get(id=pet_id) if pet_id else None
+        reward.save()
+        return redirect('query_staff_rewards')
+    return redirect('query_staff_rewards')
+
+@login_required(login_url='admin_login')
+@user_passes_test(login_url='admin_login', test_func=is_staff)
+def create_staff_reward(request):
+    if request.method == 'POST':
+        date = request.POST.get('date')
+        credit_reward = request.POST.get('credit_reward')
+        pet_id = request.POST.get('pet_reward')
+        pet_reward = Pet.objects.get(id=pet_id) if pet_id else None
+        Reward.objects.create(date=date, credit_reward=credit_reward, pet_reward=pet_reward)
+        return redirect('query_staff_rewards')
+    return redirect('query_staff_rewards')
 
 # OTHER SUTFF
 
 @login_required(login_url='admin_login')
-@user_passes_test(is_staff)
+@user_passes_test(login_url='admin_login', test_func=is_staff)
 def logout_view(request):
     logout(request)
     return render(request, 'staff_login.html')
 
 @login_required(login_url='admin_login')
-@user_passes_test(is_staff)
+@user_passes_test(login_url='admin_login', test_func=is_staff)
 def users_view(request):
     return render(request, 'staff_login.html')
 
 @login_required(login_url='admin_login')
-@user_passes_test(is_staff)
+@user_passes_test(login_url='admin_login', test_func=is_staff)
 def marketplace_view(request):
     return render(request, 'staff_login.html')
 
 @login_required(login_url='admin_login')
-@user_passes_test(is_staff)
+@user_passes_test(login_url='admin_login', test_func=is_staff)
 def lootboxes_view(request):
     return render(request, 'staff_lootboxes.html')
 
 @login_required(login_url='admin_login')
-@user_passes_test(is_staff)
+@user_passes_test(login_url='admin_login', test_func=is_staff)
 def transactions_view(request):
     return render(request, 'staff_login.html')
