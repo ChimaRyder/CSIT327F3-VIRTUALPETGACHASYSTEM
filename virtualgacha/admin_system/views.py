@@ -16,6 +16,7 @@ from django.db.models import Sum
 from adventure.models import *
 from trading.models import *
 from chat.models import *
+from daily_rewards.models import *
 import json
 
 def is_staff(user):
@@ -820,6 +821,66 @@ def delete_chat_room(request, room_id):
         return JsonResponse({'success': True})
     return JsonResponse({'success': False})
 
+# -- DAILY REWARDS --
+@login_required(login_url='admin_login')
+@user_passes_test(is_staff)
+def query_staff_rewards(request):
+    query = request.GET.get('search', '')
+    filter_by = request.GET.get('filter', '')
+    sort_by = request.GET.get('sort', '')
+
+    staff_rewards = Reward.objects.all()
+
+    if query:
+        if filter_by == 'date':
+            staff_rewards = staff_rewards.filter(date=query)
+        elif filter_by == 'credit_reward':
+            staff_rewards = staff_rewards.filter(credit_reward=query)
+        elif filter_by == 'pet_reward':
+            staff_rewards = staff_rewards.filter(pet_reward__pet_species__icontains=query)
+
+    if filter_by:
+        if filter_by == 'date':
+            staff_rewards = staff_rewards.order_by('date')
+        elif filter_by == 'credit_reward':
+            staff_rewards = staff_rewards.order_by('credit_reward')
+        elif filter_by == 'pet_reward':
+            staff_rewards = staff_rewards.order_by('pet_reward')
+
+    if sort_by == 'descending':
+        staff_rewards = staff_rewards.reverse()
+
+    paginator = Paginator(staff_rewards, 10)  # Show 10 staff rewards per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'staff_rewards.html', {'page_obj': page_obj, 'pets': Pet.objects.all().order_by('pet_species')})
+
+
+@login_required(login_url='admin_login')
+@user_passes_test(is_staff)
+def edit_staff_reward(request, reward_id):
+    reward = get_object_or_404(Reward, id=reward_id)
+    if request.method == 'POST':
+        # reward.date = request.POST.get('date')
+        reward.credit_reward = request.POST.get('credit_reward')
+        pet_id = request.POST.get('pet_reward')
+        reward.pet_reward = Pet.objects.get(id=pet_id) if pet_id else None
+        reward.save()
+        return redirect('query_staff_rewards')
+    return redirect('query_staff_rewards')
+
+@login_required(login_url='admin_login')
+@user_passes_test(is_staff)
+def create_staff_reward(request):
+    if request.method == 'POST':
+        date = request.POST.get('date')
+        credit_reward = request.POST.get('credit_reward')
+        pet_id = request.POST.get('pet_reward')
+        pet_reward = Pet.objects.get(id=pet_id) if pet_id else None
+        Reward.objects.create(date=date, credit_reward=credit_reward, pet_reward=pet_reward)
+        return redirect('query_staff_rewards')
+    return redirect('query_staff_rewards')
 
 # OTHER SUTFF
 
