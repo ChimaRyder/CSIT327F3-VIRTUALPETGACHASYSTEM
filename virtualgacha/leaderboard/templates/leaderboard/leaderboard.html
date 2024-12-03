@@ -14,33 +14,51 @@
 <div>
     <div class="toplead">
         <div class="toplead-border toplead-2nd">
-            <div class="toplead-username">{{ top3.1.1 }}</div>
-            <img src="/static/2ndLead.png" class="border-image" />
-            <img src="{{ top3.1.3 }}" class="avatar-img avatar-top2" />
-            <div class="toplead-rank">
-                Rank #2
-                <span class="toplead-points"> {{ top3.1.2 }} points </span>
-            </div>
+            <a href="#otherprofile" class="profile-link" data-bs-toggle="modal"
+            data-username="{{ top3.1.1 }}"
+            data-avatar="{{ top3.1.3 }}"
+            data-fullname="{{ top3.1.0 }}"
+            data-points="{{ top3.1.points }}">
+                <div class="toplead-username">{{ top3.1.1 }}</div>
+                <img src="/static/2ndLead.png" class="border-image" />
+                <img src="{{ top3.1.3 }}" class="avatar-img avatar-top2" />
+                <div class="toplead-rank">
+                    Rank #2 <br>
+                    <span class="toplead-points"> {{ top3.1.2 }} points </span>
+                </div>
+            </a>
         </div>
         
         <div class="toplead-border">
-            <div class="toplead-username">{{ top3.0.1 }}</div>
-            <img src="/static/1stLead.png" class="border-image"/>
-            <img src="{{ top3.0.3 }}" class="avatar-img avatar-top1" />
-            <div class="toplead-rank">
-                Rank #1
-                <span class="toplead-points"> {{ top3.0.2 }} points </span>
-            </div>
+            <a href="#otherprofile" class="profile-link" data-bs-toggle="modal"
+            data-username="{{ top3.0.1 }}"
+            data-avatar="{{ top3.0.3 }}"
+            data-fullname="{{ top3.0.0 }}"
+            data-points="{{ top3.0.points }}">
+                <div class="toplead-username">{{ top3.0.1 }}</div>
+                <img src="/static/1stLead.png" class="border-image"/>
+                <img src="{{ top3.0.3 }}" class="avatar-img avatar-top1" />
+                <div class="toplead-rank">
+                    Rank #1 <br>
+                    <span class="toplead-points"> {{ top3.0.2 }} points </span>
+                </div>
+            </a>
         </div>
         
         <div class="toplead-border toplead-3rd">
-            <div class="toplead-username">{{ top3.2.1 }}</div>
-            <img src="/static/3rdLead.png" class="border-image"/>
-            <img src="{{ top3.2.3 }}" class="avatar-img avatar-top3" />
-            <div class="toplead-rank">
-                Rank #3
-                <span class="toplead-points"> {{ top3.2.2 }} points </span>
-            </div>
+            <a href="#otherprofile" class="profile-link" data-bs-toggle="modal"
+            data-username="{{ top3.2.1 }}"
+            data-avatar="{{ top3.2.3 }}"
+            data-fullname="{{ top3.2.0 }}"
+            data-points="{{ top3.2.points }}">
+                <div class="toplead-username">{{ top3.2.1 }}</div>
+                <img src="/static/3rdLead.png" class="border-image"/>
+                <img src="{{ top3.2.3 }}" class="avatar-img avatar-top3" />
+                <div class="toplead-rank">
+                    Rank #3 <br>
+                    <span class="toplead-points"> {{ top3.2.2 }} points </span>
+                </div>
+            </a>
         </div>
     </div>
 
@@ -53,7 +71,7 @@
     
         <div class="leaderboard-body">
             {% for profile in rest_lead %}
-                <a href="#otherprofile" class="profile-link" data-bs-toggle="modal" style="text-decoration: none;"
+                <a href="#otherprofile" class="profile-link" data-bs-toggle="modal" style="text-decoration: none; {% if curr_prof == profile.user %} border:1px solid yellow; {% endif %}"
                 data-username="{{ profile.1 }}"
                 data-avatar="{{ profile.3 }}"
                 data-fullname="{{ profile.0 }}"
@@ -100,18 +118,18 @@
                         Follow
                     </button>
                     
-                    <button class="profile-btn">
+                    <button class="profile-btn" onclick="openChatbox()">
                         <svg width="30px" height="30px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M7 9H17M7 13H12M21 20L17.6757 18.3378C17.4237 18.2118 17.2977 18.1488 17.1656 18.1044C17.0484 18.065 16.9277 18.0365 16.8052 18.0193C16.6672 18 16.5263 18 16.2446 18H6.2C5.07989 18 4.51984 18 4.09202 17.782C3.71569 17.5903 3.40973 17.2843 3.21799 16.908C3 16.4802 3 15.9201 3 14.8V7.2C3 6.07989 3 5.51984 3.21799 5.09202C3.40973 4.71569 3.71569 4.40973 4.09202 4.21799C4.51984 4 5.0799 4 6.2 4H17.8C18.9201 4 19.4802 4 19.908 4.21799C20.2843 4.40973 20.5903 4.71569 20.782 5.09202C21 5.51984 21 6.0799 21 7.2V20Z" stroke="#80699f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
                         Message
                     </button>
                     
-                    <button class="profile-btn">
+                    <a href="#" type="button" class="btn btn-primary view-profile profile-btn" data-username="{{ user.username }}">
                         <svg fill="#80699f" width="30px" height="30px" viewBox="-3.5 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>view</title> <path d="M12.406 13.844c1.188 0 2.156 0.969 2.156 2.156s-0.969 2.125-2.156 2.125-2.125-0.938-2.125-2.125 0.938-2.156 2.125-2.156zM12.406 8.531c7.063 0 12.156 6.625 12.156 6.625 0.344 0.438 0.344 1.219 0 1.656 0 0-5.094 6.625-12.156 6.625s-12.156-6.625-12.156-6.625c-0.344-0.438-0.344-1.219 0-1.656 0 0 5.094-6.625 12.156-6.625zM12.406 21.344c2.938 0 5.344-2.406 5.344-5.344s-2.406-5.344-5.344-5.344-5.344 2.406-5.344 5.344 2.406 5.344 5.344 5.344z"></path> </g></svg>
                         View Profile
-                    </button>
+                    </a>
                 </div>
 
-                <div style="overflow: hidden;">
+                <div id="chatbox" style="display: none;">
                     <form class="profile-modal-message">
                         <input type="text" placeholder="Type a message..." class="profile-message">
                     </form>
@@ -126,27 +144,36 @@
 </div>
 
 <script>
-    document.querySelectorAll('.profile-link').forEach(link => {
-        link.addEventListener('click', function() {
-            console.log('Profile link clicked');
-            
-            var username = this.getAttribute('data-username');
-            var fullname = this.getAttribute('data-fullname');
-            var heart = this.getAttribute('data-heart');
-            var mind = this.getAttribute('data-mind');
-            var image = this.getAttribute('data-avatar');
+    document.addEventListener('DOMContentLoaded', function () {
+        const profileLinks = document.querySelectorAll('.profile-link');
+        const viewProfileButton = document.querySelector('.view-profile');
 
-            console.log(username, heart, mind, image);
+        profileLinks.forEach(link => {
+            link.addEventListener('click', function () {
+                const username = this.getAttribute('data-username');
+                const fullname = this.getAttribute('data-fullname');
+                const heart = this.getAttribute('data-heart');
+                const mind = this.getAttribute('data-mind');
+                const avatar = this.getAttribute('data-avatar');
 
-            document.getElementById('profile-username').textContent = username;
-            document.getElementById('profile-fullname').textContent = fullname;
-            document.getElementById('modal-heart').textContent = heart;
-            document.getElementById('modal-mind').textContent = mind;
-            document.getElementById('modal-avatar').src = image;
+                document.getElementById('profile-username').textContent = username;
+                document.getElementById('profile-fullname').textContent = fullname;
+                document.getElementById('modal-heart').textContent = heart;
+                document.getElementById('modal-mind').textContent = mind;
+                document.getElementById('modal-avatar').src = avatar;
+
+                const profileUrl = `{% url 'user_profile:other_profile' 'USERNAME_PLACEHOLDER' %}`.replace('USERNAME_PLACEHOLDER', username);
+                viewProfileButton.setAttribute('href', profileUrl);
+            });
         });
     });
 
+    function openChatbox() {
+        const chatBox = document.getElementById('chatbox');
+        chatBox.style.display = chatBox.style.display === 'none' ? 'block' : 'none';
+    }
 </script>
+
 
 
 {% endblock %}

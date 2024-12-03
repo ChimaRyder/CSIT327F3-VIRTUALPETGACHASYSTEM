@@ -9,42 +9,55 @@
 
 
 {% block content %}
+
+{% if not is_own_profile %}
+    <a href="{% url 'leaderboard' %}" style="text-decoration: none;" class="btn btn-light mb-3">
+        <svg width="30px" height="30px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M4 10L3.64645 10.3536L3.29289 10L3.64645 9.64645L4 10ZM20.5 18C20.5 18.2761 20.2761 18.5 20 18.5C19.7239 18.5 19.5 18.2761 19.5 18L20.5 18ZM8.64645 15.3536L3.64645 10.3536L4.35355 9.64645L9.35355 14.6464L8.64645 15.3536ZM3.64645 9.64645L8.64645 4.64645L9.35355 5.35355L4.35355 10.3536L3.64645 9.64645ZM4 9.5L14 9.5L14 10.5L4 10.5L4 9.5ZM20.5 16L20.5 18L19.5 18L19.5 16L20.5 16ZM14 9.5C17.5898 9.5 20.5 12.4101 20.5 16L19.5 16C19.5 12.9624 17.0376 10.5 14 10.5L14 9.5Z" fill="#222222"></path> </g></svg>
+        Back
+    </a>
+{% endif %}
+
 <div class="profile-header">
+    
+
     <div class="profile-img">
         <img src="{{ profile.get_profile_image_url }}" alt="profile avatar" />
     </div>
     
 
     <div class="profile-details">
+        <div class="profile-fullname"> {{ fullname }} </div>
         <div class="profile-username"> {{ profile.user }} </div>
         <div class="profile-rank">
             <svg fill="#FFD60A" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20px" height="20px" viewBox="0 0 163.725 163.725" xml:space="preserve"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g> <polygon points="102.127,0 81.862,27.023 61.598,0 22.627,0 81.862,78.982 141.098,0 "></polygon> <path d="M81.862,78.982c-23.407,0-42.375,18.967-42.375,42.374c0,23.4,18.968,42.368,42.375,42.368 c23.4,0,42.374-18.968,42.374-42.368C124.236,97.949,105.263,78.982,81.862,78.982z M97.14,144.885l-15.277-8.037l-15.277,8.037 l2.913-17.031l-12.37-12.051l17.089-2.49l7.645-15.484l7.648,15.484l17.092,2.49l-12.367,12.051L97.14,144.885z"></path> </g> </g> </g></svg>
             Ranked #
         </div>
-        <div class="profile-ff">
+        <!-- <div class="profile-ff">
             <strong> {{ profile.following }} </strong> Following  |  <strong> {{ profile.followers }} </strong> Followers
+        </div> -->
+    </div>
+
+    {% if is_own_profile %}
+        <div class="profile-btn">
+            <form method="POST" action="">
+                {% csrf_token %}
+                <button type="button" data-bs-toggle="modal" data-bs-target="#editprofile">
+                    <svg width="20px" height="20px" viewBox="0 -0.5 21 21" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>edit [#1479]</title> <desc>Created with Sketch.</desc> <defs> </defs> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g id="Dribbble-Light-Preview" transform="translate(-99.000000, -400.000000)" fill="#80699F"> <g id="icons" transform="translate(56.000000, 160.000000)"> <path d="M61.9,258.010643 L45.1,258.010643 L45.1,242.095788 L53.5,242.095788 L53.5,240.106431 L43,240.106431 L43,260 L64,260 L64,250.053215 L61.9,250.053215 L61.9,258.010643 Z M49.3,249.949769 L59.63095,240 L64,244.114985 L53.3341,254.031929 L49.3,254.031929 L49.3,249.949769 Z" id="edit-[#1479]"> </path> </g> </g> </g> </g></svg>
+                    Edit Profile
+                </button>
+            </form>
         </div>
-    </div>
 
-    <div class="profile-btn">
-        <form method="POST" action="">
-            {% csrf_token %}
-            <button type="button" data-bs-toggle="modal" data-bs-target="#editprofile">
-                <svg width="20px" height="20px" viewBox="0 -0.5 21 21" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>edit [#1479]</title> <desc>Created with Sketch.</desc> <defs> </defs> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g id="Dribbble-Light-Preview" transform="translate(-99.000000, -400.000000)" fill="#80699F"> <g id="icons" transform="translate(56.000000, 160.000000)"> <path d="M61.9,258.010643 L45.1,258.010643 L45.1,242.095788 L53.5,242.095788 L53.5,240.106431 L43,240.106431 L43,260 L64,260 L64,250.053215 L61.9,250.053215 L61.9,258.010643 Z M49.3,249.949769 L59.63095,240 L64,244.114985 L53.3341,254.031929 L49.3,254.031929 L49.3,249.949769 Z" id="edit-[#1479]"> </path> </g> </g> </g> </g></svg>
-                Edit Profile
-            </button>
-        </form>
-    </div>
-
-    <div class="profile-btn">
-        <form method="POST" action="{% url 'logout' %}">
-            {% csrf_token %}
-            <button type="submit">
-                <svg fill="#80699F" width="20px" height="20px" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" stroke="#80699F"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><title>ionicons-v5-o</title><path d="M160,256a16,16,0,0,1,16-16H320V136c0-32-33.79-56-64-56H104a56.06,56.06,0,0,0-56,56V376a56.06,56.06,0,0,0,56,56H264a56.06,56.06,0,0,0,56-56V272H176A16,16,0,0,1,160,256Z"></path><path d="M459.31,244.69l-80-80a16,16,0,0,0-22.62,22.62L409.37,240H320v32h89.37l-52.68,52.69a16,16,0,1,0,22.62,22.62l80-80a16,16,0,0,0,0-22.62Z"></path></g></svg>
-                Log Out
-            </button>
-        </form>
-    </div>
+        <div class="profile-btn">
+            <form method="POST" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit">
+                    <svg fill="#80699F" width="20px" height="20px" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" stroke="#80699F"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><title>ionicons-v5-o</title><path d="M160,256a16,16,0,0,1,16-16H320V136c0-32-33.79-56-64-56H104a56.06,56.06,0,0,0-56,56V376a56.06,56.06,0,0,0,56,56H264a56.06,56.06,0,0,0,56-56V272H176A16,16,0,0,1,160,256Z"></path><path d="M459.31,244.69l-80-80a16,16,0,0,0-22.62,22.62L409.37,240H320v32h89.37l-52.68,52.69a16,16,0,1,0,22.62,22.62l80-80a16,16,0,0,0,0-22.62Z"></path></g></svg>
+                    Log Out
+                </button>
+            </form>
+        </div>
+    {% endif %}
 </div>
 
 
@@ -128,8 +141,8 @@
 
 
 <div class="pet-showcase">
-    <a href="#pet-showcase-modal" data-bs-toggle="modal" style="text-decoration: none;">
-        <div class="pet-showcase-header">
+    <a {% if is_own_profile %} href="#pet-showcase-modal" {% endif %} data-bs-toggle="modal" style="text-decoration: none;">
+        <div class="pet-showcase-header {% if not is_own_profile %} no-hover {% endif %}">
             <div class="psh">
                 <svg width="20px" height="20px" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill="#ffffff" class="bi bi-clock-history" stroke="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M8.515 1.019A7 7 0 0 0 8 1V0a8 8 0 0 1 .589.022l-.074.997zm2.004.45a7.003 7.003 0 0 0-.985-.299l.219-.976c.383.086.76.2 1.126.342l-.36.933zm1.37.71a7.01 7.01 0 0 0-.439-.27l.493-.87a8.025 8.025 0 0 1 .979.654l-.615.789a6.996 6.996 0 0 0-.418-.302zm1.834 1.79a6.99 6.99 0 0 0-.653-.796l.724-.69c.27.285.52.59.747.91l-.818.576zm.744 1.352a7.08 7.08 0 0 0-.214-.468l.893-.45a7.976 7.976 0 0 1 .45 1.088l-.95.313a7.023 7.023 0 0 0-.179-.483zm.53 2.507a6.991 6.991 0 0 0-.1-1.025l.985-.17c.067.386.106.778.116 1.17l-1 .025zm-.131 1.538c.033-.17.06-.339.081-.51l.993.123a7.957 7.957 0 0 1-.23 1.155l-.964-.267c.046-.165.086-.332.12-.501zm-.952 2.379c.184-.29.346-.594.486-.908l.914.405c-.16.36-.345.706-.555 1.038l-.845-.535zm-.964 1.205c.122-.122.239-.248.35-.378l.758.653a8.073 8.073 0 0 1-.401.432l-.707-.707z"></path> <path d="M8 1a7 7 0 1 0 4.95 11.95l.707.707A8.001 8.001 0 1 1 8 0v1z"></path> <path d="M7.5 3a.5.5 0 0 1 .5.5v5.21l3.248 1.856a.5.5 0 0 1-.496.868l-3.5-2A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5z"></path> </g></svg>
             </div>
@@ -137,7 +150,9 @@
             <div class="psh"> Pet Showcase </div>
 
             <div class="psh">
+                {% if is_own_profile %}
                 <svg fill="#ffffff" width="35px" height="35px" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path class="st0" d="M12 25l3 3 15-15-3-3-15 15zM11 26l3 3-4 1z"></path></g></svg>
+                {% endif %}
             </div>
         </div>
     </a>
@@ -176,8 +191,12 @@
             </div>
         {% else %}
             <div class="no-pets-showcased">
-                <h3>No pets showcased...</h3>
-                <p>Highlight your favorite pets here for others to admire!</p>
+                <h3> No pets showcased... </h3>
+                {% if is_own_profile %}
+                    <p> Don't leave your pets in the shadows - showcase them! </p>
+                {% else %}
+                    <p> Looks like this user hasn't showcased their pets yet! </p>
+                {% endif %}
             </div>
         {% endif %}
     </div>
@@ -185,8 +204,8 @@
 </div>
 
 <div class="pet-showcase">
-    <a href="#achievements-modal" data-bs-toggle="modal" style="text-decoration: none;">
-        <div class="pet-showcase-header">
+    <a {% if is_own_profile %} href="#achievements-modal" data-bs-toggle="modal" {% endif %} style="text-decoration: none;">
+        <div class="pet-showcase-header {% if not is_own_profile %} no-hover {% endif %}">
             <div class="psh">
                 <svg width="20px" height="20px" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill="#ffffff" class="bi bi-clock-history" stroke="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M8.515 1.019A7 7 0 0 0 8 1V0a8 8 0 0 1 .589.022l-.074.997zm2.004.45a7.003 7.003 0 0 0-.985-.299l.219-.976c.383.086.76.2 1.126.342l-.36.933zm1.37.71a7.01 7.01 0 0 0-.439-.27l.493-.87a8.025 8.025 0 0 1 .979.654l-.615.789a6.996 6.996 0 0 0-.418-.302zm1.834 1.79a6.99 6.99 0 0 0-.653-.796l.724-.69c.27.285.52.59.747.91l-.818.576zm.744 1.352a7.08 7.08 0 0 0-.214-.468l.893-.45a7.976 7.976 0 0 1 .45 1.088l-.95.313a7.023 7.023 0 0 0-.179-.483zm.53 2.507a6.991 6.991 0 0 0-.1-1.025l.985-.17c.067.386.106.778.116 1.17l-1 .025zm-.131 1.538c.033-.17.06-.339.081-.51l.993.123a7.957 7.957 0 0 1-.23 1.155l-.964-.267c.046-.165.086-.332.12-.501zm-.952 2.379c.184-.29.346-.594.486-.908l.914.405c-.16.36-.345.706-.555 1.038l-.845-.535zm-.964 1.205c.122-.122.239-.248.35-.378l.758.653a8.073 8.073 0 0 1-.401.432l-.707-.707z"></path> <path d="M8 1a7 7 0 1 0 4.95 11.95l.707.707A8.001 8.001 0 1 1 8 0v1z"></path> <path d="M7.5 3a.5.5 0 0 1 .5.5v5.21l3.248 1.856a.5.5 0 0 1-.496.868l-3.5-2A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5z"></path> </g></svg>
             </div>
@@ -194,7 +213,9 @@
             <div class="psh"> Achievements </div>
 
             <div class="psh">
+                {% if is_own_profile %}
                 <svg width="25px" height="25px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12ZM12 17.75C12.4142 17.75 12.75 17.4142 12.75 17V11C12.75 10.5858 12.4142 10.25 12 10.25C11.5858 10.25 11.25 10.5858 11.25 11V17C11.25 17.4142 11.5858 17.75 12 17.75ZM12 7C12.5523 7 13 7.44772 13 8C13 8.55228 12.5523 9 12 9C11.4477 9 11 8.55228 11 8C11 7.44772 11.4477 7 12 7Z" fill="#ffffff"></path> </g></svg>
+                {% endif %}
             </div>
         </div>
     </a>
@@ -221,7 +242,11 @@
             {% else %}
                 <div class="no-pets-showcased">
                     <h3> No achievements yet...</h3>
-                    <p> Complete challenges to fill your achievement board! </p>
+                    {% if is_own_profile %}
+                        <p> Complete challenges to fill your achievement board! </p>
+                    {% else %}
+                        <p> This user hasn't unlocked any achievements yet, but stay tuned! </p>
+                    {% endif %}
                 </div>
             {% endif %}
         </div>
@@ -240,7 +265,7 @@
             </div>
 
             <div class="modal-body">
-                <form id="editProfileForm" method="POST" action="{% url 'edit_profile' %}" enctype="multipart/form-data">
+                <form id="editProfileForm" method="POST" action="{% url 'user_profile:edit_profile' %}" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="mb-3 mt-3" style="display: flex; align-items: center;">
                         <img src="{{ profile.get_profile_image_url }}" id="avatar-img">
@@ -342,7 +367,7 @@
                 <p>Are you sure you want to delete your account? This action cannot be undone.</p>
             </div>
             <div class="modal-footer">
-                <form method="POST" action="{% url 'delete_account' %}">
+                <form method="POST" action="{% url 'user_profile:delete_account' %}">
                     {% csrf_token %}
                     <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">Yes, Delete My Account</button>
                 </form>

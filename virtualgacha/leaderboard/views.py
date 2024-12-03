@@ -10,6 +10,7 @@ from .models import Leaderboard
 # Create your views here.
 @login_required(login_url='login')
 def leaderboards_view(request):
+    curr_prof = Profile.objects.get(user=request.user)
     profiles = Profile.objects.all()
     leaderboard_data = []
 
@@ -26,7 +27,8 @@ def leaderboards_view(request):
     context = {
         'top3': top3,
         'rest_lead': rest_lead,
-        'profiles': profiles
+        'profiles': profiles,
+        'curr_prof': curr_prof,
     }
 
     return render(request, 'leaderboard/leaderboard.html', context)

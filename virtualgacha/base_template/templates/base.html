@@ -21,15 +21,15 @@
         <div class="collapse navbar-collapse">
           <ul class="navbar-nav me-auto custom-navbar">
             <li class="nav-item left">
-              <a class="nav-link disabled" aria-disabled="true">News</a>
+              <a class="nav-link"> News </a>
             </li>
 
             <li class="nav-item left">
-              <a class="nav-link disabled" aria-disabled="true">Support</a>
+              <a class="nav-link" aria-disabled="true">Support</a>
             </li>
             
             <li class="nav-item left">
-              <a class="nav-link disabled" aria-disabled="true">Terms of Services</a>
+              <a href="{% url 'terms-of-service' %}" class="nav-link"> Terms of Service </a>
             </li>                   
           </ul>
         </div>
@@ -38,12 +38,12 @@
       <div>
         <ul class="navbar-nav me-auto custom-navbar">
           <li class="nav-item">
-            <a class="nav-link disabled"  aria-disabled="true">{{ profile.user }} $ {{ profile.total_credits }}</a>
+            <a class="nav-link disabled"  aria-disabled="true">{{ navbar_profile.user }} $ {{ navbar_profile.total_credits }}</a>
           </li>
 
           <li class="nav-item">
-            <a href="{% url 'profile' %}">
-              <img src="{{ profile.get_profile_image_url }}" class="navbar-profile-img">
+            <a href="{% url 'user_profile:profile' %}">
+              <img src="{{ navbar_profile.get_profile_image_url }}" class="navbar-profile-img">
             </a>
           </li>
 
@@ -70,7 +70,7 @@
 
     <div class="d-flex main-content">
       <!-- Left sidebar -->
-      <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-body-tertiary sidebar">
+      <div class="d-flex flex-column flex-shrink-0 p-3 pt-0 text-white bg-body-tertiary sidebar">
         <a class="rewards-link" href={% url 'daily_rewards' %}>
           <i class="bi bi-gift-fill"></i>
           <span class="rewards-text">DAILY REWARDS</span>
@@ -124,7 +124,7 @@
       </div>
 
       <!-- Main content area -->
-      <div class="flex-grow-1 p-3 main-content-scrollable">
+      <div class="flex-grow-1 p-3 pt-0 main-content-scrollable">
         <!-- Main content goes here -->
           {% block content %}
           {% endblock %}

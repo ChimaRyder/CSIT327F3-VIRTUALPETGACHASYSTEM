@@ -12,8 +12,16 @@ from django.contrib.auth import update_session_auth_hash
 
 # Create your views here.
 @login_required(login_url='login')
-def user_profile(request):
-    profile = Profile.objects.filter(user=request.user).first()
+def user_profile(request, username=None):
+    if username:
+        profile = get_object_or_404(Profile, user__username=username)
+    else:
+        profile = get_object_or_404(Profile, user=request.user)
+    
+    
+    full_name = f"{profile.user.first_name} {profile.user.last_name}"
+    is_own_profile = request.user == profile.user
+
     pets = Inventory.objects.select_related('pet_id').filter(owner_id=request.user.id)
     showcased_pets = profile.showcased_pets.all()
     total_pets, rarity_ctr, rarity_bar = rarity_stats(request.user.id)
@@ -30,6 +38,8 @@ def user_profile(request):
 
     context = {
         'profile': profile,
+        'is_own_profile': is_own_profile,
+        'fullname': full_name,
         'total_pets': total_pets,
         'rarity_bar': rarity_bar,
         'rarity_ctr': rarity_ctr,
@@ -47,7 +57,7 @@ def user_profile(request):
 
 
 def edit_profile(request):
-    profile = Profile.objects.get(user=request.user)
+    profile = Profile.objects.get(user=request.user) 
 
     if request.method == 'POST':
         profile.first_name = request.POST.get('first_name', profile.first_name)
@@ -57,18 +67,18 @@ def edit_profile(request):
         curr_password = request.POST.get('curr_password')
         if curr_password and not request.user.check_password(curr_password):
             messages.error(request, "The current password is incorrect.")
-            return redirect('profile')
+            return redirect('user_profile:profile')
 
         new_password = request.POST.get('new_password')
         confirm_password = request.POST.get('confirm-password')
         if new_password and new_password != confirm_password:
             messages.error(request, "Passwords do not match.")
-            return redirect('profile')
+            return redirect('user_profile:profile')
 
         if username != profile.user.username:
             if User.objects.filter(username=username).exists():
                 messages.error(request, "Username already taken. Please enter a different one.", extra_tags="username_error")
-                return redirect('profile')
+                return redirect('user_profile:profile')
 
             profile.user.username = username
             profile.user.save()
@@ -88,7 +98,7 @@ def edit_profile(request):
 
         profile.save()
         messages.success(request, "Your profile has been successfully updated!")
-        return redirect('profile')
+        return redirect('user_profile:profile')
 
     return HttpResponseForbidden("Invalid request")
 
@@ -138,12 +148,12 @@ def showcase_pet(request, pet_id):
 
         if profile.showcased_pets.all().count() >= 5:
             messages.error(request, "You can only showcase up to 5 pets.", extra_tags="showcase_error")
-            return redirect('profile')
+            return redirect('user_profile:profile')
 
         pet = get_object_or_404(Inventory, id=pet_id,  owner_id=request.user)
         profile.showcased_pets.add(pet)
         profile.save()
-        return redirect('profile')
+        return redirect('user_profile:profile')
 
 
 def unshowcase_pet(request, pet_id):
@@ -152,7 +162,7 @@ def unshowcase_pet(request, pet_id):
         pet = get_object_or_404(Inventory, id=pet_id, owner_id=request.user)
         profile.showcased_pets.remove(pet)
         profile.save()
-        return redirect('profile')
+        return redirect('user_profile:profile')
 
 
 def achievement_pages(request, achievement_types):

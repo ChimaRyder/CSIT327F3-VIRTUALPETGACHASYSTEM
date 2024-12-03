@@ -48,16 +48,18 @@ html, body {
   font-size: 18px;
 }
 
-.custom-navbar .left:hover {
-  font-weight: bold;
-  text-decoration: underline;
-  text-underline-offset: 5px;
+.custom-navbar .left a:hover {
+  color: #007bff;
 }
 
 img.navbar-profile-img {
   width: 50px;
   height: 50px;
   border-radius: 50%;
+}
+
+.tof-content h2, .tof-content h5 {
+  font-weight: 400;
 }
 
 /**/
@@ -199,7 +201,7 @@ img.navbar-profile-img {
   
   /* Custom class for navbar links */
   .custom-navbar .nav-link {
-    color: #fdfdfd !important;
+    color: #fdfdfd;
   }
   
   /* Main content scrollable area */

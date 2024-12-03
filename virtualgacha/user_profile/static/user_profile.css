@@ -14,9 +14,17 @@
 }
 
 .profile-username {
+    opacity: 0.8;
+    margin: 0;
+    font-size: 20px;
+    padding-left: 5px;
+}
+
+.profile-fullname {
     font-size: 32px;
     font-weight: bold;
     margin: 0px;
+    padding-left: 5px;
 }
 
 .profile-rank {
@@ -237,6 +245,11 @@ input:checked + .slider:before {
 .pet-showcase-header:hover {
     background-color: #07092E;  
     cursor: pointer;
+}
+
+.pet-showcase-header.no-hover:hover {
+    background-color: #1A1D45;
+    cursor: default;
 }
 
 .pets-grid {
