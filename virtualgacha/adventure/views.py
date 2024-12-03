@@ -72,7 +72,7 @@ def adventure_page(request):
         current_adventure = {
             'adventure': adventure,
             'pet': pet,
-            'rate_multiplier': adventure_pet.rate_multiplier,
+            'rate_multiplier': round(adventure_pet.rate_multiplier,2),
             'earnings': earnings,
         }
 
@@ -154,7 +154,7 @@ def start_adventure(request):
 def get_pet_info(request, pet_id):
     pet = Pet.objects.get(id=pet_id)
     data = {
-        'rate': pet.pet_rate,
+        'rate': round(pet.pet_rate,2),
     }
     return JsonResponse(data)
 

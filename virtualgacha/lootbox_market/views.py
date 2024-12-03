@@ -126,6 +126,9 @@ def roll_lootbox(request, lootbox_id):
 
         if pet.rarity == Pet.Rarity.LEGENDARY:
             pet = random.choice(drop_table)
+        elif pet.rarity == Pet.Rarity.MYTHICAL:
+            if random.random() < 0.5:
+                pet = random.choice(drop_table)
 
         results.append({
             'name': pet.pet_species,
