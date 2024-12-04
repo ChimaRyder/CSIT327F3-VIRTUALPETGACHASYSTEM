@@ -39,7 +39,7 @@ def leaderboards_view(request):
 
     context = {
         'top3': top3,
-        'rest_lead': rest_lead,
+        'rest_lead': rest_lead[:47],
         'profiles': profiles,
         'curr_prof': curr_prof,
     }
