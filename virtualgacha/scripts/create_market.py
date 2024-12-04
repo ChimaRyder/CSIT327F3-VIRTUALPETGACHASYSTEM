@@ -19,6 +19,7 @@ def create_dummy_sales_and_purchases(num_sales=10):
         inventory = random.choice(inventories)
         cost = round(random.uniform(10, 1000), 2)  # Random cost between 10 and 1000
         inventory.is_busy = 2
+        inventory.save()
         sale = Sale.objects.create(
             inventory=inventory,
             cost=cost,

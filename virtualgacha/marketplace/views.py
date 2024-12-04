@@ -2,6 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.shortcuts import render
 
+from inventory.models import Inventory
 from login_register.models import Profile
 from marketplace.models import Sale, Purchase
 from notification.models import Notification
@@ -17,7 +18,7 @@ def marketplace(request):
 
     if request.method == 'POST':
         purchase = Sale.objects.select_related('inventory','inventory__owner_id__profile').get(id=request.POST.get('confirmed-purchase'))
-        if purchase.inventory.is_busy == 2:
+        if purchase.inventory.is_busy == Inventory.BusyValue.ON_MARKET:
             profile = Profile.objects.get(user=user)
 
             if profile.total_credits >= purchase.cost:
