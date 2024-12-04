@@ -154,3 +154,7 @@
 .error-image {
     image-rendering: pixelated;
 }
+
+#selected_pet_image[src=""], .pref[src=""] {
+    visibility: hidden;
+}
