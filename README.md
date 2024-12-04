@@ -1,4 +1,4 @@
-# VIRTUAL PET GACHA SYSTEM
+# PETCO | VIRTUAL PET GACHA SYSTEM
 An online browser-based pet collection game.
 
 ## Acknowledgement
@@ -84,8 +84,10 @@ The Virtual Pet Gacha System is a web-based platform focused on pet collection, 
 
 ### 3.6 Pet Trading 
 - Players will be able to trade pets directly with other players.
+- Players may also set specific desired pets they want in exchange for their pet.
 - Players can view the stats and details of the pets involved in the trade before confirming.
-- Players can modify trade offers if the other party has not yet confirmed the trade.
+- Players can cancel their trades if they would like to do so.
+- Players will be notified when their offer is accepted and declined. Players also are notified when someone has an offer and wants to trade with them.
 
 ### 3.7 Global Message System
 - Players will be able to send messages to other players through the global chat.
