@@ -39,8 +39,8 @@ The Virtual Pet Gacha System is a web-based platform focused on pet collection, 
 6. [***Pet Trading***](#36-pet-trading)
     - Direct trades between players allow for collaborative gameplay and strategic exchanges.
       
-7. [***Private Messaging***](#37-private-message-system)
-    - Players can communicate via private messages to negotiate trades or engage in casual conversation, promoting social interaction.
+7. [***Global Messaging***](#37-private-message-system)
+    - Players can communicate via global chat to foster trades, advertise sellings on the market or engage in casual conversation, promoting social interaction.
       
 8. [***Player Profile***](#38-player-details)
     - Each user has a profile displaying their pets, game stats, and rankings, enabling personal progress tracking and comparison with others.
@@ -87,16 +87,17 @@ The Virtual Pet Gacha System is a web-based platform focused on pet collection, 
 - Players can view the stats and details of the pets involved in the trade before confirming.
 - Players can modify trade offers if the other party has not yet confirmed the trade.
 
-### 3.7 Private Message System
-- Players will be able to send private messages to other players.
+### 3.7 Global Message System
+- Players will be able to send messages to other players through the global chat.
 
 ### 3.8 Player Details
 - Players will have a comprehensive profile, detailing information about their account, achievements, number of pets, and so on. These pages are publicly viewed for other players as part of the social aspect of the game.
 
 ### 3.9 Admin System
 - Administrators are able to access a detailed overview of the statistics of the website.
-- Administrators have access to a comprehensive list of the players on the website, where they will be able to get an overview of each account.
-- Administrators will also be able to access the in-game economy.
+- Administrators have access to a comprehensive list of all of the data of important features.
+- Administrators will also be able to ban and unban players, as well as turn players into an admin.
+- Administrators will have the power to approve transaction requests
 
 ### 3.10 Leaderboards System
 - A leaderboard is publicly available for all players to view, detailing the top players of the game based on specified metrics.
