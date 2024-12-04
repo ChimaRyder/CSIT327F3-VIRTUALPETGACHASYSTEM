@@ -15,17 +15,20 @@ def leaderboards_view(request):
     leaderboard_data = []
 
     leaderboard_entry, created = Leaderboard.objects.get_or_create(user=request.user)
+    
 
     for profile in profiles:
         points = calculate_player_points(profile)
         avatar_url = profile.get_profile_image_url
         full_name = f"{profile.user.first_name} {profile.user.last_name}"
 
+        total_pets = Inventory.objects.filter(owner_id=profile.user).count()
+
         leaderboard_entry, created = Leaderboard.objects.get_or_create(user=profile.user)
         leaderboard_entry.points = points
         leaderboard_entry.save()
 
-        leaderboard_data.append((full_name, profile.user.username, points, avatar_url, leaderboard_entry))
+        leaderboard_data.append((full_name, profile.user.username, points, avatar_url, leaderboard_entry, total_pets))
 
     leaderboard_data.sort(key=lambda x: x[2], reverse=True)
 
@@ -42,6 +45,7 @@ def leaderboards_view(request):
         'rest_lead': rest_lead[:47],
         'profiles': profiles,
         'curr_prof': curr_prof,
+        'leaderboard_data': leaderboard_data,
     }
 
     return render(request, 'leaderboard/leaderboard.html', context)

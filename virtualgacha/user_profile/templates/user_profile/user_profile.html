@@ -30,7 +30,11 @@
         <div class="profile-username"> {{ profile.user }} </div>
         <div class="profile-rank">
             <svg fill="#FFD60A" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20px" height="20px" viewBox="0 0 163.725 163.725" xml:space="preserve"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g> <polygon points="102.127,0 81.862,27.023 61.598,0 22.627,0 81.862,78.982 141.098,0 "></polygon> <path d="M81.862,78.982c-23.407,0-42.375,18.967-42.375,42.374c0,23.4,18.968,42.368,42.375,42.368 c23.4,0,42.374-18.968,42.374-42.368C124.236,97.949,105.263,78.982,81.862,78.982z M97.14,144.885l-15.277-8.037l-15.277,8.037 l2.913-17.031l-12.37-12.051l17.089-2.49l7.645-15.484l7.648,15.484l17.092,2.49l-12.367,12.051L97.14,144.885z"></path> </g> </g> </g></svg>
-            Ranked # {{ rank_standing }}
+            {% if rank_standing == 0 %}
+                Not in the ranking.
+            {% else %}
+                Ranked # {{ rank_standing }}
+            {% endif %}
         </div>
         <!-- <div class="profile-ff">
             <strong> {{ profile.following }} </strong> Following  |  <strong> {{ profile.followers }} </strong> Followers
