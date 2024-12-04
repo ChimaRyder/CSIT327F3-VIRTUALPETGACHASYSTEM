@@ -36,7 +36,7 @@ def signup_view(request):
             Profile.objects.create(user=user, first_name=user.first_name, last_name=user.last_name)
             
             messages.success(request, "Successfully registered!")
-            Leaderboard.objects.get_or_create(user=request.user)
+            # Leaderboard.objects.get_or_create(user=user)
             return redirect('login')
         else:
             print(form.errors)
