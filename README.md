@@ -95,8 +95,9 @@ The Virtual Pet Gacha System is a web-based platform focused on pet collection, 
 
 ### 3.9 Admin System
 - Administrators are able to access a detailed overview of the statistics of the website.
-- Administrators have access to a comprehensive list of the players on the website, where they will be able to get an overview of each account.
-- Administrators will also be able to access the in-game economy.
+- Administrators have access to a comprehensive list of all of the data of important features.
+- Administrators will also be able to ban and unban players, as well as turn players into an admin.
+- Administrators will have the power to approve transaction requests
 
 ### 3.10 Leaderboards System
 - A leaderboard is publicly available for all players to view, detailing the top players of the game based on specified metrics.
