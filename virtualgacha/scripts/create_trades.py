@@ -34,13 +34,16 @@ def create_dummy_trades(num_trades=10):
 
         date_created = random_date(start_date, end_date)
 
+        is_claimed = random.choice([True, False])
+
         trade = Trade.objects.create(
             pet_to_trade=pet_to_trade,
-            pet_to_offer=pet_to_offer if random.choice([True, False]) else None,
+            pet_to_offer=pet_to_offer if is_claimed else None,
             pet_preferences = [
                 f"{pet.pet_id.get_rarity_display()}/{pet.pet_id.pet_species}"
                 for pet in random.sample(inventories, random.randint(1, 4))
             ],
+            status = Trade.TradeStatus.waiting if is_claimed else Trade.TradeStatus.available,
             date_created=date_created,
         )
         print(f"Created trade: {trade}")

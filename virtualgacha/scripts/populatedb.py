@@ -6,10 +6,10 @@ from .create_trades import create_dummy_trades
 
 def run():
     try:
-        # create_dummy_users(200)
-        # create_random_pulls(5000)
-        # create_dummy_sales_and_purchases(200)
-        create_dummy_trades(300)
+        create_dummy_users(50)
+        create_random_pulls(100)
+        create_dummy_sales_and_purchases(50)
+        create_dummy_trades(50)
     except:
         print("An error occurred while populating the database.")
     
