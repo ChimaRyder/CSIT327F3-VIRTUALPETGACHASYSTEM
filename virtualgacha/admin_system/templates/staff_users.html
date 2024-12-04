@@ -71,14 +71,14 @@
                 <td>{{ profile.user.is_active }}</td>
                 <td>
                     <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#editUserModal{{ profile.user.id }}">Edit</button>
-                    {% if profile.user.is_active %}
-                        <button type="button" class="btn btn-warning" onclick="banUser({{ profile.user.id }})">Ban</button>
-                    {% else %}
-                        <button type="button" class="btn btn-success" onclick="unbanUser({{ profile.user.id }})">Unban</button>
+                    {% if profile.user.is_active and profile.user != request.user %}
+                        <button type="button" class="btn btn-warning" onclick="toggleActive({{ profile.user.id }}, false)">Ban</button>
+                    {% elif profile.user != request.user %}
+                        <button type="button" class="btn btn-success" onclick="toggleActive({{ profile.user.id }}, true)">Unban</button>
                     {% endif %}
-                    {% if profile.user.is_staff %}
+                    {% if profile.user.is_staff and profile.user != request.user %}
                         <button type="button" class="btn btn-danger" onclick="toggleAdmin({{ profile.user.id }}, false)">Revoke Admin</button>
-                    {% else %}
+                    {% elif profile.user != request.user %}
                         <button type="button" class="btn btn-success" onclick="toggleAdmin({{ profile.user.id }}, true)">Turn Admin</button>
                     {% endif %}
                 </td>
@@ -229,6 +229,7 @@
 
         function toggleActive(userId, isActive) {
             const url = isActive ? `/staff/unban/${userId}/` : `/staff/ban/${userId}/`;
+            alert(url);
             fetch(url, {
                 method: 'POST',
                 headers: {
