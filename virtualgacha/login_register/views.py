@@ -1,6 +1,8 @@
 import random
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
+
+from leaderboard.models import Leaderboard
 from .models import Profile
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
@@ -31,7 +33,12 @@ def signup_view(request):
             
             user.first_name = form.cleaned_data['first_name'].capitalize()
             user.last_name = form.cleaned_data['last_name'].capitalize()
+            
             user.save()
+            
+            leaderboard_entry, created = Leaderboard.objects.get_or_create(user=user)
+            leaderboard_entry.save()
+            
             
             Profile.objects.create(user=user, first_name=user.first_name, last_name=user.last_name)
             
