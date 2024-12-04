@@ -7,6 +7,7 @@ from django.contrib import messages
 from .forms import SignupForm, LoginForm
 from chat.models import ChatRoom
 from daily_rewards.models import Reward
+from leaderboard.models import *
 from .models import Profile, get_random_avatar
 
 # Create your views here.
@@ -35,6 +36,7 @@ def signup_view(request):
             Profile.objects.create(user=user, first_name=user.first_name, last_name=user.last_name)
             
             messages.success(request, "Successfully registered!")
+            # Leaderboard.objects.get_or_create(user=user)
             return redirect('login')
         else:
             print(form.errors)
