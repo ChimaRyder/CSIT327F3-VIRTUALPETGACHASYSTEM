@@ -12,7 +12,7 @@ def notification_page(request):
     notifications = Notification.objects.filter(user=request.user)
     notifications = notifications.order_by("notif_status").order_by("created_at").reverse()
 
-    if request.GET:
+    if request.GET and request.GET.get("notif-read"):
         notif = Notification.objects.get(id=request.GET.get('notif-read'))
         if notif.notif_status == Notification.Status.unread:
             notif.notif_status = Notification.Status.read
